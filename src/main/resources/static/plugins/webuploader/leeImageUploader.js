@@ -25,7 +25,7 @@
         this.element = $(element);
         this.settings = $.extend({}, defaults, options);
         this._name = pluginName;
-        this._fileList = $('<div class="uploader-list fileList"></div>');
+        this._fileList = $('<div class="image-uploader uploader-list fileList"></div>');
         this._pick = $('<div class="filePicker"><span>' + this.settings.title + '</span></div>');
         this.init();
     }
@@ -77,7 +77,7 @@
                 remove.click(function () {
                     uploader.removeFile(file, true);
                     itemBox.remove();
-                    _this._pick.show(); // 上传按钮显示
+                    _this._pick.css("display","inline-block");
                 });
                 // // 创建缩略图
                 // uploader.makeThumb(file, function (error, src) {
@@ -95,7 +95,7 @@
                         _this._fileList.find('.file-item').last().remove();
                     }
                 } else {
-                    _this._pick.show();
+                    _this._pick.css("display","inline-block");
                 }
             });
             // 文件上传过程中创建进度条实时显示。

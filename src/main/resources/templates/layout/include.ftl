@@ -62,10 +62,18 @@
 <script src="${ctx}/static/js/rich-text.js"></script>
 </#macro>
 
-<#macro css_webuploader>
-    <link href="${ctx}/static/plugins/webuploader/webuploader.css" rel="stylesheet"/>
+<#macro css_webuploader_image>
+    <link href="${ctx}/static/plugins/webuploader/webuploader-image.css" rel="stylesheet"/>
 </#macro>
-<#macro js_webuploader>
+<#macro js_webuploader_image>
     <script src="${ctx}/static/plugins/webuploader/webuploader.nolog.js"></script>
     <script src="${ctx}/static/plugins/webuploader/leeImageUploader.js"></script>
+</#macro>
+
+<#macro css_webuploader_file>
+    <link href="${ctx}/static/plugins/webuploader/webuploader-file.css" rel="stylesheet"/>
+</#macro>
+<#macro js_webuploader_file>
+    <script src="${ctx}/static/plugins/webuploader/webuploader.nolog.js"></script>
+    <script src="${ctx}/static/plugins/webuploader/leeFileUploader.js"></script>
 </#macro>

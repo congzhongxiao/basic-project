@@ -4,7 +4,8 @@
 <head>
     <@meta title="产品添加"/>
     <@css_common/>
-    <@css_webuploader/>
+    <@css_webuploader_image/>
+    <@css_webuploader_file/>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -36,6 +37,12 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label ">附件</label>
+            <div class="col-sm-8">
+                <div id="tempFile"></div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label ">描述：</label>
             <div class="col-sm-8">
                     <textarea class="form-control " rows="4" name="detail" placeholder="请输入作品描述"  id="detail"></textarea>
@@ -44,7 +51,8 @@
     </form>
 </div>
 <@js_common/>
-<@js_webuploader/>
+<@js_webuploader_image/>
+<@js_webuploader_file/>
 <script type="text/javascript">
     var prefix = "${ctx}/product";
     $("#form-product-add").validate({
@@ -66,6 +74,14 @@
             uploadUrl: '${ctx}/common/upload/image',
             idName:'mainImageId'
         });
+        $("#tempFile").leeFileUploader({
+            max:5,
+            multiple:true,
+            uploadUrl: '${ctx}/common/upload/file',
+            idName:'tempFileId'
+        });
+
+
     });
 
 

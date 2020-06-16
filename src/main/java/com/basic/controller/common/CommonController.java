@@ -55,6 +55,29 @@ public class CommonController extends BasicController {
         }
     }
 
+
+    @PostMapping("upload/file")
+    @ResponseBody
+    public Result uploadFile(@RequestPart("file") MultipartFile file) {
+        try {
+            String filePath = Global.getUploadPath();
+            String fileName = FileUploadUtils.upload(filePath, file);
+            String url = serverConfig.getUrl() + fileName;
+            UploadFiles uploadFile = new UploadFiles();
+            uploadFile.setName(file.getOriginalFilename());
+            uploadFile.setSize(file.getSize());
+            uploadFile.setUrl(url);
+            uploadFile.setType("file");
+            uploadFile.setExtension(FileUploadUtils.getExtension(file));
+            uploadFile.setCreateBy(getCurrentUser().getUsername());
+            uploadFile.setCreateTime(new Date());
+            uploadFilesService.save(uploadFile);
+            return Result.success(uploadFile);
+        } catch (Exception e) {
+            return Result.fail(e.getMessage());
+        }
+    }
+
     /**
      * 通用下载请求
      *
@@ -88,7 +111,7 @@ public class CommonController extends BasicController {
      */
     @PostMapping("upload")
     @ResponseBody
-    public Result uploadFile(MultipartFile file) throws Exception {
+    public Result upload(MultipartFile file) throws Exception {
         try {
             // 上传文件路径
             String filePath = Global.getUploadPath();

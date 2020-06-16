@@ -22,8 +22,12 @@ import java.util.Map;
 @Service
 public class UploadFilesServiceImpl extends ServiceImpl<UploadFilesMapper, UploadFiles> implements UploadFilesService {
 
-   public List<UploadFiles> selectByProductId(String productId){
-        return baseMapper.selectByProductId(productId);
+   public List<UploadFiles> selectImageByProductId(String productId){
+        return baseMapper.selectImageByProductId(productId);
+    }
+
+   public List<UploadFiles> selectFileByProductId(String productId){
+        return baseMapper.selectFileByProductId(productId);
     }
     //添加
     public boolean add(UploadFiles uploadFiles) {

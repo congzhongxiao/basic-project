@@ -7,6 +7,7 @@ import com.basic.entity.ProductImage;
 import com.basic.entity.UploadFiles;
 import com.basic.service.ProductImageService;
 import com.basic.service.UploadFilesService;
+import org.apache.logging.log4j.message.ReusableMessage;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import com.basic.common.utils.StringUtils;
 import com.basic.entity.Product;
 import com.basic.service.ProductService;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -72,48 +74,49 @@ public class ProductController extends BasicController {
     //添加页面数据提交
     @PostMapping("add")
     @ResponseBody
-    public Result doAdd(@Validated Product product) {
+    public Result doAdd(@Validated Product product,
+                        @RequestParam(name = "shortImageId",required = false) String shortImageId,
+                        @RequestParam(name = "mainImageId",required = false) List<String> mainImageIds,
+                        @RequestParam(name = "tempFileId",required = false) List<String> tempFileIds) {
         try {
+
+            if(StringUtils.isBlank(shortImageId)) {
+                return Result.fail("请上传缩略图");
+            }
+            if(mainImageIds == null || mainImageIds.size() <= 0 ) {
+                return Result.fail("请上传相册图片");
+            }
+            if(tempFileIds == null || tempFileIds.size() <= 0) {
+                return Result.fail("请上传附件");
+            }
+            UploadFiles image =  uploadFilesService.getById(shortImageId);
+            if(image != null) {
+                product.setShortId(shortImageId);
+                product.setShortImage(image.getUrl());
+            }
             product.setCreateBy(getCurrentUser().getUsername());
             product.setCreateTime(new Date());
-            String shortImageId = request.getParameter("shortImageId");
-            if (StringUtils.isNotBlank(shortImageId)) {
-                UploadFiles image =  uploadFilesService.getById(shortImageId);
-                if(image != null) {
-                    product.setShortId(shortImageId);
-                    product.setShortImage(image.getUrl());
-                }
-            }
-            boolean result = productService.add(product);
-            if (result) {
-                String[] mainImageIds = request.getParameterValues("mainImageId");
-                if(mainImageIds != null && mainImageIds.length > 0) {
-                    for(String mainImageId:mainImageIds) {
-                        UploadFiles mainImage =  uploadFilesService.getById(mainImageId);
-                        if(mainImage != null) {
-                            ProductImage productImage = new ProductImage();
-                            productImage.setImageId(mainImage.getId());
-                            productImage.setProductId(product.getId());
-                            productImageService.add(productImage);
-                        }
-                    }
-                }
+            boolean result =  productService.addProduct(product,mainImageIds,tempFileIds);
+            if(result) {
                 return Result.success();
+            } else {
+                return Result.fail("保存异常");
             }
+
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
-        return Result.fail();
     }
 
     //修改页面跳转
     @GetMapping("update/{id}")
     public String update(@PathVariable String id, Model model) {
         Product product = productService.getById(id);
-        List<UploadFiles> mainImages = uploadFilesService.selectByProductId(id);
+        List<UploadFiles> mainImages = uploadFilesService.selectImageByProductId(id);
         model.addAttribute("mainImages",mainImages);
+        List<UploadFiles> files = uploadFilesService.selectFileByProductId(id);
+        model.addAttribute("files",files);
         if (product != null) {
-
             model.addAttribute("product", product);
         } else {
             return redirectNoPage();
@@ -124,33 +127,37 @@ public class ProductController extends BasicController {
     //修改数据提交
     @PostMapping("update")
     @ResponseBody
-    public Result doUpdate(@Validated @ModelAttribute(value = "preloadProduct") Product product) {
+    public Result doUpdate(@Validated @ModelAttribute(value = "preloadProduct") Product product,
+                           @RequestParam(name = "shortImageId",required = false) String shortImageId,
+                           @RequestParam(name = "mainImageId",required = false) List<String> mainImageIds,
+                           @RequestParam(name = "tempFileId",required = false) List<String> tempFileIds) {
+
+
         try {
-            product.setShortId("");
+            if(StringUtils.isBlank(shortImageId)) {
+                return Result.fail("请上传缩略图");
+            }
+            if(mainImageIds == null || mainImageIds.size() <= 0 ) {
+                return Result.fail("请上传相册图片");
+            }
+            if(tempFileIds == null || tempFileIds.size() <= 0) {
+                return Result.fail("请上传附件");
+            }
             product.setShortImage("");
-            String shortImageId = request.getParameter("shortImageId");
-            if (StringUtils.isNotBlank(shortImageId)) {
-                UploadFiles image =  uploadFilesService.getById(shortImageId);
-                if(image != null) {
-                    product.setShortId(shortImageId);
-                    product.setShortImage(image.getUrl());
-                }
+            product.setShortImage("");
+            UploadFiles image =  uploadFilesService.getById(shortImageId);
+            if(image != null) {
+                product.setShortId(shortImageId);
+                product.setShortImage(image.getUrl());
             }
-            productService.updateById(product);
-            productImageService.remove(new QueryWrapper<ProductImage>().eq("product_id",product.getId()));
-            String[] mainImageIds = request.getParameterValues("mainImageId");
-            if(mainImageIds != null && mainImageIds.length > 0) {
-                for(String mainImageId:mainImageIds) {
-                    UploadFiles mainImage =  uploadFilesService.getById(mainImageId);
-                    if(mainImage != null) {
-                        ProductImage productImage = new ProductImage();
-                        productImage.setImageId(mainImage.getId());
-                        productImage.setProductId(product.getId());
-                        productImageService.add(productImage);
-                    }
-                }
+            product.setUpdateBy(getCurrentUser().getUsername());
+            product.setUpdateTime(new Date());
+            boolean result =  productService.updateProduct(product,mainImageIds,tempFileIds);
+            if(result) {
+                return Result.success();
+            } else {
+                return Result.fail("更新异常");
             }
-            return Result.success();
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
@@ -162,7 +169,7 @@ public class ProductController extends BasicController {
     public Result delete(@RequestParam(value = "ids") List<String> ids) {
         try {
             for (String id : ids) {
-                productService.removeById(id);
+                productService.removeProduct(id);
             }
             return Result.success();
         } catch (Exception e) {

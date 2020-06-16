@@ -25,12 +25,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class ProductFile extends Model<ProductFile> {
     private static final long serialVersionUID = 1L;
     /**
-    *主键
-    */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
-    private String id;
-
-    /**
     *作品id
     */
     private String productId;

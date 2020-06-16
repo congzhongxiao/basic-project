@@ -13,5 +13,6 @@ import java.util.List;
 */
 @Component
 public interface UploadFilesMapper extends BaseMapper<UploadFiles> {
-    List<UploadFiles> selectByProductId(String productId);
+    List<UploadFiles> selectImageByProductId(String productId);
+    List<UploadFiles> selectFileByProductId(String productId);
 }

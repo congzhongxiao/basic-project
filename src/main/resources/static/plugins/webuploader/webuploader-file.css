@@ -1,54 +1,57 @@
-.webuploader-container {
+.file-uploader .webuploader-container {
     position: relative;
     display: inline-block;
 }
-.webuploader-element-invisible {
+.file-uploader  .webuploader-element-invisible {
     position: absolute !important;
     clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
     clip: rect(1px,1px,1px,1px);
 }
-.webuploader-pick {
+.file-uploader  .webuploader-pick {
     position: relative;
     display: inline-block;
     cursor: pointer;
     background: #1c84c6;
     padding: 5px 15px;
     color: #fff;
+    width: 82px;
+    height: 28px;
     text-align: center;
     border-radius: 2px;
     overflow: hidden;
 }
-.webuploader-pick-hover {
+.file-uploader  .webuploader-pick-hover {
     background: #1873ac;
 }
 
-.webuploader-pick-disable {
+.file-uploader  .webuploader-pick-disable {
     opacity: 0.6;
     pointer-events:none;
 }
-.file-item{
+.file-uploader  .file-item{
     display: inline-block;
 }
-.file-panel{
+.file-uploader  .file-panel{
     float: left;
     padding: 5px;
 }
-.file-panel .file-name {
+.file-uploader  .file-panel .file-name {
     max-width: 150px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
     float: left;
 }
-.file-panel .remove{
+.file-uploader  .file-panel .remove{
     color: red;
     padding: 0px 10px;
     cursor: pointer;
     display: inline-block;
 }
-.file-panel .error {
+.file-uploader  .file-panel .error {
     color: red;
 }
-.file-pick {
+.file-uploader  .file-pick {
     display: inline-block;
 }
 

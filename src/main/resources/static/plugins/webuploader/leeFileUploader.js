@@ -23,7 +23,7 @@
         this.element = $(element);
         this.settings = $.extend({}, defaults, options);
         this._name = pluginName;
-        this._fileList = $('<div class="uploader-list fileList"></div>');
+        this._fileList = $('<div class="file-uploader uploader-list fileList"></div>');
         this._pick = $('<div class="filePicker"><span>' + this.settings.title + '</span></div>');
         this.init();
     }
@@ -61,7 +61,7 @@
                 remove.click(function () {
                     uploader.removeFile(file, true);
                     itemBox.remove();
-                    _this._pick.show(); // 上传按钮显示
+                    _this._pick.css("display","inline-block");
                 });
                 if (_this._fileList.find('.file-item').length >= _this.settings.max) {
                     _this._pick.hide();
@@ -70,7 +70,7 @@
                         _this._fileList.find('.file-item').last().remove();
                     }
                 } else {
-                    _this._pick.show();
+                    _this._pick.css("display","inline-block");
                 }
             });
             uploader.on('uploadSuccess', function (file, response) {

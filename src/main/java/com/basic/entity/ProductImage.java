@@ -22,12 +22,6 @@ import java.util.Date;
 public class ProductImage extends Model<ProductImage> {
     private static final long serialVersionUID = 1L;
     /**
-    *主键
-    */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
-    private String id;
-
-    /**
     *作品主键
     */
     private String productId;

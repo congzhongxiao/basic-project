@@ -4,7 +4,8 @@
 <head>
     <@meta title="产品修改"/>
     <@css_common/>
-    <@css_webuploader/>
+    <@css_webuploader_image/>
+    <@css_webuploader_file/>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -42,6 +43,15 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label ">附件</label>
+            <div class="col-sm-8">
+                <div id="tempFile"></div>
+                <#list files as file>
+                    <input type="hidden" name="tempFile" value="${file.url}" data-id="${file.id}" data-name="${file.name}" >
+                </#list>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">描述：</label>
             <div class="col-sm-8">
                 <textarea class="form-control " name="detail" id="detail" rows="4">${product.detail}</textarea>
@@ -50,7 +60,8 @@
     </form>
 </div>
 <@js_common/>
-<@js_webuploader/>
+<@js_webuploader_image/>
+<@js_webuploader_file/>
 <script type="text/javascript">
     var prefix = "${ctx}/product";
     $("#form-product-update").validate({
@@ -88,6 +99,21 @@
             uploadUrl: '${ctx}/common/upload/image',
             idName: 'mainImageId',
             existFiles: mainImages
+        });
+        var existFile = [];
+        $("input[name='tempFile']").each(function () {
+            var file = {};
+            file.url = $(this).val();
+            file.id = $(this).data("id");
+            file.name = $(this).data("name");
+            existFile.push(file);
+        });
+        $("#tempFile").leeFileUploader({
+            max:5,
+            multiple:true,
+            uploadUrl: '${ctx}/common/upload/file',
+            idName:'tempFileId',
+            existFiles:existFile
         });
     });
 
