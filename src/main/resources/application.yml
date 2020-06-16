@@ -1,0 +1,74 @@
+system:
+  name: basic-project
+  version: 1.0
+  copyright: 2020
+  profile: d:/temp
+server:
+  port: 8888
+  servlet:
+    context-path: /
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  #  热部署配置
+  devtools:
+    restart:
+      #需要实时更新的目录
+      additional-paths: resources/**,static/**,templates/**
+      poll-interval: 2000ms
+  #freemarker 模板定义配置
+  freemarker:
+    charset: UTF-8
+    suffix: .ftl
+    content-type: text/html;charset=utf-8
+    template-loader-path: classpath:/templates
+    cache: false
+    settings:
+      template_update_delay: 0
+      classic_compatible: true #防止页面null时报错;注意：开启后页面引用需要用绝对路径
+    prefer-file-system-access: false #设置为false加载其他模块自己页面，否则只加载运行模块
+  mvc:
+    static-path-pattern: /static/**
+  datasource:
+    # 配置数据源
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 使用druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/basic-project?characterEncoding=utf8&serverTimezone=GMT%2b8
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+#mybatis-plus配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      table-underline: true
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath:mapper/*.xml
+xss:
+  # 过滤开关
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /static/*
+  # 匹配链接
+  urlPatterns: /*
+shiro:
+  user:
+    loginUrl: /login
+    unauthorizedUrl: /unauthorized

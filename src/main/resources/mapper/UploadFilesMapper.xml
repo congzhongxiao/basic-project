@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.basic.mapper.UploadFilesMapper">
+    <select id="selectByProductId" parameterType="java.lang.String" resultType="com.basic.entity.UploadFiles">
+        select u.* from upload_files u
+        left join product_image i on i.image_id = u.id
+        left join product p on p.id = i.product_id
+        where p.id = #{productId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>
