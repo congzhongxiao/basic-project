@@ -177,6 +177,11 @@ public class ProductController extends BasicController {
         }
     }
 
+    @GetMapping("cropper")
+    public String picCut(){
+        return prefix + "/product_cropper";
+    }
+
     //预加载对象数据
     @ModelAttribute("preloadProduct")
     public Product preloadProduct(@RequestParam(value = "id", required = false) String id) {

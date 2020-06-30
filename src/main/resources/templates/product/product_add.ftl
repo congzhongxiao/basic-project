@@ -25,6 +25,16 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label ">裁剪图片</label>
+            <div class="col-sm-8">
+                <div class="cropper-area" onclick="picCut()">
+                    <img id="cutImage" name="cutImage">
+                    <input type="hidden" name="cutId" id="cutId" value="">
+                    <input type="hidden" name="cutUrl" id="cutUrl" value="">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label ">封面图片</label>
             <div class="col-sm-8">
                 <div id="shortImage"></div>
@@ -62,6 +72,10 @@
         messages: {},
         focusCleanup: true
     });
+
+    function picCut(){
+        $.modal.open("图像裁切",prefix + '/cropper');
+    }
 
     $(function () {
         $("#shortImage").leeImageUploader({

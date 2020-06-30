@@ -30,7 +30,7 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()">
+            <a class="btn btn-success" onclick="$.operate.addFull()">
                 <i class="fa fa-plus"></i> 新增
             </a>
             <a class="btn btn-danger multiple " onclick="$.operate.removeAll()">
