@@ -1,8 +1,14 @@
 package com.basic.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.entity.Person;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Map;
+
 /**
 *人员信息 Mapper
 *@author: lee
@@ -10,5 +16,5 @@ import org.springframework.stereotype.Component;
 */
 @Component
 public interface PersonMapper extends BaseMapper<Person> {
-
+    List<Person> getPersonPage(IPage params, @Param("queryParam")Map<String,Object> queryParam);
 }

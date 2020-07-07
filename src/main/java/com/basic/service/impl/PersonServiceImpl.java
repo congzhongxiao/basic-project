@@ -86,4 +86,12 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
         return mapIPage;
     }
 
+    public Page<Person> getPageInfo2(Map<String, Object> queryParam) {
+        Page<Person> tempPage = new PageUtil<Person>(queryParam).getPage();
+        String[] ids = {"1258670326279045121","1258670326245490690"};
+        queryParam.put("ids",ids);
+        Page<Person> page =tempPage.setRecords(this.baseMapper.getPersonPage(tempPage,queryParam));
+        return page;
+    }
+
 }

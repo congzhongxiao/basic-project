@@ -2,19 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.basic.mapper.PersonMapper">
 
-    <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.basic.entity.Person">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="age" property="age" />
-        <result column="birthday" property="birthday" />
-        <result column="gender" property="gender" />
-        <result column="address" property="address" />
-        <result column="summary" property="summary" />
-        <result column="create_by" property="createBy" />
-        <result column="create_time" property="createTime" />
-        <result column="update_by" property="updateBy" />
-        <result column="update_time" property="updateTime" />
-    </resultMap>
+    <select id="getPersonPage" resultType="com.basic.entity.Person">
+        select * from person
+        where 1=1
+        and id in
+        <foreach collection="queryParam.ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+
+    </select>
 
 </mapper>
