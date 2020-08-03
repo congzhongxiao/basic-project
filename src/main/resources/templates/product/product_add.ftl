@@ -27,7 +27,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label ">裁剪图片</label>
             <div class="col-sm-8">
-                <div class="cropper-area" onclick="picCut()">
+                <div class="cropper-area" id="previewCut">
                     <img id="cutImage" name="cutImage">
                     <input type="hidden" name="cutId" id="cutId" value="">
                     <input type="hidden" name="cutUrl" id="cutUrl" value="">
@@ -73,11 +73,17 @@
         focusCleanup: true
     });
 
-    function picCut(){
-        $.modal.open("图像裁切",prefix + '/cropper');
-    }
 
     $(function () {
+        $("#previewCut").click(function(){
+            var img = $(this).find("#cutImage");
+            var path = img.attr("src");
+            var url = prefix + '/cropper';
+            if(path && path != '') {
+                url += '?imgUrl=' + path;
+            }
+            $.modal.open("预览图选取",url);
+        });
         $("#shortImage").leeImageUploader({
             max:1,
             uploadUrl: '${ctx}/common/upload/image',

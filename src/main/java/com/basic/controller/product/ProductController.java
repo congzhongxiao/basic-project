@@ -178,7 +178,8 @@ public class ProductController extends BasicController {
     }
 
     @GetMapping("cropper")
-    public String picCut(){
+    public String cropper(@RequestParam(name = "imgUrl",required = false) String imgUrl,Model model){
+        model.addAttribute("imgUrl",imgUrl);
         return prefix + "/product_cropper";
     }
 

@@ -32,22 +32,6 @@
                     </li>
                 </a>
                 <li>
-                    <div class="user-panel">
-                        <a class="menuItem" title="个人中心" href="${ctx}/system/user/profile">
-                            <div class="hide" text="个人中心"></div>
-                            <div class="pull-left image">
-                                <img src="${ctx}/static/img/profile.jpg" class="img-circle" alt="User Image">
-                            </div>
-                        </a>
-                        <div class="pull-left info">
-                            <p><@shiro.principal property="nickname" /></p>
-                            <a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
-                            <a href="${ctx}/logout" style="padding-left:5px;"><i class="fa fa-sign-out text-danger"></i>
-                                注销</a>
-                        </div>
-                    </div>
-                </li>
-                <li>
                     <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">功能区</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -83,7 +67,6 @@
                     </li>
                     <li class="dropdown user-menu">
                         <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
-                            <img src="${ctx}/static/img/profile.jpg" class="user-image">
                             <span class="hidden-xs"><@shiro.principal property="nickname"/></span>
                         </a>
                         <ul class="dropdown-menu">

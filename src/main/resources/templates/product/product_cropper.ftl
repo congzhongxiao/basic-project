@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-xs-8">
             <div class="cropper-image-box">
-                <img id="image">
+                <img id="image" <#if imgUrl?? && imgUrl != ''>src="${imgUrl}"</#if>>
             </div>
             <div class="cropper-image-tools">
                 <label class="btn btn-sm btn-primary" for="select_image">

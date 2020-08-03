@@ -211,7 +211,7 @@ var table = {
                     $('#' + toolbar + ' .single').toggleClass('disabled', rows.length != 1);
                 });
                 // 图片预览事件
-                $(optionsIds).off("click").on("click", '.img-circle', function () {
+                $(optionsIds).off("click").on("click", '.img-preview', function () {
                     var src = $(this).attr('src');
                     var target = $(this).data('target');
                     var height = $(this).data('height');
@@ -309,7 +309,7 @@ var table = {
                 // blank or self
                 var _target = $.common.isEmpty(target) ? 'self' : target;
                 if ($.common.isNotEmpty(value)) {
-                    return $.common.sprintf("<img class='img-circle img-xs' data-height='%s' data-width='%s' data-target='%s' src='%s'/>", height, width, _target, value);
+                    return $.common.sprintf("<img class='img-preview img-xs' data-height='%s' data-width='%s' data-target='%s' src='%s'/>", height, width, _target, value);
                 } else {
                     return $.common.nullToStr(value);
                 }

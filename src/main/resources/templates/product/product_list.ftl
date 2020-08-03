@@ -77,7 +77,10 @@
             },
             {
                 field: 'short_image',
-                title: '缩略图'
+                title: '缩略图',
+                formatter:function (value) {
+                    return $.table.imageView(value,350,500);
+                }
             },
             {
                 field: 'create_by',
