@@ -35,6 +35,8 @@
     </#noparse>
     $("#form-${tableName}-update").validate({
         onkeyup: false,
+        ignore: ":hidden",
+        ignore: "",
         rules: {},
         messages: {},
         focusCleanup: true

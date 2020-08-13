@@ -29,6 +29,8 @@
     </#noparse>
     $("#form-${tableName}-add").validate({
         onkeyup: false,
+        ignore: ":hidden",
+        ignore: "",
         rules: {
             //example
         },
