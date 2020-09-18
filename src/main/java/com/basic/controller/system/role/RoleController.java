@@ -1,4 +1,4 @@
-package com.basic.controller.role;
+package com.basic.controller.system.role;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.base.BasicController;
@@ -29,7 +29,7 @@ public class RoleController extends BasicController {
     @Autowired
     RolePermissionService rolePermissionService;
 
-    String prefix = "role";
+    String prefix = "system/role";
     @GetMapping("")
     public String list(){
         return prefix + "/role_list";

@@ -1,4 +1,4 @@
-package com.basic.controller.permission;
+package com.basic.controller.system.permission;
 
 import com.basic.common.base.BasicController;
 import com.basic.common.domain.Result;
@@ -19,7 +19,7 @@ import java.util.List;
 public class PermissionController extends BasicController {
     @Autowired
     PermissionService permissionService;
-    String prefix = "permission";
+    String prefix = "system/permission";
     @GetMapping("")
     public String list() {
         return prefix + "/permission_list";

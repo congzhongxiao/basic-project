@@ -24,13 +24,20 @@
         <div class="nav-close">
             <i class="fa fa-times-circle"></i>
         </div>
+        <div class="nav navbar-left-header">
+            <a href="javascript:void(0);">
+                <div class="logo">
+                    <span class="logo-lg">后台管理系统</span>
+                </div>
+                <div class="mini-logo hide">
+                        <span class="logo-lg">
+                           HT
+                        </span>
+                </div>
+            </a>
+        </div>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
-                <a href="${ctx}/index/">
-                    <li class="logo">
-                        <span class="logo-lg">后台管理系统</span>
-                    </li>
-                </a>
                 <li>
                     <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">功能区</span> <span
                                 class="fa arrow"></span></a>

@@ -1,4 +1,4 @@
-package com.basic.controller.user;
+package com.basic.controller.system.user;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.base.BasicController;
@@ -12,7 +12,6 @@ import com.basic.entity.UserRole;
 import com.basic.service.RoleService;
 import com.basic.service.UserRoleService;
 import com.basic.service.UserService;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,7 +33,7 @@ public class UserController extends BasicController {
     @Autowired
     UserRoleService userRoleService;
 
-    String prefix = "user";
+    String prefix = "system/user";
 
     //列表页面
     @GetMapping("")
