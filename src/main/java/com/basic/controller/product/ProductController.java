@@ -1,29 +1,21 @@
 package com.basic.controller.product;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-
-import com.basic.entity.ProductImage;
+import com.basic.common.base.BasicController;
+import com.basic.common.domain.Result;
+import com.basic.common.domain.ResultCode;
+import com.basic.common.utils.StringUtils;
+import com.basic.entity.Product;
 import com.basic.entity.UploadFiles;
 import com.basic.service.ProductImageService;
+import com.basic.service.ProductService;
 import com.basic.service.UploadFilesService;
-import org.apache.logging.log4j.message.ReusableMessage;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.basic.common.base.BasicController;
-import com.basic.common.domain.Result;
-import com.basic.common.domain.ResultCode;
-import com.basic.common.utils.StringUtils;
-
-import com.basic.entity.Product;
-import com.basic.service.ProductService;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
