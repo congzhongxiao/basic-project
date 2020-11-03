@@ -14,7 +14,7 @@ import java.util.Map;
 */
 public interface ProductService extends IService<Product> {
     IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
-    boolean addProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
-    boolean updateProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
-    boolean removeProduct(String id);
+    void addProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
+    void updateProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
+    void removeProduct(String id);
 }

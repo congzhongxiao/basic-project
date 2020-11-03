@@ -28,7 +28,6 @@ import java.util.Map;
 @Service
 public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> implements PersonService {
 
-    @Transactional(rollbackFor = Exception.class )
     public Result importPerson(List<Person> personList, String currentUser) {
         if (personList != null && personList.size() > 0) {
             int successNum = 0;
