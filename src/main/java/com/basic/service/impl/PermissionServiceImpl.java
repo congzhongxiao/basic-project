@@ -23,32 +23,30 @@ import java.util.List;
  */
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
-    @Autowired
-    private PermissionMapper permissionMapper;
 
     public List<Permission> getPermissionListByRoleId(String roleId) {
-        return this.permissionMapper.getPermissionListByRoleId(roleId);
+        return baseMapper.getPermissionListByRoleId(roleId);
     }
 
     public List getPermissionListByCode(String code) {
-        return this.permissionMapper.selectList(new QueryWrapper<Permission>().eq("code", code));
+        return baseMapper.selectList(new QueryWrapper<Permission>().eq("code", code));
     }
 
     public int deleteById(String id) {
-        Permission permission = this.permissionMapper.selectById(id);
+        Permission permission = baseMapper.selectById(id);
         if (permission != null) {
-            List<Permission> childs = this.permissionMapper.selectList(new QueryWrapper<Permission>().eq("pid", id));
+            List<Permission> childs = baseMapper.selectList(new QueryWrapper<Permission>().eq("pid", id));
             if (childs != null && childs.size() > 0) {
                 return -1;//存在子权限
             } else {
-                this.permissionMapper.deleteById(id);
+                baseMapper.deleteById(id);
             }
         }
         return 1;
     }
 
     public List<Ztree> getAllTree() {
-        List<Permission> permissionList = this.permissionMapper.selectList(Wrappers.emptyWrapper());
+        List<Permission> permissionList = baseMapper.selectList(Wrappers.emptyWrapper());
         return installTree(permissionList,null);
     }
 
@@ -77,7 +75,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     public List<Ztree> getPermissionTreeForRole(String roleId) {
         List<Permission> checkedList =  getPermissionListByRoleId(roleId);
-        List<Permission> allList = this.permissionMapper.selectList(Wrappers.emptyWrapper());
+        List<Permission> allList = baseMapper.selectList(Wrappers.emptyWrapper());
         return installTree(allList,checkedList);
     }
 

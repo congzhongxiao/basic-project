@@ -17,24 +17,9 @@ import java.util.Map;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Autowired
-    private UserMapper userMapper;
-
-    /**
-     * 根据用户名和密码获取管理员信息
-     *
-     * @param username
-     * @param password
-     * @return
-     */
-    public User getInfoByUsernameAndPassword(String username, String password) {
-        User admin = userMapper.selectOne(new QueryWrapper<User>().eq("username", username).eq("password", password));
-        return admin;
-    }
 
     /**
      * 根据查询条件获取管理员列表信息
-     *
      * @param queryParam
      * @return
      */
@@ -55,7 +40,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         queryWrapper.orderByDesc("create_time");
 
         Page<User> page = new PageUtil<User>(queryParam).getPage();
-        IPage<Map<String, Object>> mapIPage = userMapper.selectMapsPage(page, queryWrapper);
+        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
         return mapIPage;
     }
 
@@ -66,7 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @return
      */
     public User getByUsername(String username) {
-        return userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
+        return baseMapper.selectOne(new QueryWrapper<User>().eq("username", username));
     }
 
     public boolean add(User user) {
@@ -76,7 +61,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             user.setSalt(EncryptionUtil.getRandomString(10));
             user.setPassword(EncryptionUtil.encryption(user.getUsername(),user.getPassword(),user.getSalt()));
             user.setCreateTime(new Date());
-            this.userMapper.insert(user);
+            this.baseMapper.insert(user);
             return true;
         } catch (Exception e) {
             return false;

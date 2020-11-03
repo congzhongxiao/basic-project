@@ -24,21 +24,19 @@ import java.util.Map;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-    @Autowired
-    RoleMapper roleMapper;
 
     //查询分页列表
     public IPage<Map<String, Object>> getPageInfo(Map<String,Object> queryParam) {
         Page<Role> page = new PageUtil<Role>(queryParam).getPage();
-        IPage<Map<String, Object>> mapIPage = roleMapper.selectMapsPage(page, new QueryWrapper<>());
+        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, new QueryWrapper<>());
         return mapIPage;
     }
 
     public List<Role> getRoleListByUserId(String userId) {
-        return this.roleMapper.getRoleListByUserId(userId);
+        return this.baseMapper.getRoleListByUserId(userId);
     }
 
     public List<Role> getAllRoles(){
-        return this.roleMapper.selectList(new QueryWrapper<>());
+        return this.baseMapper.selectList(new QueryWrapper<>());
     }
 }

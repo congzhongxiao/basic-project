@@ -13,6 +13,7 @@ import com.basic.common.utils.PageUtil;
 import com.basic.entity.Person;
 import com.basic.service.PersonService;
 import com.basic.mapper.PersonMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,7 @@ import java.util.Map;
 @Service
 public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> implements PersonService {
 
+    @Transactional(rollbackFor = Exception.class )
     public Result importPerson(List<Person> personList, String currentUser) {
         if (personList != null && personList.size() > 0) {
             int successNum = 0;

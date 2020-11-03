@@ -18,11 +18,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
-    @Autowired
-    UserRoleMapper userRoleMapper;
     public boolean deleteByUserId(String userId){
         try {
-            userRoleMapper.delete(new QueryWrapper<UserRole>().eq("user_id",userId));
+            baseMapper.delete(new QueryWrapper<UserRole>().eq("user_id",userId));
             return true;
         } catch (Exception e) {
 
