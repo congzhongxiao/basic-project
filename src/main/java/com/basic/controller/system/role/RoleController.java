@@ -38,8 +38,7 @@ public class RoleController extends BasicController {
     @PostMapping("findList")
     @ResponseBody
     public Result findList(@RequestBody Map map){
-        IPage<Map<String, Object>> page = roleService.getPageInfo(map);
-        return Result.success(installPageData(page));
+        return roleService.getPageInfo(map);
     }
 
     @GetMapping("add")

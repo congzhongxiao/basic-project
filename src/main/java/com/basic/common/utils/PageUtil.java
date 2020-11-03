@@ -1,6 +1,8 @@
 package com.basic.common.utils;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.basic.common.domain.PageResult;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -33,5 +35,15 @@ public class PageUtil<T> extends LinkedHashMap<String, Object> {
 
     public Page<T> getPage() {
         return page;
+    }
+
+    //组装分页列表页面返回数据
+    public static PageResult initPage(IPage<Map<String, Object>> page) {
+        PageResult result = new PageResult();
+        if (page != null) {
+            result.setRows(page.getRecords());
+            result.setTotal(page.getTotal());
+        }
+        return result;
     }
 }

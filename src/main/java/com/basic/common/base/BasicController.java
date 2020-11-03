@@ -26,19 +26,9 @@ public class BasicController {
         User user = (User)SecurityUtils.getSubject().getPrincipal();
         return user;
     }
-
     //跳转404页面
     protected String redirectNoPage() {
         return "redirect:/admin/404";
     }
 
-    //组装分页列表页面返回数据
-    protected PageResult installPageData(IPage<Map<String, Object>> page) {
-        PageResult result = new PageResult();
-        if (page != null) {
-            result.setRows(page.getRecords());
-            result.setTotal(page.getTotal());
-        }
-        return result;
-    }
 }

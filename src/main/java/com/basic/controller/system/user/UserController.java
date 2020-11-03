@@ -1,9 +1,11 @@
 package com.basic.controller.system.user;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.basic.common.annotation.Log;
 import com.basic.common.base.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
+import com.basic.common.enums.BusinessType;
 import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.Role;
@@ -41,11 +43,11 @@ public class UserController extends BasicController {
         return prefix + "/user_list";
     }
 
+    @Log(name = "用户列表",type = BusinessType.INSERT)
     @RequestMapping("findList")
     @ResponseBody
     public Result findList(@RequestBody Map map) {
-        IPage<Map<String, Object>> page = userService.getPageInfo(map);
-        return Result.success(installPageData(page));
+        return userService.getPageInfo(map);
     }
     //加载列表分页数据
     //新增页面
@@ -55,6 +57,7 @@ public class UserController extends BasicController {
         return prefix + "/user_add";
     }
     //新增数据保存
+    @Log(name = "新增用户",type = BusinessType.INSERT)
     @PostMapping("add")
     @ResponseBody
     public Result doAdd(@Validated User user) {

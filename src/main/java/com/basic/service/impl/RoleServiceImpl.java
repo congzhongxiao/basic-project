@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.basic.common.domain.Result;
 import com.basic.common.utils.PageUtil;
 import com.basic.entity.Role;
 import com.basic.mapper.RoleMapper;
@@ -26,10 +27,10 @@ import java.util.Map;
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
 
     //查询分页列表
-    public IPage<Map<String, Object>> getPageInfo(Map<String,Object> queryParam) {
+    public Result getPageInfo(Map<String,Object> queryParam) {
         Page<Role> page = new PageUtil<Role>(queryParam).getPage();
         IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, new QueryWrapper<>());
-        return mapIPage;
+        return Result.success(PageUtil.initPage(mapIPage));
     }
 
     public List<Role> getRoleListByUserId(String userId) {

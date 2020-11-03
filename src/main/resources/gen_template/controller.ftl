@@ -1,7 +1,5 @@
 package ${pageInfo.parentPage}.${pageInfo.controllerPage};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +27,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/${varName}")
 public class ${controllerName} extends BasicController{
-    String prefix = "${varName}";
+    String prefix = "${htmlFolder}";
     @Autowired
     ${serviceName} ${varName}Service;
 
@@ -44,8 +42,7 @@ public class ${controllerName} extends BasicController{
     @ResponseBody
     public Result findList(@RequestBody Map map) {
         try {
-            IPage<Map<String, Object>> page = ${varName}Service.getPageInfo(map);
-            return Result.success(installPageData(page));
+            return ${varName}Service.getPageInfo(map);
         } catch (Exception e) {
             return  Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
@@ -62,14 +59,11 @@ public class ${controllerName} extends BasicController{
     @ResponseBody
     public Result doAdd(@Validated ${entityName} ${varName}) {
         try {
-            boolean result = ${varName}Service.add(${varName});
-            if (result) {
-                return Result.success();
-            }
+            ${varName}Service.save(${varName});
+            return Result.success();
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
-    return Result.fail();
     }
 
     //修改页面跳转

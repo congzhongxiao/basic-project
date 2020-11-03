@@ -26,8 +26,8 @@ public class TypeUtil {
         map.put("mediumtext","String");
         map.put("longtext","String");
         map.put("date","Date");
-        map.put("datetime","Date");
-        map.put("timestamp","Date");
+        map.put("datetime","DateTime");
+        map.put("timestamp","DateTime");
         return map.get(type);
     }
 }

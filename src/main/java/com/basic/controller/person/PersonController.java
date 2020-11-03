@@ -48,8 +48,7 @@ public class PersonController extends BasicController {
     @ResponseBody
     public Result findList(@RequestBody Map map) {
         try {
-            IPage<Map<String, Object>> page = personService.getPageInfo(map);
-            return Result.success(installPageData(page));
+            return personService.getPageInfo(map);
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }

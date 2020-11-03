@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.basic.common.domain.Result;
 import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.PageUtil;
 import com.basic.entity.User;
@@ -23,7 +24,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      * @param queryParam
      * @return
      */
-    public IPage<Map<String, Object>> getPageInfo(Map<String, Object> queryParam) {
+    public Result getPageInfo(Map<String, Object> queryParam) {
         QueryWrapper<User> queryWrapper = new QueryWrapper();
         if (queryParam.get("username") != null) {
             queryWrapper.like("username", queryParam.get("username"));
@@ -41,7 +42,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
         Page<User> page = new PageUtil<User>(queryParam).getPage();
         IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return mapIPage;
+        return Result.success(PageUtil.initPage(mapIPage));
     }
 
     /**

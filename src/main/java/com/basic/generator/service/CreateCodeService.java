@@ -37,6 +37,7 @@ public class CreateCodeService {
         initName();//组装名称信息
         System.out.println("        组装包信息");
         contextMap.put("pageInfo", pageInfo);
+        contextMap.put("htmlFolder",classPathInfo.getHtmlFolder());
         System.out.println("        组装字段信息");
         initColumnInfos(columnInfos);
         System.out.println("        信息组装完成");
@@ -53,10 +54,10 @@ public class CreateCodeService {
             createMapperXML(configuration);
             createService(configuration);
             createServiceImpl(configuration);
-//            createUpdate(configuration);
-//            createAdd(configuration);
-//            createList(configuration);
-//            createController(configuration);
+            createUpdate(configuration);
+            createAdd(configuration);
+            createList(configuration);
+            createController(configuration);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -206,7 +207,7 @@ public class CreateCodeService {
                     column.put("pkChangeColName", changeColumnName);
                     column.put("isPK","yes");
                 }
-                if ("Date".equals(colType)) {
+                if ("Date".equals(colType)||"DateTime".equals(colType)) {
                     column.put("hasTimestamp", true);
                 }
                 if ("BigDecimal".equals(colType)) {

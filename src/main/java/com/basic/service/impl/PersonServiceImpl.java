@@ -79,20 +79,12 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
     }
 
     //分页查询
-    public IPage<Map<String, Object>> getPageInfo(Map<String, Object> queryParam) {
+    public Result getPageInfo(Map<String, Object> queryParam) {
         Page<Person> page = new PageUtil<Person>(queryParam).getPage();
         QueryWrapper<Person> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
         IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return mapIPage;
-    }
-
-    public Page<Person> getPageInfo2(Map<String, Object> queryParam) {
-        Page<Person> tempPage = new PageUtil<Person>(queryParam).getPage();
-        String[] ids = {"1258670326279045121","1258670326245490690"};
-        queryParam.put("ids",ids);
-        Page<Person> page =tempPage.setRecords(this.baseMapper.getPersonPage(tempPage,queryParam));
-        return page;
+        return Result.success(PageUtil.initPage(mapIPage));
     }
 
 }

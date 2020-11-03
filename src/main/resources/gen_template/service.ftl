@@ -2,6 +2,7 @@ package ${pageInfo.parentPage}.${pageInfo.servicePage};
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.basic.common.domain.Result;
 import ${pageInfo.parentPage}.${pageInfo.entityPage}.${entityName};
 
 import java.util.Map;
@@ -12,6 +13,5 @@ import java.util.Map;
 *@time: ${createDate}
 */
 public interface ${serviceName} extends IService<${entityName}> {
-    boolean add(${entityName} ${varName});
-    IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
+    Result getPageInfo(Map<String, Object> queryParam);
 }

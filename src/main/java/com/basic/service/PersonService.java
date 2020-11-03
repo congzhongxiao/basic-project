@@ -17,6 +17,5 @@ import java.util.Map;
 public interface PersonService extends IService<Person> {
     boolean add(Person person);
     Result importPerson(List<Person> personList, String currentUser);
-    IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
-    Page<Person> getPageInfo2(Map<String, Object> queryParam);
+    Result getPageInfo(Map<String, Object> queryParam);
 }

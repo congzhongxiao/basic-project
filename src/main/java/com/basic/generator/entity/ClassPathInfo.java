@@ -15,6 +15,7 @@ public class ClassPathInfo {
     String javaPath="src" + File.separator + "main" + File.separator + "java";//默认java路径
     String xmlPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "mapper";
     String htmlPath = "src" + File.separator + "main" + File.separator + "resources" + File.separator + "templates";
+    String htmlFolder = "";//生成ftl页面文件夹
     String controllerModulePath="";
     String entityModulePath="";
     String mapperModulePath="";

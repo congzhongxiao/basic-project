@@ -1,4 +1,4 @@
-package ${pageInfo.parentPage}.${pageInfo.serviceImplPage};
+package com.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,23 +9,23 @@ import org.springframework.stereotype.Service;
 import com.basic.common.domain.Result;
 import com.basic.common.utils.PageUtil;
 
-import ${pageInfo.parentPage}.${pageInfo.entityPage}.${entityName};
-import ${pageInfo.parentPage}.${pageInfo.servicePage}.${serviceName};
-import ${pageInfo.parentPage}.${pageInfo.mapperPage}.${mapperName};
+import com.basic.entity.TestTest;
+import com.basic.service.TestTestService;
+import com.basic.mapper.TestTestMapper;
 
 import java.util.Map;
 /**
-*${functionName}ServiceImpl
-*@author: ${author}
-*@time: ${createDate}
+*测试实体类ServiceImpl
+*@author: lee
+*@time: 2020-11-03 17:29:50
 */
 @Service
-public class ${serviceImplName} extends ServiceImpl<${mapperName}, ${entityName}> implements ${serviceName} {
+public class TestTestServiceImpl extends ServiceImpl<TestTestMapper, TestTest> implements TestTestService {
 
     //分页查询
     public Result getPageInfo(Map<String, Object> queryParam){
-        Page<${entityName}> page = new PageUtil<${entityName}>(queryParam).getPage();
-        QueryWrapper<${entityName}> queryWrapper = new QueryWrapper();
+        Page<TestTest> page = new PageUtil<TestTest>(queryParam).getPage();
+        QueryWrapper<TestTest> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
         IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
