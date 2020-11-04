@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "system",
+      "type": "com.basic.common.config.Global",
+      "sourceType": "com.basic.common.config.Global"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}
