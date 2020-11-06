@@ -10,7 +10,8 @@
     <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="${ctx}/static/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="${ctx}/static/plugins/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"/>
-    <link href="${ctx}/static/plugins/chosen/chosen.css" rel="stylesheet">
+    <link href="${ctx}/static/plugins/select2/select2.css" rel="stylesheet">
+    <link href="${ctx}/static/plugins/select2/select2-bootstrap.css" rel="stylesheet">
     <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
     <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
     <link href="${ctx}/static/css/custom-ui.css" rel="stylesheet"/>
@@ -34,7 +35,7 @@
     <!-- jquery-export 表格导出插件 -->
     <script src="${ctx}/static/plugins/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
     <script src="${ctx}/static/plugins/bootstrap-table/extensions/export/tableExport.js"></script>
-    <script src="${ctx}/static/plugins/chosen/chosen.jquery.js"></script>
+    <script src="${ctx}/static/plugins/select2/select2.js"></script>
     <!-- 遮罩层 -->
     <script src="${ctx}/static/plugins/blockUI/jquery.blockUI.js"></script>
     <script src="${ctx}/static/plugins/iCheck/icheck.min.js"></script>
@@ -51,15 +52,6 @@
 
 <#macro js_ztree>
     <script src="${ctx}/static/plugins/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js"></script>
-</#macro>
-<#macro js_wangEditor>
-<script src="${ctx}/static/plugins/wangeditor/wangEditor.js"></script>
-</#macro>
-<#macro js_upload>
-<script src="${ctx}/static/js/upload.js"></script>
-</#macro>
-<#macro js_richtext>
-<script src="${ctx}/static/js/rich-text.js"></script>
 </#macro>
 
 <#macro css_webuploader_image>

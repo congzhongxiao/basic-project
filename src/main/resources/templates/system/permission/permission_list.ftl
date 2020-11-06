@@ -8,7 +8,6 @@
 <body class="gray-bg">
 <div class="container-div">
     <div class="row">
-
         <div class="btn-group-sm" id="toolbar" role="group">
             <a class="btn btn-success" onclick="$.operate.add('0')">
                 <i class="fa fa-plus"></i> 新增
@@ -36,6 +35,8 @@
             updateUrl: prefix + "/update/{id}",
             removeUrl: prefix + "/delete/{id}",
             showSearch:false,
+            showRefresh:false,
+            showColumns:false,
             modalName: "权限",
             columns: [{
                 field: 'selectItem',
