@@ -1,6 +1,6 @@
 package com.basic.controller.person;
 
-import com.basic.common.base.BasicController;
+import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.poi.ExcelUtil;

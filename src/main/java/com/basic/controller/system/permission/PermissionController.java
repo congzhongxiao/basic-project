@@ -1,6 +1,6 @@
 package com.basic.controller.system.permission;
 
-import com.basic.common.base.BasicController;
+import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.Ztree;
 import com.basic.common.utils.StringUtils;

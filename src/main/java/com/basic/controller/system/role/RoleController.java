@@ -1,7 +1,6 @@
 package com.basic.controller.system.role;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.basic.common.base.BasicController;
+import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.Role;

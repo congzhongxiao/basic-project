@@ -1,7 +1,5 @@
-package com.basic.common.base;
+package com.basic.controller.common;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.basic.common.domain.PageResult;
 import com.basic.entity.User;
 import lombok.Data;
 import org.apache.shiro.SecurityUtils;
@@ -9,7 +7,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Data
 public class BasicController {
@@ -28,7 +25,7 @@ public class BasicController {
     }
     //跳转404页面
     protected String redirectNoPage() {
-        return "redirect:/admin/404";
+        return "redirect:/404";
     }
 
 }

@@ -1,7 +1,5 @@
 package com.basic.controller.common;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.basic.common.base.BasicController;
 import com.basic.common.config.Global;
 import com.basic.common.config.ServerConfig;
 import com.basic.common.domain.Result;

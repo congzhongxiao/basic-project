@@ -1,7 +1,7 @@
 package com.basic.common.utils;
 
 import com.basic.entity.User;
-import com.basic.shiro.realm.UserRealm;
+import com.basic.common.shiro.realm.UserRealm;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.mgt.RealmSecurityManager;

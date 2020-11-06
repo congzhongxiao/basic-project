@@ -1,4 +1,4 @@
-package com.basic.shiro.realm;
+package com.basic.common.shiro.realm;
 
 import com.basic.common.exception.user.*;
 import com.basic.entity.Permission;

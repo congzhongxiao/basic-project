@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import com.basic.common.base.BasicController;
+import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.StringUtils;
