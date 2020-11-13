@@ -506,55 +506,49 @@ var table = {
                     async: false,
                     toolbar: "toolbar",
                     striped: false,
-                    pageSize: 12,              // 一页条数
-                    pageList: [12, 24, 32],    // 分页数据库
                     expandColumn: 1,
                     showSearch: true,
                     showRefresh: true,
                     showColumns: true,
                     expandAll: true,
-                    expandFirst: true,
-                    asynUrl: null
+                    expandFirst: true
                 };
                 var options = $.extend(defaults, options);
 
                 //
                 var flag = false;
-                if(!$.common.isEmpty(options.columns.length)){
-                    for(var i=0; i<options.columns.length; i++ ){
-                        if($.common.isEmpty($.common.getJsonValue(options.columns[i],"align"))){
+                if (!$.common.isEmpty(options.columns.length)) {
+                    for (var i = 0; i < options.columns.length; i++) {
+                        if ($.common.isEmpty($.common.getJsonValue(options.columns[i], "align"))) {
                             options.columns[i].align = 'center';
                         }
-                        if($.common.isEmpty($.common.getJsonValue(options.columns[i],"halign"))){
+                        if ($.common.isEmpty($.common.getJsonValue(options.columns[i], "halign"))) {
                             options.columns[i].halign = 'center';
                         }
-                        if($.common.getJsonValue(options.columns[i],"field") === 'selectItem'){
+                        if ($.common.getJsonValue(options.columns[i], "field") === 'selectItem') {
                             flag = true;
                         }
                     }
                 }
 
-                if(!flag){
+                if (!flag) {
                     options.expandColumn = 0;
                 }
                 table.options = options;
                 table.config[options.id] = options;
                 $.bttTable = $('#' + options.id).bootstrapTreeTable({
-                    id:  options.id,
+                    id: options.id,
                     code: options.code,                                 // 用于设置父子关系
                     parentCode: options.parentCode,                     // 用于设置父子关系
                     type: 'post',                                       // 请求方式（*）
                     url: options.url,                                   // 请求后台的URL（*）
                     async: options.async,                               // 是否异步加载数据
-                    asynUrl: options.asynUrl,                           // 异步加载子数据请求URL
                     data: options.data,                                 // 无url时用于渲染的数据
                     ajaxParams: options.ajaxParams,                     // 请求数据的ajax的data属性
                     sortName: options.sortName,                         // 排序字段
                     sortOrder: options.sortOrder,                       // 默认升序
                     rootIdValue: options.rootIdValue,                   // 设置指定根节点id值
                     height: options.height,                             // 表格树的高度
-                    pageSize: options.pageSize,                         // 一页条数
-                    pageList: options.pageList,                         // 页面列表
                     expandColumn: options.expandColumn,                 // 在哪一列上面显示展开按钮
                     striped: options.striped,                           // 是否显示行间隔色
                     bordered: true,                                     // 是否显示边框
@@ -578,6 +572,9 @@ var table = {
             // 刷新
             refresh: function () {
                 $.bttTable.bootstrapTreeTable('refresh');
+            },
+            refreshNode: function (id) {
+                $.bttTable.bootstrapTreeTable('refreshNode', id);
             },
             // 查询表格树指定列值
             selectColumns: function (column) {
@@ -609,8 +606,8 @@ var table = {
 
                 // 特殊处理select2存在于表单中的情况
                 var selectTwo = $("#" + currentId).find(".select2-hidden-accessible");
-                if(selectTwo && selectTwo.length > 0) {
-                    selectTwo.each(function (){
+                if (selectTwo && selectTwo.length > 0) {
+                    selectTwo.each(function () {
                         $(this).val(null).trigger("change");
                     });
                 }
@@ -622,9 +619,9 @@ var table = {
                     }
                 } else if (table.options.type == table_type.bootstrapTreeTable) {
                     if ($.common.isEmpty(tableId)) {
-                        $("#" + table.options.id).bootstrapTreeTable('refresh', {'__refre':true});
+                        $("#" + table.options.id).bootstrapTreeTable('refresh', {'__refre': true});
                     } else {
-                        $("#" + tableId).bootstrapTreeTable('refresh', {'__refre':true});
+                        $("#" + tableId).bootstrapTreeTable('refresh', {'__refre': true});
                     }
                 }
             },
@@ -914,6 +911,30 @@ var table = {
                 };
                 $.ajax(config)
             },
+            // 提交数据
+            submitOnlyCallback: function (url, type, dataType, data, callback) {
+                var config = {
+                    url: url,
+                    type: type,
+                    dataType: dataType,
+                    data: data,
+                    beforeSend: function () {
+                        $.modal.loading("正在处理中，请稍后...");
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            if (typeof callback == "function") {
+                                callback(result);
+                            }
+                            $.modal.msgSuccess(result.message);
+                        } else {
+                            $.modal.alertError(result.message);
+                        }
+                        $.modal.closeLoading();
+                    }
+                };
+                $.ajax(config)
+            },
             // post请求传输
             post: function (url, data, callback) {
                 $.operate.submit(url, "post", "json", data, callback);
@@ -1081,6 +1102,34 @@ var table = {
                             callback(result);
                         }
                         $.operate.successCallback(result);
+                    }
+                };
+                $.ajax(config)
+            },
+            // 保存信息 只执行自定义回调函数 callback必须存在
+            saveOnlyCallback: function (url, data, callback) {
+                var config = {
+                    url: url,
+                    type: "post",
+                    dataType: "json",
+                    data: data,
+                    beforeSend: function () {
+                        $.modal.loading("正在处理中，请稍后...");
+                        $.modal.disable();
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            if (typeof callback == "function") {
+                                callback(result);
+                            }
+                            var parent = window.parent;
+                            $.modal.close();
+                            parent.$.modal.msgSuccess(result.message);
+                        } else {
+                            $.modal.alertError(result.message);
+                        }
+                        $.modal.closeLoading();
+                        $.modal.enable();
                     }
                 };
                 $.ajax(config)
@@ -1512,10 +1561,10 @@ var table = {
                 }
                 return count;
             },
-            getJsonValue:function(obj,k){
+            getJsonValue: function (obj, k) {
                 var _r;
-                for(var key  in obj){
-                    if(key == k){
+                for (var key in obj) {
+                    if (key == k) {
                         _r = obj[key];
                         break;
                     }

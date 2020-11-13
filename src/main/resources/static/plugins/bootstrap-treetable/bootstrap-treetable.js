@@ -20,11 +20,6 @@
         options = $.extend({}, $.fn.bootstrapTreeTable.defaults, options || {});
         target.hasSelectItem = false;// 是否有radio或checkbox
         target.data_list = null; //用于缓存格式化后的数据-按父分组
-        target.totalPages = 0; //总页数
-        target.pageSize =  0; // 一页多少
-        target.totalRows = 0; // 一共数据
-        target.pageNumber = 0; // 当前实际数据
-
         target.data_obj = null; //用于缓存格式化后的数据-按id存对象
         target.hiddenColumns = []; //用于存放被隐藏列的field
         target.lastAjaxParams; //用户最后一次请求的参数
@@ -42,13 +37,7 @@
             // 初始化表体
             initBody();
             // 初始化数据服务
-            if(options.async){
-                var parms = {};
-                parms[options.parentCode] = options.rootIdValue;
-                initServer(parms);
-            }else{
-                initServer();
-            }
+            initServer();
 
             // 动态设置表头宽度
             autoTheadWidth(true);
@@ -175,50 +164,12 @@
             if (options.height) {
                 $tbody.css("height", options.height);
             }
-
-            if(options.async){
-                var $pagination =  $('<div class="fixed-table-pagination"></div>');
-                target.append($pagination);
-            }
         }
         // 初始化数据服务
         var initServer = function(parms) {
             // 加载数据前先清空
             target.data_list = {};
             target.data_obj = {};
-            // 新增排序
-            if(options.sortName !== ""){
-                var curParams = {
-                    __sidx:           options.sortName,
-                    __order:          options.sortOrder
-                };
-                if(parms){
-                    !options.async && delete parms.__refre;
-                    parms = $.extend(curParams, parms);
-                }else{
-                    parms = curParams;
-                }
-            }
-
-            //设置请求分页参数
-            if(options.async){
-                var params = {};
-                params.offset = options.pageSize * (options.pageNumber - 1);
-                params.limit = options.pageSize;
-                var curParams = {
-                    __limit:       params.limit,
-                    __page:        params.offset / params.limit + 1,
-                };
-                if(parms){
-                    if(parms.__refre){
-                        //delete parms.__refre;
-                        parms[options.parentCode] = options.rootIdValue;
-                    }
-                    parms = $.extend(curParams, parms);
-                }else{
-                    parms = curParams;
-                }
-            }
 
             var $tbody = target.find("tbody");
             // 添加加载loading
@@ -239,51 +190,15 @@
                         $tbody.html(_errorMsg);
                     },
                 };
-                //J2eeFAST 新增CSRF 防护
-                if(String(options.type).toUpperCase() === String('POST').toUpperCase() && $('meta[name="csrf-token"]').attr("content")){
-                    config = $.extend(config,{headers: {
-                            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content") || ''
-                        }});
-                }
                 $.ajax(config);
             } else {
                 renderTable(options.data);
             }
         }
 
-
         // 加载完数据后渲染表格
         var renderTable = function(data) {
             //兼容返回数据
-            //pageSize: "10"
-            // totalCount: "34"
-            // totalPage: "4"
-            var list,totalPage = 0,currPage = 0;
-
-            if(options.async){
-                list = data.data.list; //数据
-                totalPage = data.data.totalPage; //一共多少页
-                target.totalPages = totalPage;
-                currPage = data.data.currPage; // 当前页
-                target.pageSize =  data.data.pageSize; // 一页多少
-                target.totalRows = data.data.totalCount; // 一共数据
-                target.pageNumber = list.length; // 当前实际数据
-            }else{
-                if(data.constructor==Array){
-                    list = data;
-                }else{
-                    if(data.code == '00000'){
-                        if(Array==data.list.constructor){
-                            list = data.list;
-                        }
-                    }
-                }
-            }
-
-            data = list;
-
-            //options.pageNumber = data.length;
-
             var $tbody = target.find("tbody");
             // 先清空
             $tbody.html("");
@@ -318,226 +233,6 @@
             initHiddenColumns();
             // 动态设置表头宽度
             autoTheadWidth();
-
-            if(options.async){
-                initPagination(totalPage,currPage);
-            }
-        }
-
-
-        var initPagination = function (totalPage,currPage) {
-            var $pagination = target.find(".fixed-table-pagination");
-            $pagination.empty();
-            //
-            var html = [];
-            var pageFrom = (options.pageNumber - 1) * options.pageSize + 1;
-            var pageTo = options.pageNumber * options.pageSize;
-            if (pageTo > target.totalRows) {
-                pageTo = target.totalRows;
-            }
-            html.push('<div class="pull-left pagination-detail">');
-            html.push('<span class="pagination-info">第  '+pageFrom+' 条,到 '+pageTo+' 条，共  '+target.totalRows+' 条记录。</span>');
-            var pageList = false;
-            $.each(options.pageList, function (i, page) {
-                if(target.totalRows > page){
-                    pageList = true;
-                }
-            })
-            if(pageList){
-                html.push('<span class="page-list">');
-                html.push('<span class="btn-group dropup">');
-                html.push('<button type="button" class="btn btn-default btn-outline dropdown-toggle" data-toggle="dropdown">');
-                html.push('<span class="page-size">'+target.pageSize+'</span>');
-                html.push('<span class="caret"></span>');
-                html.push('</button>');
-                html.push('<ul class="dropdown-menu" role="menu">');
-                $.each(options.pageList, function (i, page) {
-                    if(page == target.pageSize){
-                        html.push('<li class="active"><a href="javascript:void(0)">'+page+'</a></li>');
-                    }else if(page <= target.totalRows){
-                        html.push('<li><a href="javascript:void(0)">'+page+'</a></li>');
-                    }
-                })
-                html.push('</ul>');
-                html.push('</span> 条记录每页</span>');
-            }
-            html.push('</div>');
-
-            //右边跳转
-            if(totalPage > 1){
-                html.push('<div class="pull-right pagination">');
-                html.push('<ul class="pagination pagination-outline">');
-                html.push('<li class="page-pre"><a href="javascript:void(0)">'+options.paginationPreText +'</a></li>');
-                var from, to;
-                if (totalPage < 5) {
-                    from = 1;
-                    to = totalPage;
-                } else {
-                    from = currPage - 2;
-                    to = from + 4;
-                    if (from < 1) {
-                        from = 1;
-                        to = 5;
-                    }
-                    if (to > totalPage) {
-                        to = totalPage;
-                        from = to - 4;
-                    }
-                }
-
-                if (totalPage >= 6) {
-                    if (currPage >= 3) {
-                        html.push('<li class="page-first' + (1 == currPage ? ' active' : '') + '">',
-                            '<a href="javascript:void(0)">', 1, '</a>',
-                            '</li>');
-
-                        from++;
-                    }
-
-                    if (currPage >= 4) {
-                        if (currPage == 4 || totalPage == 6 || totalPage == 7) {
-                            from--;
-                        } else {
-                            html.push('<li class="page-first-separator disabled">',
-                                '<a href="javascript:void(0)">...</a>',
-                                '</li>');
-                        }
-
-                        to--;
-                    }
-                }
-
-                if (totalPage >= 7) {
-                    if (currPage >= (totalPage - 2)) {
-                        from--;
-                    }
-                }
-
-                if (totalPage == 6) {
-                    if (currPage >= (totalPage - 2)) {
-                        to++;
-                    }
-                } else if (totalPage >= 7) {
-                    if (totalPage == 7 || currPage >= (totalPage - 3)) {
-                        to++;
-                    }
-                }
-
-                for (var i = from; i <= to; i++) {
-                    html.push('<li class="page-number' + (i == currPage ? ' active' : '') + '">',
-                        '<a href="javascript:void(0)">', i, '</a>',
-                        '</li>');
-                }
-
-                if (totalPage >= 8) {
-                    if (currPage <= (totalPage - 4)) {
-                        html.push('<li class="page-last-separator disabled">',
-                            '<a href="javascript:void(0)">...</a>',
-                            '</li>');
-                    }
-                }
-
-                if (totalPage >= 6) {
-                    if (currPage <= (totalPage - 3)) {
-                        html.push('<li class="page-last' + (totalPage === currPage ? ' active' : '') + '">',
-                            '<a href="javascript:void(0)">', totalPage, '</a>',
-                            '</li>');
-                    }
-                }
-
-                html.push('<li class="page-next"><a href="javascript:void(0)">'+options.paginationNextText +'</a></li>');
-                html.push('</ul></div>');
-            }
-            //
-            //<ul class="pagination pagination-outline">
-            //
-            // <li class="page-number active"><a href="javascript:void(0)">1</a></li>
-            // <li class="page-number"><a href="javascript:void(0)">2</a></li>
-            // <li class="page-next"><a href="javascript:void(0)">›</a></li>
-            // <li class="pageGo"><input type="text" class="form-control" value="1"><button class="btn btn-default btn-outline" title="跳转" type="button">跳转</button></li>
-            // </ul>
-            // </div>
-            $pagination.append(html.join(''));
-
-            //添加事件
-            var $pageList = $pagination.find('.page-list a');
-            var $pre = $pagination.find('.page-pre'); //上一页
-            var $next = $pagination.find('.page-next'); //下一页
-            var $number = $pagination.find('.page-number'); // 页码
-            var $first = $pagination.find('.page-first'); //首页
-            var $last = $pagination.find('.page-last'); //尾页
-            $pre.off('click').on('click', $.proxy(onPagePre, this));
-            $pageList.off('click').on('click', $.proxy(onPageListChange, this));
-            $number.off('click').on('click', $.proxy(onPageNumber, this));
-            $first.off('click').on('click', $.proxy(onPageFirst, this));
-            $last.off('click').on('click', $.proxy(onPageLast, this));
-            $next.off('click').on('click', $.proxy(onPageNext, this));
-        }
-
-        //选择一页最大数量
-        var onPageListChange = function(event){
-            var $this = $(event.currentTarget);
-            $this.parent().addClass('active').siblings().removeClass('active');
-            var $pagination = target.find(".fixed-table-pagination");
-            options.pageSize = $this.text().toUpperCase() === target.totalRows.toUpperCase() ?
-                target.totalRows : +$this.text();
-            if(target.totalRows < options.pageSize * options.pageNumber){
-                options.pageNumber = 1;
-            }
-            $pagination.find('.page-size').text(options.pageSize);
-            // 初始化数据服务
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
-        }
-        //点击页面上一页
-        var onPagePre = function(event){
-            if ((options.pageNumber - 1) === 0) {
-                options.pageNumber = target.totalPages;
-            } else {
-                options.pageNumber--;
-            }
-            // 初始化数据服务
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
-        }
-        // 页面事件
-        var onPageNumber = function(event){
-            if (options.pageNumber == $(event.currentTarget).text()) {
-                return;
-            }
-            options.pageNumber = $(event.currentTarget).text();
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
-        }
-        // 首页
-        var onPageFirst = function(event){
-            options.pageNumber = 1;
-            // 初始化数据服务
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
-        }
-        // 尾页
-        var onPageLast = function (event) {
-            options.pageNumber = target.totalPages;
-            // 初始化数据服务
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
-        }
-        var onPageNext = function(event){
-            if ((options.pageNumber + 1) > target.totalPages) {
-                options.pageNumber = 1;
-            } else {
-                options.pageNumber++;
-            }
-            // 初始化数据服务
-            var parms = {};
-            parms[options.parentCode] = options.rootIdValue;
-            initServer(parms);
         }
         // 动态设置表头宽度
         var autoTheadWidth = function(initFlag) {
@@ -573,13 +268,8 @@
                 // 添加一个默认属性，用来判断当前节点有没有被显示
                 item.isShow = false;
                 //是否有是异步
-                if(options.async){
-                    // item.__nodes = (item["nodes"] == 1? true: false) || ((item["nodes"] == 'true' || item["nodes"] == true)? true: false);
-                    if(item.isTreeLeaf == undefined || item.isTreeLeaf == null){
-                        item.isTreeLeaf = false;
-                    }else{
-                        item.isTreeLeaf = (item["isTreeLeaf"] == 1? true: false) || ((item["isTreeLeaf"] == 'true' || item["isTreeLeaf"] == true)? true: false);
-                    }
+                if(options.async){//由于是异步加载，是否最终节点未知，统一认为不是叶子节点
+                    item.isTreeLeaf = true;
                 }
 
                 // 这里兼容几种常见Root节点写法
@@ -659,26 +349,28 @@
 
             //--- 设置行是否显示 是否有下级展示图标
             var _icon = options.expanderCollapsedClass;
-            if (options.expandAll) {
+
+            if(_async) {
                 $tr.css("display", "table");
-                _icon = options.expanderExpandedClass;
-            } else if (lv == 1) {
-                $tr.css("display", "table");
-                _icon = (options.expandFirst) ? options.expanderExpandedClass : options.expanderCollapsedClass;
-            } else if (lv == 2) {
-                if (options.expandFirst) {
-                    $tr.css("display", "table");
-                } else {
-                    $tr.css("display", "none");
-                }
                 _icon = options.expanderCollapsedClass;
-            } else if(_async){
-                if(item.isTreeLeaf){
+            } else {
+                if (options.expandAll) {
+                    $tr.css("display", "table");
+                    _icon = options.expanderExpandedClass;
+                } else if (lv == 1) {
+                    $tr.css("display", "table");
+                    _icon = (options.expandFirst) ? options.expanderExpandedClass : options.expanderCollapsedClass;
+                } else if (lv == 2) {
+                    if (options.expandFirst) {
+                        $tr.css("display", "table");
+                    } else {
+                        $tr.css("display", "none");
+                    }
+                    _icon = options.expanderCollapsedClass;
+                }else{
+                    $tr.css("display", "none");
                     _icon = options.expanderCollapsedClass;
                 }
-            }else{
-                $tr.css("display", "none");
-                _icon = options.expanderCollapsedClass;
             }
             // --- end ---
 
@@ -698,11 +390,6 @@
                     }
                     $tr.append($td);
                 } else {
-                    // var _n = '';
-                    // if(column.class){
-                    //     _n =  ' '+column.class;
-                    // }
-                    // var $td = $('<td '+(column.field?('name="' + column.field + '" class="' + column.field + '_cls'+_n+'"'):'')+'></td>');
                     var $td = $('<td '+(column.class?(' class="'+column.field + '_cls ' + column.class + '"'): ' class="'+column.field + '_cls"')+'></td>');
                     if(column.width){
                         $td.css("width",column.width);
@@ -761,11 +448,7 @@
                     }
                     if (options.expandColumn == index) {
                         if(_async){
-                            if(item["isTreeLeaf"]){
                                 $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
-                            }else {
-                                $td.prepend('<span class="treetable-expander"></span>')
-                            }
                         }else {
                             if (!isP)  {
                                 $td.prepend('<span class="treetable-expander"></span>')
@@ -871,58 +554,43 @@
                         }
                     }else{  //异步
                         var _ls = target.find("tbody").find("tr[id^='" + row_id + "_']"); //下所有
-                        if (_ls && _ls.length > 0) {
+                        if (_ls && _ls.length > 0) {//已加载过子数据
                             if (_isExpanded) {
                                 $.each(_ls, function(index, item) {
                                     $(item).css("display", "none");
                                 });
                             }else {
                                 $.each(_ls, function(index, item) {
-                                    // 父icon
-                                    // var _p_icon = $("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
-                                    // console.log( "_p_icon:" +_p_icon.html());
-                                    // if (_p_icon.hasClass(options.expanderCollapsedClass)) {
-                                    //     $(item).css("display", "table");
-                                    // }
                                     var _icon = $(item).eq(options.expandColumn).find(".treetable-expander");
                                     if(_icon && _icon.hasClass(options.expanderExpandedClass)){
                                         //递归显示
-
                                         $(item).css("display", "table");
                                     }else{
                                         $(item).css("display", "table");
                                     }
                                 });
                             }
-                        }else{
+                        }else{//未加载过数据
                             if(options.async){
                                 var parms = {};
                                 parms[options.parentCode] = _id;
-                                if (options.asynUrl) {
+                                if (options.url) {
                                     var config = {
                                         type: options.type,
-                                        url: options.asynUrl,
+                                        url: options.url,
                                         data: parms,
                                         dataType: "JSON",
                                         beforeSend: function () {
-                                            var _errorMsg = '<tr id="'+row_id+'_load"><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">'+$.i18n.prop("数据正在加载...")+'</div></td></tr>'
+                                            var _errorMsg = '<tr id="'+row_id+'_load"><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">数据正在加载...</div></td></tr>'
                                             $("#" + row_id).after(_errorMsg);
                                         },
                                         success: function(data, textStatus, jqXHR) {
                                             $("#" + row_id + "_load").remove();
                                             //data = calculateObjectValue(options, options.responseHandler, [data], data);
                                             //兼容返回数据
-                                            var list;
-                                            if(data.constructor==Array){
-                                                list = data;
-                                            }else{
-                                                if(data.code == '00000'){
-                                                    if(Array==data.list.constructor){
-                                                        list = data.list;
-                                                    }
-                                                }
+                                            if(data.success) {
+                                                data = data.data;
                                             }
-                                            data = list;
                                             target.appendData(data)
                                         },
                                         error: function(xhr, textStatus) {
@@ -930,12 +598,6 @@
                                             $("#" + row_id).after(_errorMsg);
                                         }
                                     };
-                                    //J2eeFAST 新增CSRF 防护
-                                    if(String(options.type).toUpperCase() === String('POST').toUpperCase() && $('meta[name="csrf-token"]').attr("content")){
-                                        config = $.extend(config,{headers: {
-                                                "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content") || ''
-                                            }});
-                                    }
                                     $.ajax(config);
                                 }
                             }
@@ -959,13 +621,64 @@
             //$.extend(curParams, opt.common.formToJSON(currentId));
             initServer(target.lastAjaxParams);
         }
+        //根据id刷新数据节点
+        target.refreshNode = function(id) {
+            var node = target.find("tbody").find("tr[data-id='"+ id +"']");
+            if(node && node.length > 0) {
+                var nodeId = node.attr("id");
+                var expander = node.find(".treetable-expander");
+
+                if(target.data_list && target.data_list["_n_" + id]) {
+                    target.data_list["_n_" + id] = [];//置空刷新节点缓存数据
+                }
+                //获取所有下级子元素，包含所有后代
+                var childrenTrs = target.find("tbody").find("tr[pid^='"+ nodeId +"']");
+                if(childrenTrs && childrenTrs.length > 0) {
+                    $.each(childrenTrs,function () {
+                        var childTr = $(this);
+                        var childId = childTr.data("id");
+                        delete target.data_obj['id_'+ childId];//删除所有后代id对应的树对象属性
+                        childTr.remove();
+                    });
+                }
+                if(expander.hasClass(options.expanderCollapsedClass)) {//如果节点是收起状态
+                    expander.removeClass(options.expanderCollapsedClass);
+                    expander.addClass(options.expanderExpandedClass);//将节点置为展开状态
+                }
+                var parms = {};
+                parms[options.parentCode] = id;
+                var config = {
+                    type: options.type,
+                    url: options.url,
+                    data: parms,
+                    dataType: "JSON",
+                    beforeSend: function () {
+                        var _errorMsg = '<tr id="'+nodeId+'_load"><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;">数据正在加载...</div></td></tr>'
+                        $("#" + nodeId).after(_errorMsg);
+                    },
+                    success: function(data, textStatus, jqXHR) {
+                        $("#" + nodeId + "_load").remove();
+                        //data = calculateObjectValue(options, options.responseHandler, [data], data);
+                        //兼容返回数据
+                        if(data.success) {
+                            data = data.data;
+                        }
+                        target.appendData(data)
+                    },
+                    error: function(xhr, textStatus) {
+                        var _errorMsg = '<tr><td colspan="' + options.columns.length + '"><div style="display: block;text-align: center;font-weight: bold;color: red;">' + JSON.parse(xhr.responseText).msg || xhr.responseText + '</div></td></tr>'
+                        $("#" + nodeId).after(_errorMsg);
+                    }
+                };
+                $.ajax(config);
+            } else {
+                target.refresh();
+            }
+        }
         // 添加数据刷新表格
         target.appendData = function(data) {
             // 下边的操作主要是为了查询时让一些没有根节点的节点显示
             $.each(data, function(i, item) {
-                if(options.async){
-                    item.__nodes = (item["nodes"] == 1? true: false) || ((item["nodes"] == 'true' || item["nodes"] == true)? true: false);
-                }
                 var _data = target.data_obj["id_" + item[options.code]];
                 var _p_data = target.data_obj["id_" + item[options.parentCode]];
                 var _c_list = target.data_list["_n_" + item[options.parentCode]];
@@ -1172,6 +885,10 @@
                 target.refresh();
             }
         },
+        // 刷新记录
+        refreshNode: function(target, id) {
+                target.refreshNode(id);
+        },
         // 添加数据到表格
         appendData: function(target, data) {
             if (data) {
@@ -1231,20 +948,13 @@
         undefinedText: '-',        // 列无值默认显示
         sortName: "",              // 排序字段
         sortOrder: "asc",          // 默认升序
-        totalRows: 0,              // 总共条数
-        pageNumber: 1,             // 当前页条数
-        pageSize: 6,              // 一页条数
-        pageList: [6, 12, 18],    // 分页数据库
         showTitle: true,           // 是否采用title属性显示字段内容（被formatter格式化的字段不会显示）
         showSearch: true,          // 是否显示检索信息
         showColumns: true,         // 是否显示内容列下拉框
         showRefresh: true,         // 是否显示刷新按钮
-        paginationPreText: '&lsaquo;',
-        paginationNextText: '&rsaquo;',
         expanderExpandedClass: 'fa fa-angle-down', // 展开的按钮的图标
         expanderCollapsedClass: 'fa fa-angle-right', // 缩起的按钮的图标
         async: false,              //异步加载数据
-        asynUrl: null,             //异步加载数据URL
         responseHandler: function(res) {
             return false;
         }

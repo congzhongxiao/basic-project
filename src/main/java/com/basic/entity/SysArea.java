@@ -12,47 +12,75 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
-*测试实体类实体类
+*行政区划实体类
 *@author: lee
-*@time: 2020-11-03 17:29:50
+*@time: 2020-11-12 10:07:45
 */
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("test_test")
-public class TestTest extends Model<TestTest> {
+@TableName("sys_area")
+public class SysArea extends Model<SysArea> {
     private static final long serialVersionUID = 1L;
     /**
-    *主键
+    *地区id
     */
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
     /**
-    *名称
+    *父级id
+    */
+    private String pid;
+
+    /**
+    *祖级列表
+    */
+    private String ancestors;
+
+    /**
+    *区划编码
+    */
+    @NotEmpty(message = "区划编码不能为空")
+    private String code;
+
+    /**
+    *地区名称
     */
     private String name;
 
     /**
-    *内容
+    *显示顺序
     */
-    private String value;
+    private Integer sort;
 
     /**
-    *日期
+    *创建人
     */
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date testDate;
+    private String createBy;
 
     /**
-    *时间
+    *创建时间
     */
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private Date testTime;
+    private Date createTime;
+
+    /**
+    *更新人
+    */
+    private String updateBy;
+
+    /**
+    *更新时间
+    */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 
 
 }

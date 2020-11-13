@@ -53,6 +53,7 @@
                         <li><a class="menuItem" href="${ctx}/user">用户管理</a></li>
                         <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
                         <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
+                        <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
                     </ul>
                 </li>
             </ul>

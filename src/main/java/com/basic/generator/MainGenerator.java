@@ -19,7 +19,7 @@ public class MainGenerator {
     static String username = "root";//用户名
     static String password = "root";//密码
     static String driverName = "com.mysql.cj.jdbc.Driver";//数据库驱动
-    static String tableName = "test_test";
+    static String tableName = "sys_area";
 
 
     public static void main(String[] args) {
@@ -27,17 +27,17 @@ public class MainGenerator {
         DBInfo dbInfo = new DBInfo(url,username,password,driverName);
         BaseInfo baseInfo = new BaseInfo();
         baseInfo.setAuthor("lee");
-        baseInfo.setFunctionName("测试实体类");
+        baseInfo.setFunctionName("行政区划");
         baseInfo.setDeleteKey("");
         baseInfo.setCreateDate(DateUtils.dateTimeNow("yyyy-MM-dd HH:mm:ss"));
         PageInfo pageInfo = new PageInfo();
         pageInfo.setParentPage("com.basic");
-        pageInfo.setControllerPage("controller.system.test");
+        pageInfo.setControllerPage("controller.system.area");
         ClassPathInfo classPathInfo = new ClassPathInfo();
         classPathInfo.setDefaultPath("basic-project");
         classPathInfo.setDefault(false);
 
-        classPathInfo.setHtmlFolder("test");//生成ftl页面文件目录
+        classPathInfo.setHtmlFolder("area");//生成ftl页面文件目录
         //组装生成ftl路径，默认:src/main/resource/templates/下面
         classPathInfo.setHtmlPath(classPathInfo.getHtmlPath()+ File.separator + classPathInfo.getHtmlFolder());
         new CreateCodeService(dbInfo,tableName,baseInfo,pageInfo,classPathInfo).init();
