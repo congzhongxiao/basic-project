@@ -42,7 +42,6 @@ public class UserController extends BasicController {
         return prefix + "/user_list";
     }
 
-    @Log(name = "用户列表",type = BusinessType.INSERT)
     @RequestMapping("findList")
     @ResponseBody
     public Result findList(@RequestBody Map map) {

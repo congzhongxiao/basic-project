@@ -1,6 +1,8 @@
 package com.basic.controller;
 
+import com.basic.common.annotation.Log;
 import com.basic.common.domain.Result;
+import com.basic.common.enums.BusinessType;
 import com.basic.common.utils.ServletUtils;
 import com.basic.common.utils.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -27,7 +29,7 @@ public class LoginController {
         }
         return "/login";
     }
-
+    @Log(name = "系统登录",type = BusinessType.LOGIN)
     @PostMapping("")
     @ResponseBody
     public Result doLogin(String username, String password) {
