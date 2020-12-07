@@ -1,0 +1,105 @@
+.select-tree-container{
+    position: relative;
+    display: inline-block;
+    outline: none;
+    width: 100%;
+}
+
+.select-tree-container .select-panel {
+    border:1px solid #e5e6e7;
+    height: 34px;
+    line-height: 1.42857143;
+    padding: 6px 24px 6px 12px;
+    user-select: none;
+}
+.select-tree-container:focus .select-panel {
+    border:1px solid #1ab394;
+}
+.select-tree-container.open .select-panel {
+    border:1px solid #1ab394;
+    border-bottom: none;
+}
+
+
+.select-tree-container .select-tree-arrow {
+    width: 4px;
+    position: absolute;
+    right: 12px;
+    top:17px;
+}
+.select-tree-container .select-tree-arrow:after{
+    content: '';
+    border-color: #999 transparent transparent;
+    border-style: solid;
+    border-width: 4px 4px 0;
+    height: 0;
+    left: 0;
+    margin-left: -4px;
+    margin-top: -2px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+.select-tree-container.open .select-tree-arrow:after{
+    border-color: transparent transparent #999;
+    border-width: 0 4px 4px;
+}
+.select-tree-container .tree-panel {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 100%;
+    border: 1px solid #1ab394;
+    border-top: none;
+    z-index: 9999;
+    background: #FFFFFF;
+    display: none;
+}
+.select-tree-container.open .tree-panel{
+    display: block;
+}
+.select-tree-container .tree-panel ul{
+    list-style: none;
+    margin: 0;
+    padding: 0 ;
+}
+.select-tree-container .tree-panel ul li .tree-option{
+    padding-left:10px ;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.select-tree-container .tree-panel ul li .tree-option:hover {
+    background: #e3e3e3;
+}
+
+.select-tree-container .tree-panel ul li .tree-option.selected {
+    background: #e3e3e3;
+}
+.select-tree-container .tree-panel .tree-option .tree-option-arrow{
+    width: 8px;
+    display: inline-block;
+    background: #1ab394 ;
+    position: relative;
+}
+.select-tree-container .tree-panel .tree-option .tree-option-value{
+    user-select: none;
+}
+.select-tree-container .tree-panel .tree-option .tree-option-arrow b{
+    content: '';
+    border-color:  transparent transparent transparent  #999 ;
+    border-style: solid;
+    border-width:  5px;
+    height: 0;
+    left: 0;
+    margin-left: -2px;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+    width: 0;
+}
+
+.select-tree-container .tree-panel .tree-option .tree-option-arrow.open b{
+    border-color: #999 transparent transparent transparent  ;
+    margin-top: -8px;
+    margin-left: -4px;
+}

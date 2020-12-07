@@ -7,6 +7,7 @@ import com.basic.common.poi.ExcelUtil;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.Person;
 import com.basic.service.PersonService;
+import com.basic.service.SysAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +33,8 @@ public class PersonController extends BasicController {
     String prefix = "person";
     @Autowired
     PersonService personService;
+    @Autowired
+    SysAreaService sysAreaService;
 
     //跳转列表
     @GetMapping("")
@@ -52,7 +55,8 @@ public class PersonController extends BasicController {
 
     //添加页面跳转
     @GetMapping("add")
-    public String add() {
+    public String add(Model model) {
+        model.addAttribute("areaList",sysAreaService.list());
         return prefix + "/person_add";
     }
 

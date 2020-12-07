@@ -41,9 +41,9 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysArea> impl
     public int addArea(SysArea area){
         SysArea parent = baseMapper.selectById(area.getPid());
         if(parent != null) {
-            area.setAncestors("0");
-        } else {
             area.setAncestors(parent.getAncestors() + "," + area.getPid());
+        } else {
+            area.setAncestors("0");
         }
         return baseMapper.insert(area);
     }
