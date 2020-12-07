@@ -122,7 +122,7 @@
         },
         initTreeDom: function () {//组装树结构
             var treePanel = $('<div class="tree-panel"></div>');
-            var paddingValue = 0;
+            var paddingValue = 10;
             treePanel.append(this.assembleTreeDom(this.treeData, paddingValue));
             treePanel.on('click', function (e) {
                 e.stopPropagation();
@@ -148,7 +148,8 @@
             });
         }, assembleTreeDom: function (nodeArr, paddingValue) {
             var _this = this;
-            paddingValue = paddingValue + 20;
+            var nextPaddingValue = paddingValue + 20;
+
             var ulDom = '';
             if (nodeArr && nodeArr.length > 0) {
                 ulDom = $('<ul class="tree-ul"></ul>');
@@ -184,7 +185,7 @@
                             }
                             e.stopPropagation();
                         });
-                        liDom.append(_this.assembleTreeDom(liData.children, paddingValue));
+                        liDom.append(_this.assembleTreeDom(liData.children, nextPaddingValue));
                     }
                     ulDom.append(liDom);
                     if (!_this.options.expandAll) {//不是全部展开

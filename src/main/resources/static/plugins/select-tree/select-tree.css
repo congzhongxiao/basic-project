@@ -54,6 +54,7 @@
     z-index: 9999;
     background: #FFFFFF;
     display: none;
+    padding: 5px 0;
 }
 .select-tree-container.open .tree-panel{
     display: block;
@@ -76,10 +77,11 @@
     background: #e3e3e3;
 }
 .select-tree-container .tree-panel .tree-option .tree-option-arrow{
-    width: 8px;
-    display: inline-block;
-    background: #1ab394 ;
+    padding: 0 10px;
     position: relative;
+}
+.select-tree-container .tree-panel .tree-option .tree-option-arrow:before{
+    content: '';
 }
 .select-tree-container .tree-panel .tree-option .tree-option-value{
     user-select: none;
@@ -91,8 +93,8 @@
     border-width:  5px;
     height: 0;
     left: 0;
-    margin-left: -2px;
-    margin-top: -10px;
+    margin-left: 10px;
+    margin-top: -5px;
     position: absolute;
     top: 50%;
     width: 0;
@@ -100,6 +102,6 @@
 
 .select-tree-container .tree-panel .tree-option .tree-option-arrow.open b{
     border-color: #999 transparent transparent transparent  ;
-    margin-top: -8px;
-    margin-left: -4px;
+    margin-left: 5px;
+    margin-top: -2px;
 }
