@@ -132,7 +132,15 @@
         initPanelEvent: function () {
             var _this = this;
             _this.selectPanel.on('click', function (e) {
-                _this.container.toggleClass("open");
+
+                //其他的容器处理
+                if(_this.container.hasClass('open')) {
+                    _this.container.removeClass("open");
+                    $(".select-tree-container").removeClass('open');
+                } else {
+                    $(".select-tree-container").removeClass('open');
+                    _this.container.addClass("open");
+                }
                 e.stopPropagation();
             });
             $(document).on('click', function () {
