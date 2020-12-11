@@ -545,7 +545,7 @@
                             if (_ls && _ls.length > 0) {
                                 $.each(_ls, function(index, item) {
                                     // 父icon
-                                    var _p_icon = $("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
+                                    var _p_icon = target.find("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
                                     if (_p_icon.hasClass(options.expanderExpandedClass)) {
                                         $(item).css("display", "table");
                                     }
@@ -750,13 +750,14 @@
         // 展开/折叠指定的行
         target.toggleRow=function(id) {
             var _rowData = target.data_obj["id_" + id];
-            var $row_expander = $("#"+_rowData.row_id).find(".treetable-expander");
+            var $row_expander = target.find("#"+_rowData.row_id).find(".treetable-expander");
             $row_expander.trigger("click");
         }
         // 展开指定的行
         target.expandRow=function(id) {
+
             var _rowData = target.data_obj["id_" + id];
-            var $row_expander = $("#"+_rowData.row_id).find(".treetable-expander");
+            var $row_expander = target.find("#"+_rowData.row_id).find(".treetable-expander");
             var _isCollapsed = $row_expander.hasClass(target.options.expanderCollapsedClass);
             if (_isCollapsed) {
                 $row_expander.trigger("click");
@@ -764,8 +765,9 @@
         }
         // 折叠 指定的行
         target.collapseRow=function(id) {
+
             var _rowData = target.data_obj["id_" + id];
-            var $row_expander = $("#"+_rowData.row_id).find(".treetable-expander");
+            var $row_expander = target.find("#"+_rowData.row_id).find(".treetable-expander");
             var _isExpanded = $row_expander.hasClass(target.options.expanderExpandedClass);
             if (_isExpanded) {
                 $row_expander.trigger("click");
@@ -901,6 +903,7 @@
         },
         // 展开指定的行
         expandRow: function(target, id) {
+
             target.expandRow(id);
         },
         // 折叠 指定的行
