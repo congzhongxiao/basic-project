@@ -5,15 +5,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Result;
-import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.PageUtil;
 import com.basic.entity.User;
 import com.basic.mapper.UserMapper;
 import com.basic.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Map;
 
 @Service
@@ -53,20 +50,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     public User getByUsername(String username) {
         return baseMapper.selectOne(new QueryWrapper<User>().eq("username", username));
-    }
-
-    public boolean add(User user) {
-        try {
-            user.setState(1);
-            user.setIsdel(0);
-            user.setSalt(EncryptionUtil.getRandomString(10));
-            user.setPassword(EncryptionUtil.encryption(user.getUsername(),user.getPassword(),user.getSalt()));
-            user.setCreateTime(new Date());
-            this.baseMapper.insert(user);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
 }

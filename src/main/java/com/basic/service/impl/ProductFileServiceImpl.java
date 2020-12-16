@@ -4,15 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.basic.common.utils.PageUtil;
+import com.basic.entity.ProductFile;
+import com.basic.mapper.ProductFileMapper;
+import com.basic.service.ProductFileService;
 import org.springframework.stereotype.Service;
 
-import com.basic.common.utils.PageUtil;
-
-import com.basic.entity.ProductFile;
-import com.basic.service.ProductFileService;
-import com.basic.mapper.ProductFileMapper;
-
 import java.util.Map;
+
 /**
 *作品文件表ServiceImpl
 *@author: lee

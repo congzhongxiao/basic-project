@@ -1,8 +1,8 @@
 package com.basic.controller.system.role;
 
-import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.utils.StringUtils;
+import com.basic.controller.common.BasicController;
 import com.basic.entity.Role;
 import com.basic.entity.RolePermission;
 import com.basic.service.PermissionService;
@@ -29,25 +29,30 @@ public class RoleController extends BasicController {
     RolePermissionService rolePermissionService;
 
     String prefix = "system/role";
+
     @GetMapping("")
-    public String list(){
+    public String list() {
         return prefix + "/role_list";
     }
 
     @PostMapping("findList")
     @ResponseBody
-    public Result findList(@RequestBody Map map){
+    public Result findList(@RequestBody Map map) {
         return roleService.getPageInfo(map);
     }
 
     @GetMapping("add")
-    public String add(){
+    public String add() {
         return prefix + "/role_add";
     }
+
     @PostMapping("add")
     @ResponseBody
-    public Result doAdd(@Validated Role role){
-        try{
+    public Result doAdd(@Validated Role role) {
+        try {
+            if (roleService.isCodeExist(role)) {
+                return Result.fail("角色编码已存在");
+            }
             roleService.save(role);
             return Result.success();
         } catch (Exception e) {
@@ -56,19 +61,23 @@ public class RoleController extends BasicController {
     }
 
     @GetMapping("update/{id}")
-    public String update(@PathVariable String id, Model model){
+    public String update(@PathVariable String id, Model model) {
         Role role = roleService.getById(id);
-        if(role != null) {
-            model.addAttribute("role",role);
+        if (role != null) {
+            model.addAttribute("role", role);
         } else {
             return redirectNoPage();
         }
         return prefix + "/role_update";
     }
+
     @PostMapping("update")
     @ResponseBody
-    public Result doUpdate(@Validated @ModelAttribute(value = "preloadRole")Role role){
+    public Result doUpdate(@Validated @ModelAttribute(value = "preloadRole") Role role) {
         try {
+            if (roleService.isCodeExist(role)) {
+                return Result.fail("角色编码已存在");
+            }
             roleService.updateById(role);
             return Result.success();
         } catch (Exception e) {
@@ -77,33 +86,33 @@ public class RoleController extends BasicController {
     }
 
     @GetMapping("authorize/{id}")
-    public String authorize(@PathVariable String id, Model model){
+    public String authorize(@PathVariable String id, Model model) {
         Role role = roleService.getById(id);
-        model.addAttribute("role",role) ;
+        model.addAttribute("role", role);
         return prefix + "/role_authorize";
     }
 
     @PostMapping("authorize")
     @ResponseBody
-    public Result doAuthorize(@ModelAttribute(value = "preloadRole")Role role){
+    public Result doAuthorize(@ModelAttribute(value = "preloadRole") Role role) {
         try {
-            if(role != null) {
+            if (role != null) {
                 String roleId = role.getId();
                 String strPermissionIds = request.getParameter("permissionIds");
                 //先把关系删除
-                rolePermissionService.deleteRolePermissionByRoleId(roleId);
-                if(!StringUtils.isEmpty(strPermissionIds)) {//如果有选中的权限
-                    String [] strIds = strPermissionIds.split(",");
+                rolePermissionService.deleteByRoleId(roleId);
+                if (!StringUtils.isEmpty(strPermissionIds)) {//如果有选中的权限
+                    String[] strIds = strPermissionIds.split(",");
                     List<RolePermission> saveRecords = new ArrayList<>();
-                    for(String strId : strIds) {
+                    for (String strId : strIds) {
                         RolePermission temp = new RolePermission();
                         temp.setRoleId(roleId);
-                        if(permissionService.getById(strId) != null) {
+                        if (permissionService.getById(strId) != null) {
                             temp.setPermId(strId);
                             saveRecords.add(temp);
                         }
                     }
-                    if(saveRecords.size() > 0) {
+                    if (saveRecords.size() > 0) {
                         rolePermissionService.saveBatch(saveRecords);
                         return Result.success();
                     }
@@ -112,28 +121,29 @@ public class RoleController extends BasicController {
 
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
 
         }
         return Result.fail();
     }
 
     @ModelAttribute("preloadRole")
-    public Role preloadRole(@RequestParam(value = "id",required = false) String id) {
+    public Role preloadRole(@RequestParam(value = "id", required = false) String id) {
         if (StringUtils.isNotBlank(id)) {
             return roleService.getById(id.trim());
         }
         return null;
     }
+
     @PostMapping("delete")
     @ResponseBody
-    public Result delete(@RequestParam(value = "ids") List<String> ids){
+    public Result delete(@RequestParam(value = "ids") List<String> ids) {
         try {
-            for (String id :ids) {
-                roleService.removeById(id);
+            for (String id : ids) {
+                roleService.deleteRole(id);
             }
             return Result.success();
-        } catch (Exception e){
+        } catch (Exception e) {
             return Result.fail();
         }
     }

@@ -12,5 +12,5 @@ import com.basic.entity.RolePermission;
  * @since 2020-03-10
  */
 public interface RolePermissionService extends IService<RolePermission> {
-    public boolean deleteRolePermissionByRoleId(String roleId);
+    boolean deleteByRoleId(String roleId);
 }

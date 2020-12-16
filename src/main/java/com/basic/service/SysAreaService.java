@@ -1,12 +1,7 @@
 package com.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.basic.common.domain.Result;
 import com.basic.entity.SysArea;
-
-import java.util.List;
-import java.util.Map;
 
 /**
 *行政区划 Service

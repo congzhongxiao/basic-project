@@ -1,8 +1,6 @@
 package com.basic.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.domain.Result;
 import com.basic.entity.Person;
 

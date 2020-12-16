@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <@meta title="用户修改"/>
+    <@meta title="管理员修改"/>
     <@css_common/>
 </head>
 <body class="white-bg">
@@ -10,27 +10,34 @@
     <form class="form-horizontal m" id="form-user-update" >
         <input id="id" name="id" type="hidden" value="${userInfo.id}"/>
         <div class="form-group">
-            <label class="col-sm-3 control-label is-required">用户名：</label>
+            <label class="col-sm-3 control-label is-required">用户账号：</label>
             <div class="col-sm-8">
                 <input class="form-control" type="text" disabled value="${userInfo.username}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label is-required">昵称</label>
+            <label class="col-sm-3 control-label is-required">用户姓名</label>
             <div class="col-sm-8">
-                <input class="form-control" type="text" name="nickname" id="nickname" value="${userInfo.nickname}" required>
+                <input class="form-control required" type="text" name="nickname" id="nickname" value="${userInfo.nickname}"
+                       placeholder="请输入用户姓名" data-msg="请输入用户姓名" >
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label is-required">手机号码</label>
+            <label class="col-sm-3 control-label">手机号码</label>
             <div class="col-sm-8">
-                <input class="form-control" type="text" name="mobile" id="mobile" value="${userInfo.mobile}" required>
+                <input class="form-control" type="text" name="mobile" id="mobile" value="${userInfo.mobile}">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label ">邮箱</label>
             <div class="col-sm-8">
                 <input class="form-control" type="text" name="email" id="email" value="${userInfo.email}" >
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label ">备注</label>
+            <div class="col-sm-8">
+                <textarea class="form-control" rows="3" name="remark" id="remark">${userInfo.remark}</textarea>
             </div>
         </div>
     </form>
@@ -42,11 +49,7 @@
     $("#form-user-update").validate({
         onkeyup: false,
         rules: {
-            nickname:{
-                required:true
-            },
             mobile:{
-                required:true,
                 isPhone:true
             },
             email:{
@@ -55,11 +58,7 @@
 
         },
         messages: {
-            nickname:{
-                required:'请输入昵称'
-            },
             mobile:{
-                required:'请输入手机号码',
                 isPhone: '请输入正确的手机号码格式'
             },
             email:{

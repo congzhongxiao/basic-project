@@ -1,10 +1,10 @@
 package com.basic.controller.person;
 
-import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.poi.ExcelUtil;
 import com.basic.common.utils.StringUtils;
+import com.basic.controller.common.BasicController;
 import com.basic.entity.Person;
 import com.basic.service.PersonService;
 import com.basic.service.SysAreaService;

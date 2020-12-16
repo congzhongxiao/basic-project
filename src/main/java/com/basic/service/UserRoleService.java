@@ -12,5 +12,6 @@ import com.basic.entity.UserRole;
  * @since 2020-03-10
  */
 public interface UserRoleService extends IService<UserRole> {
-    public boolean deleteByUserId(String userId);
+    boolean deleteByUserId(String userId);
+    boolean deleteByRoleId(String roleId);
 }

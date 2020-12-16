@@ -1,8 +1,9 @@
 package com.basic.mapper;
 
-import com.basic.entity.SysOperateLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.basic.entity.SysOperateLog;
 import org.springframework.stereotype.Component;
+
 /**
 *操作日志 Mapper
 *@author: lee

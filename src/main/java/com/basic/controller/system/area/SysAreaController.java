@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -25,7 +24,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/area")
-public class SysAreaController extends BasicController{
+public class SysAreaController extends BasicController {
     String prefix = "area";
     @Autowired
     SysAreaService sysAreaService;

@@ -11,7 +11,13 @@
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">角色名称：</label>
             <div class="col-sm-8">
-                <input class="form-control" type="text" name="name" id="name" required placeholder="请输入角色名称">
+                <input class="form-control required" type="text" name="name" id="name" data-msg="请输入角色名称"  placeholder="请输入角色名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">角色编码：</label>
+            <div class="col-sm-8">
+                <input class="form-control required" type="text" name="code" id="code" data-msg="请输入角色编码"  placeholder="请输入角色编码">
             </div>
         </div>
         <div class="form-group">

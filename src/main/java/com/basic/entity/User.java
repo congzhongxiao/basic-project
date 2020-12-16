@@ -2,7 +2,6 @@ package com.basic.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author lee
@@ -54,33 +53,6 @@ public class User extends Model<User> {
      */
     @NotEmpty(message = "昵称不能为空")
     private String nickname;
-
-    /**
-     * 头像地址
-     */
-    private String icon;
-
-    /**
-     * 用户状态，0禁用，1启用
-     */
-    private Integer state;
-
-    /**
-     * 删除状态 0未删除，1删除
-     */
-    @TableLogic
-    private Integer isdel;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-
     /**
      * 电子邮箱
      */
@@ -93,10 +65,35 @@ public class User extends Model<User> {
     private String mobile;
 
     /**
-     * 删除时间
+     * 头像地址
      */
-    private Date deleteTime;
+    private String icon;
 
+    /**
+     * 用户状态，0禁用，1启用
+     */
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+    /**
+     * 创建者账号
+     */
+    private String createBy;
+    /**
+     * 更新时间
+     */
+    private Date updateTime;
+    /**
+     * 更新者账号
+     */
+    private String updateBy;
+    /**
+     * 备注
+     */
+    private String remark;
 
     @Override
     protected Serializable pkVal() {

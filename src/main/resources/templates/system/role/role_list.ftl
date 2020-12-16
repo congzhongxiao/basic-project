@@ -50,6 +50,10 @@
                     title: '角色名称'
                 },
                 {
+                    field: 'code',
+                    title: '角色编码'
+                },
+                {
                     field: 'comment',
                     title: '角色描述'
                 },

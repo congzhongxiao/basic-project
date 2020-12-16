@@ -102,7 +102,7 @@
 
 <body class="login-page">
 <div class="login-panel">
-    <div class="login-title">登录</div>
+    <div class="login-title">欢迎登录</div>
     <form role="form">
         <div class="login-form-group">
             <span class="input-icon"><i class="fa fa-user"></i></span>

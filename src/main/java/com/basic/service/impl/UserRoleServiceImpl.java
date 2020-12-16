@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.entity.UserRole;
 import com.basic.mapper.UserRoleMapper;
 import com.basic.service.UserRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +20,15 @@ public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> i
     public boolean deleteByUserId(String userId){
         try {
             baseMapper.delete(new QueryWrapper<UserRole>().eq("user_id",userId));
+            return true;
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+    public boolean deleteByRoleId(String roleId){
+        try {
+            baseMapper.delete(new QueryWrapper<UserRole>().eq("role_id",roleId));
             return true;
         } catch (Exception e) {
 

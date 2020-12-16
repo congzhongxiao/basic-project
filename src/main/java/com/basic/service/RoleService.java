@@ -1,6 +1,5 @@
 package com.basic.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.common.domain.Result;
 import com.basic.entity.Role;
@@ -16,4 +15,7 @@ public interface RoleService extends IService<Role> {
      Result getPageInfo(Map<String, Object> queryParam) ;
      List<Role> getRoleListByUserId(String userId);
      List<Role> getAllRoles();
+     boolean isCodeExist(Role role);
+     void deleteRole(String id);
+
 }

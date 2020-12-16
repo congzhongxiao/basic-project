@@ -1,8 +1,8 @@
 package com.basic.common.poi;
 
 import com.basic.common.annotation.Excel;
-import com.basic.common.annotation.Excel.Type;
 import com.basic.common.annotation.Excel.ColumnType;
+import com.basic.common.annotation.Excel.Type;
 import com.basic.common.annotation.Excels;
 import com.basic.common.config.Global;
 import com.basic.common.domain.Result;

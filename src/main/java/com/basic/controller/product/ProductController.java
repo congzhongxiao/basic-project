@@ -1,9 +1,9 @@
 package com.basic.controller.product;
 
-import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.StringUtils;
+import com.basic.controller.common.BasicController;
 import com.basic.entity.Product;
 import com.basic.entity.UploadFiles;
 import com.basic.service.ProductImageService;

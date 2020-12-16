@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.basic.entity.Role">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="code" property="code" />
         <result column="comment" property="comment" />
     </resultMap>
     <select id="getRoleListByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">

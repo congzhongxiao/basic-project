@@ -34,6 +34,11 @@ public class Role extends Model<Role> {
      */
     @NotEmpty(message = "角色名称不能为空")
     private String name;
+    /**
+     * 角色编码
+     */
+    @NotEmpty(message = "角色编码不能为空")
+    private String code;
 
     /**
      * 备注

@@ -1,7 +1,6 @@
 package com.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.domain.Result;
 import com.basic.entity.Product;
 
@@ -15,7 +14,7 @@ import java.util.Map;
 */
 public interface ProductService extends IService<Product> {
     Result getPageInfo(Map<String, Object> queryParam);
-    void addProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
-    void updateProduct(Product product, List<String> mainImageIds,List<String> tempFileIds);
+    void addProduct(Product product, List<String> mainImageIds, List<String> tempFileIds);
+    void updateProduct(Product product, List<String> mainImageIds, List<String> tempFileIds);
     void removeProduct(String id);
 }

@@ -1,8 +1,9 @@
 package com.basic.mapper;
 
-import com.basic.entity.ProductFile;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.basic.entity.ProductFile;
 import org.springframework.stereotype.Component;
+
 /**
 *作品文件表 Mapper
 *@author: lee

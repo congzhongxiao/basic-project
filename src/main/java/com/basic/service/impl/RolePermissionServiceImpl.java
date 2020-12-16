@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
     @Autowired
     RolePermissionMapper rolePermissionMapper;
-    public boolean deleteRolePermissionByRoleId(String roleId) {
+    public boolean deleteByRoleId(String roleId) {
         try {
             this.rolePermissionMapper.delete(new QueryWrapper<RolePermission>().eq("role_id",roleId));
             return true;

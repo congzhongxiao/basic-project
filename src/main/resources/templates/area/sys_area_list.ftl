@@ -31,7 +31,7 @@
         }
         $.modal.open("新增行政区划",prefix + "/addChild/" + id);
     }
-    function remove(id,pid){
+    function remove(id){
         $.modal.confirm("确定删除该条行政区划信息吗？", function () {
             var url = prefix + "/delete";
             var data = {"id": id};
@@ -84,7 +84,7 @@
                     var actions = [];
                     actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="addChild(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增</a> ');
                     actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                    actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.id + '\',\'' + row.pid + '\')"><i class="fa fa-remove"></i>删除</a>');
+                    actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                     return actions.join('');
                 }
             }]

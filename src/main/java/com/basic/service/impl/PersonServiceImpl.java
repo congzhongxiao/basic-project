@@ -5,15 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Result;
-import com.basic.common.utils.StringUtils;
-import org.springframework.stereotype.Service;
-
 import com.basic.common.utils.PageUtil;
-
 import com.basic.entity.Person;
-import com.basic.service.PersonService;
 import com.basic.mapper.PersonMapper;
-import org.springframework.transaction.annotation.Transactional;
+import com.basic.service.PersonService;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;

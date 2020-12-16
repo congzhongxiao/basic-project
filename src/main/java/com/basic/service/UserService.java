@@ -1,6 +1,5 @@
 package com.basic.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.common.domain.Result;
 import com.basic.entity.User;
@@ -14,5 +13,4 @@ import java.util.Map;
 public interface UserService extends IService<User> {
     Result getPageInfo(Map<String, Object> queryParam);
     User getByUsername(String username);
-    boolean add(User user);
 }

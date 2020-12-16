@@ -1,8 +1,8 @@
 package com.basic.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.entity.Person;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -16,5 +16,5 @@ import java.util.Map;
 */
 @Component
 public interface PersonMapper extends BaseMapper<Person> {
-    List<Person> getPersonPage(IPage params, @Param("queryParam")Map<String,Object> queryParam);
+    List<Person> getPersonPage(IPage params, @Param("queryParam") Map<String, Object> queryParam);
 }

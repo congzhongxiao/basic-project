@@ -4,10 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Ztree;
+import com.basic.common.utils.StringUtils;
 import com.basic.entity.Permission;
 import com.basic.mapper.PermissionMapper;
 import com.basic.service.PermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +28,21 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return baseMapper.getPermissionListByRoleId(roleId);
     }
 
+    public boolean isCodeExist(Permission permission){
+        List<Permission> exist = baseMapper.selectList(new QueryWrapper<Permission>().eq("code",permission.getCode()));
+        if(exist != null && exist.size() > 0) {
+            if(StringUtils.isNotBlank(permission.getId())) {
+                if(!(exist.size() == 1 && StringUtils.equals(exist.get(0).getId(),permission.getId()))) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public List getPermissionListByCode(String code) {
         return baseMapper.selectList(new QueryWrapper<Permission>().eq("code", code));
     }
@@ -35,8 +50,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public int deleteById(String id) {
         Permission permission = baseMapper.selectById(id);
         if (permission != null) {
-            List<Permission> childs = baseMapper.selectList(new QueryWrapper<Permission>().eq("pid", id));
-            if (childs != null && childs.size() > 0) {
+            List<Permission> children = baseMapper.selectList(new QueryWrapper<Permission>().eq("pid", id));
+            if (children != null && children.size() > 0) {
                 return -1;//存在子权限
             } else {
                 baseMapper.deleteById(id);
@@ -50,7 +65,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return installTree(permissionList,null);
     }
 
-    private List<Ztree> installTree(List<Permission> permissionList,List<Permission> checkedList) {
+    private List<Ztree> installTree(List<Permission> permissionList, List<Permission> checkedList) {
         List<Ztree> treeList = new ArrayList<Ztree>();
         if (permissionList != null && permissionList.size() > 0) {
             for (Permission permission : permissionList) {

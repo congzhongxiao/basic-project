@@ -1,12 +1,12 @@
 package com.basic.controller.system.user;
 
 import com.basic.common.annotation.Log;
-import com.basic.controller.common.BasicController;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.enums.BusinessType;
 import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.StringUtils;
+import com.basic.controller.common.BasicController;
 import com.basic.entity.Role;
 import com.basic.entity.User;
 import com.basic.entity.UserRole;
@@ -67,17 +67,17 @@ public class UserController extends BasicController {
             if (!confirmPassword.equals(user.getPassword())) {
                 return Result.fail("密码和确认密码不一致！");
             }
-            boolean result = userService.add(user);
-            if (result) {
-                return Result.success("用户创建成功！");
-            } else {
-                return Result.fail("创建保存异常！");
-            }
+            user.setStatus(1);
+            user.setSalt(EncryptionUtil.getRandomString(10));
+            user.setPassword(EncryptionUtil.encryption(user.getPassword(),user.getSalt()));
+            user.setCreateTime(new Date());
+            user.setCreateBy(getCurrentUser().getUsername());
+            userService.save(user);
+            return Result.success("操作成功！");
         } catch (Exception e) {
             return Result.fail("创建保存异常！");
         }
     }
-
 
     //用户名唯一检查
     @PostMapping("checkUserName")
@@ -98,8 +98,8 @@ public class UserController extends BasicController {
         try {
             User user = userService.getById(id);
             if (user != null) {
-                String message = user.getState() == 1 ? "用户禁用成功！" : "用户启用成功！";
-                user.setState(user.getState() == 0 ? 1 : 0);
+                String message = user.getStatus() == 1 ? "用户禁用成功！" : "用户启用成功！";
+                user.setStatus(user.getStatus() == 0 ? 1 : 0);
                 userService.updateById(user);
                 return Result.success(message);
             } else {
@@ -149,11 +149,11 @@ public class UserController extends BasicController {
             return Result.fail("请输入新密码");
         }
         User user = getCurrentUser();
-        if(!StringUtils.equals(EncryptionUtil.encryption(user.getUsername(),oldPassword,user.getSalt()),user.getPassword())) {
+        if(!StringUtils.equals(EncryptionUtil.encryption(oldPassword,user.getSalt()),user.getPassword())) {
             return Result.fail("原密码不正确");
         }
         user.setSalt(EncryptionUtil.getRandomString(10));
-        user.setPassword(EncryptionUtil.encryption(user.getUsername(),newPassword,user.getSalt()));
+        user.setPassword(EncryptionUtil.encryption(newPassword,user.getSalt()));
         userService.updateById(user);
         return Result.success("密码重置成功");
     }
@@ -216,6 +216,8 @@ public class UserController extends BasicController {
                 userInfo.setEmail(user.getEmail());
                 userInfo.setMobile(user.getMobile());
                 userInfo.setUpdateTime(new Date());
+                userInfo.setRemark(user.getRemark());
+                userInfo.setUpdateBy(getCurrentUser().getUsername());
                 userService.updateById(userInfo);
                 return Result.success("信息修改成功");
             } else {

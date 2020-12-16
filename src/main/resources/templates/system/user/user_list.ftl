@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <@meta title="用户管理"/>
+    <@meta title="管理员管理"/>
     <@css_common/>
 </head>
 <body class="gray-bg">
@@ -13,19 +13,17 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            用户名：<input type="text" name="username"/>
+                            用户账号：<input type="text" name="username"/>
                         </li>
                         <li>
-                            昵称：<input type="text" name="nickname"/>
+                            用户姓名：<input type="text" name="nickname"/>
                         </li>
                         <li>
                             手机号码：<input type="text" name="mobile"/>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
-                                        class="fa fa-search"></i>&nbsp;搜索</a>
-                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
-                                        class="fa fa-refresh"></i>&nbsp;重置</a>
+                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                         </li>
                     </ul>
                 </div>
@@ -52,14 +50,14 @@
 
     /* 用户管理-停用 */
     function disable(id) {
-        $.modal.confirm("确认要停用用户吗？", function () {
+        $.modal.confirm("确认要停用管理员用户吗？", function () {
             $.operate.post(prefix + "/state", {"id": id});
         })
     }
 
     /* 用户管理启用 */
     function enable(id) {
-        $.modal.confirm("确认要启用用户吗？", function () {
+        $.modal.confirm("确认要启用管理员用户吗？", function () {
             $.operate.post(prefix + "/state", {"id": id});
         })
     }
@@ -75,7 +73,7 @@
             createUrl: prefix + "/add",
             updateUrl: prefix + "/update/{id}",
             removeUrl: prefix + "/delete",
-            modalName: "用户",
+            modalName: "管理员",
             uniqueId: "id",
             columns: [{
                 checkbox: true
@@ -89,11 +87,11 @@
                 },
                 {
                     field: 'username',
-                    title: '用户名'
+                    title: '用户账号'
                 },
                 {
                     field: 'nickname',
-                    title: '昵称'
+                    title: '用户姓名'
                 },
                 {
                     field: 'mobile',
@@ -104,11 +102,11 @@
                     title: '邮箱'
                 },
                 {
-                    field: 'state',
+                    field: 'status',
                     title: '状态',
                     align: 'center',
                     formatter: function (value, row, index) {
-                        if (row.state == 1) {
+                        if (row.status == 1) {
                             return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
                         } else {
                             return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';

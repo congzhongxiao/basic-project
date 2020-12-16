@@ -1,7 +1,6 @@
 package com.basic.service;
 
 import com.basic.common.exception.user.UserBlockedException;
-import com.basic.common.exception.user.UserDeleteException;
 import com.basic.common.exception.user.UserNotExistsException;
 import com.basic.common.exception.user.UserPasswordNotMatchException;
 import com.basic.common.utils.EncryptionUtil;
@@ -29,10 +28,7 @@ public class LoginService {
         if (user == null) {
             throw new UserNotExistsException();
         }
-        if ("1".equals(user.getIsdel())) {
-            throw new UserDeleteException();
-        }
-        if ("0".equals(user.getState())) {
+        if (user.getStatus() == 0) {
             throw new UserBlockedException();
         }
         validate(user, password);
@@ -46,6 +42,6 @@ public class LoginService {
     }
 
     public boolean matches(User user, String newPassword) {
-        return user.getPassword().equals(EncryptionUtil.encryption(user.getUsername(), newPassword, user.getSalt()));
+        return user.getPassword().equals(EncryptionUtil.encryption(newPassword, user.getSalt()));
     }
 }

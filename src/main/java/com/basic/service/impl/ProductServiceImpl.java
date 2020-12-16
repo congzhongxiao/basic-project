@@ -5,20 +5,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Result;
+import com.basic.common.utils.PageUtil;
+import com.basic.entity.Product;
 import com.basic.entity.ProductFile;
 import com.basic.entity.ProductImage;
-import com.basic.mapper.ProductFileMapper;
-import com.basic.mapper.ProductImageMapper;
+import com.basic.mapper.ProductMapper;
 import com.basic.service.ProductFileService;
 import com.basic.service.ProductImageService;
+import com.basic.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.basic.common.utils.PageUtil;
-
-import com.basic.entity.Product;
-import com.basic.service.ProductService;
-import com.basic.mapper.ProductMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

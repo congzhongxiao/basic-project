@@ -1,7 +1,7 @@
 package com.basic.mapper;
 
-import com.basic.entity.SysArea;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.basic.entity.SysArea;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

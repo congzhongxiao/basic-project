@@ -1,9 +1,11 @@
 package com.basic.controller.system.permission;
 
-import com.basic.controller.common.BasicController;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.basic.common.domain.Result;
+import com.basic.common.domain.ResultCode;
 import com.basic.common.domain.Ztree;
 import com.basic.common.utils.StringUtils;
+import com.basic.controller.common.BasicController;
 import com.basic.entity.Permission;
 import com.basic.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class PermissionController extends BasicController {
     @Autowired
     PermissionService permissionService;
     String prefix = "system/permission";
+
     @GetMapping("")
     public String list() {
         return prefix + "/permission_list";
@@ -28,40 +31,64 @@ public class PermissionController extends BasicController {
     //列表数据
     @PostMapping("findList")
     @ResponseBody
-    public Result findList() {
-
-        return Result.success(permissionService.list());
+    public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        if (StringUtils.isNotBlank(pid)) {
+            queryWrapper.eq("pid", pid);
+        } else {
+            queryWrapper.eq("pid", "0");
+        }
+        queryWrapper.orderByDesc("id");
+        return Result.success(permissionService.list(queryWrapper));
     }
 
-    @GetMapping("add/{pid}")
-    public String add(@PathVariable("pid") String pid, Model model) {
+    //添加根页面跳转
+    @GetMapping("addRoot")
+    public String addRoot() {
+        return prefix + "/permission_root_add";
+    }
+
+    @PostMapping("addRoot")
+    @ResponseBody
+    public Result doAddRoot(@Validated Permission permission) {
+        try {
+            if (permissionService.isCodeExist(permission)) {
+                return Result.fail("权限编码已存在。");
+            }
+            permission.setPid("0");
+            permissionService.save(permission);
+            return Result.success(permission);
+        } catch (Exception ex) {
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+        }
+    }
+
+    //添加根页面跳转
+    @GetMapping("addChild/{pid}")
+    public String addChild(@PathVariable String pid, Model model) {
         Permission parent = permissionService.getById(pid);
         if (parent == null) {
-            parent = new Permission();
-            parent.setId("0");
+            return redirectNoPage();
         }
         model.addAttribute("parent", parent);
-        return prefix + "/permission_add";
+        return prefix + "/permission_child_add";
     }
 
-    @PostMapping("add")
+    //添加页面数据提交
+    @PostMapping("addChild")
     @ResponseBody
-    public Result doAdd(@Validated Permission permission) {
-        String pid = request.getParameter("pid");
-        if (StringUtils.isEmpty(pid)) {
-            pid = "0";
-        }
-        permission.setPid(pid);
-        List<Permission> exists =  permissionService.getPermissionListByCode(permission.getCode());
-        if(exists != null && exists.size() > 0) {
-            return Result.fail("权限编码已存在");
-        }
-        boolean isSuccess = permissionService.save(permission);
-        if (isSuccess) {
+    public Result doAddChild(@Validated Permission permission) {
+        try {
+            if (permissionService.isCodeExist(permission)) {
+                return Result.fail("权限编码已存在");
+            }
+            permissionService.save(permission);
             return Result.success(permission);
+        } catch (Exception e) {
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
-        return Result.fail();
     }
+
 
     @GetMapping("selectPermissionTree/{id}")
     public String selectPermissionTree(@PathVariable("id") String id, Model model) {
@@ -85,12 +112,8 @@ public class PermissionController extends BasicController {
     @GetMapping("update/{id}")
     public String update(@PathVariable String id, Model model) {
         Permission permission = permissionService.getById(id);
-        if(permission != null) {
+        if (permission != null) {
             Permission parent = permissionService.getById(permission.getPid());
-            if(parent == null) {
-                parent = new Permission();
-                parent.setId("0");
-            }
             model.addAttribute("parent", parent);
             model.addAttribute("permission", permission);
         } else {
@@ -102,12 +125,12 @@ public class PermissionController extends BasicController {
     @PostMapping("update")
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadPermission") Permission permission) {
-        List<Permission> exists =  permissionService.getPermissionListByCode(permission.getCode());
-        if(exists != null && exists.size() > 0) {
-            if(exists.size() != 1) {
+        List<Permission> exists = permissionService.getPermissionListByCode(permission.getCode());
+        if (exists != null && exists.size() > 0) {
+            if (exists.size() != 1) {
                 return Result.fail("权限编码已存在");
             } else {
-                if(!(exists.get(0).getId()).equals(permission.getId())){
+                if (!(exists.get(0).getId()).equals(permission.getId())) {
                     return Result.fail("权限编码已存在");
                 }
             }
@@ -124,46 +147,25 @@ public class PermissionController extends BasicController {
         return null;
     }
 
-    @GetMapping("delete/{id}")
+    //删除根据ids数组删除数据
+    @PostMapping("delete")
     @ResponseBody
-    public Result delete(@PathVariable("id") String id) {
+    public Result delete(@RequestParam(value = "id") String id) {
         try {
-            int result = permissionService.deleteById(id);
-            if (result == -1) {
-                return Result.fail("存在子权限，删除失败！");
-            }
-            return Result.success();
-        } catch (Exception e) {
-            return Result.fail("权限删除异常！");
-        }
-    }
-
-    /**
-     * 根据编码和id判断是否存在
-     * id默认值-1  新增情况
-     *
-     * @param code
-     * @param id
-     * @return
-     */
-    @PostMapping("checkCode")
-    @ResponseBody
-    public boolean checkCode(@RequestParam(value = "code") String code, @RequestParam(value = "id", defaultValue = "-1") String id) {
-        List<Permission> permissionList = permissionService.getPermissionListByCode(code);
-        if (permissionList != null && permissionList.size() > 0) {
-            if ("-1".equals(id)) {
-                return false;
+            Permission permission = permissionService.getById(id);
+            if (permission != null) {
+               int result = permissionService.deleteById(id);
+               if(result == -1) {
+                   return Result.fail("该权限存在子权限，无法删除");
+               } else {
+                   return Result.success(permission);
+               }
             } else {
-                for (Permission per : permissionList) {
-                    if (per.getId().equals(id)) {
-                        return true;
-                    }
-                }
+                return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
-        } else {
-            return true;
+        } catch (Exception e) {
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
-        return false;
     }
 
     //ztree加载数据

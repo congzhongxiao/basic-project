@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
-    <title>后台管理系统</title>
+    <title>公司后台管理系统</title>
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
@@ -27,11 +27,11 @@
         <div class="nav navbar-left-header">
             <a href="javascript:void(0);">
                 <div class="logo">
-                    <span class="logo-lg">后台管理系统</span>
+                    <span class="logo-lg">公司后台管理系统</span>
                 </div>
                 <div class="mini-logo hide">
                         <span class="logo-lg">
-                           HT
+                           Lee
                         </span>
                 </div>
             </a>
@@ -50,13 +50,15 @@
                     <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">系统管理</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="menuItem" href="${ctx}/user">用户管理</a></li>
+                        <li><a class="menuItem" href="${ctx}/user">管理员管理</a></li>
                         <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
                         <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
+                        <li><a class="menuItem" href="${ctx}/dictionary">字典管理</a></li>
                         <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
                         <li><a class="menuItem" href="${ctx}/server">服务监控</a></li>
                     </ul>
                 </li>
+
             </ul>
         </div>
     </nav>

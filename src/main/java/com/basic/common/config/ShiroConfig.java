@@ -1,7 +1,7 @@
 package com.basic.common.config;
 
-import com.basic.common.utils.StringUtils;
 import com.basic.common.shiro.realm.UserRealm;
+import com.basic.common.utils.StringUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.config.ConfigurationException;
