@@ -1,10 +1,10 @@
 package com.basic.controller;
 
-import com.basic.common.annotation.Log;
 import com.basic.common.domain.Result;
-import com.basic.common.enums.BusinessType;
+import com.basic.common.exception.user.CaptchaException;
 import com.basic.common.utils.ServletUtils;
 import com.basic.common.utils.StringUtils;
+import com.google.code.kaptcha.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -23,29 +23,29 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     @GetMapping("")
     public String login(HttpServletRequest request, HttpServletResponse response) {
-        if (ServletUtils.isAjaxRequest(request))
-        {
+        if (ServletUtils.isAjaxRequest(request)) {
             return ServletUtils.renderString(response, "{\"success\":\"false\",\"message\":\"未登录或登录超时。请重新登录\"}");
         }
         return "/login";
     }
-    @Log(name = "系统登录",type = BusinessType.LOGIN)
+
     @PostMapping("")
     @ResponseBody
-    public Result doLogin(String username, String password) {
+    public Result doLogin(String username, String password, String validateCode) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
-        try
-        {
-            subject.login(token);
-            return Result.success("登录成功");
+        try {
+            String captchaCode = (String) subject.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+            if (StringUtils.isNotBlank(validateCode) && StringUtils.equals(validateCode, captchaCode)) {
+                subject.login(token);
+                return Result.success("登录成功");
+            } else {
+                return Result.fail("验证码不正确");
+            }
 
-        }
-        catch (AuthenticationException e)
-        {
+        } catch (AuthenticationException e) {
             String msg = "用户或密码错误";
-            if (StringUtils.isNotEmpty(e.getMessage()))
-            {
+            if (StringUtils.isNotEmpty(e.getMessage())) {
                 msg = e.getMessage();
             }
             return Result.fail(msg);

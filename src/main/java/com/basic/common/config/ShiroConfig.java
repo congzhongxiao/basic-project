@@ -130,6 +130,7 @@ public class ShiroConfig {
         // 对静态资源设置匿名访问
         filterChainDefinitionMap.put("/static/**", "anon");
         filterChainDefinitionMap.put("/profile/**", "anon");
+        filterChainDefinitionMap.put("/captcha/**", "anon");
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问

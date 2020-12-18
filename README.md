@@ -2,7 +2,7 @@
 
 #### 介绍
 配合Springboot+Shiro+MybatisPlus+FreeMarker 简单集成Ruoyi的UI框架，可作为项目研发快速开发原型。
-
+分支测试
 #### 软件架构
 软件架构说明：
 
