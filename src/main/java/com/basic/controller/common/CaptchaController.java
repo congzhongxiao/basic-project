@@ -1,4 +1,4 @@
-package com.basic.common.base;
+package com.basic.controller.common;
 
 import com.basic.common.utils.StringUtils;
 import com.google.code.kaptcha.Constants;

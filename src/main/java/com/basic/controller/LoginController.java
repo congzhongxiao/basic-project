@@ -1,5 +1,6 @@
 package com.basic.controller;
 
+import com.basic.common.config.Global;
 import com.basic.common.domain.Result;
 import com.basic.common.exception.user.CaptchaException;
 import com.basic.common.utils.ServletUtils;
@@ -10,6 +11,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/login")
 public class LoginController {
     @GetMapping("")
-    public String login(HttpServletRequest request, HttpServletResponse response) {
+    public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
         if (ServletUtils.isAjaxRequest(request)) {
             return ServletUtils.renderString(response, "{\"success\":\"false\",\"message\":\"未登录或登录超时。请重新登录\"}");
         }
+        model.addAttribute("isCaptchaLogin", Global.isCaptchaLogin());
+        model.addAttribute("captchaType", Global.getCaptchaType());
         return "/login";
     }
 
@@ -35,14 +39,18 @@ public class LoginController {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         Subject subject = SecurityUtils.getSubject();
         try {
-            String captchaCode = (String) subject.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
-            if (StringUtils.isNotBlank(validateCode) && StringUtils.equals(validateCode, captchaCode)) {
+            if (Global.isCaptchaLogin()) {
+                String captchaCode = (String) subject.getSession().getAttribute(Constants.KAPTCHA_SESSION_KEY);
+                if (StringUtils.isNotBlank(validateCode) && StringUtils.equals(validateCode, captchaCode)) {
+                    subject.login(token);
+                    return Result.success("登录成功");
+                } else {
+                    return Result.fail("验证码不正确");
+                }
+            } else {
                 subject.login(token);
                 return Result.success("登录成功");
-            } else {
-                return Result.fail("验证码不正确");
             }
-
         } catch (AuthenticationException e) {
             String msg = "用户或密码错误";
             if (StringUtils.isNotEmpty(e.getMessage())) {

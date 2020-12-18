@@ -14,16 +14,35 @@ public class Global {
     private static String version;//版本
     private static String copyright;//版权年份
     private static String profile;//上传路径
+    private static boolean captchaLogin;//验证码登录开关
+    private static String captchaType;//验证码类型
+
     private static boolean addressEnabled;//获取ip地址开关
 
     public static final String RESOURCE_PREFIX = "/profile";
 
 
+    public static boolean isCaptchaLogin() {
+        return captchaLogin;
+    }
+
+    public void setCaptchaLogin(boolean captchaLogin) {
+        Global.captchaLogin = captchaLogin;
+    }
+
+    public static String getCaptchaType() {
+        return captchaType;
+    }
+
+    public void setCaptchaType(String captchaType) {
+        Global.captchaType = captchaType;
+    }
+
     public static String getName() {
         return name;
     }
 
-    public  void setName(String name) {
+    public void setName(String name) {
         Global.name = name;
     }
 
@@ -31,7 +50,7 @@ public class Global {
         return version;
     }
 
-    public  void setVersion(String version) {
+    public void setVersion(String version) {
         Global.version = version;
     }
 
@@ -39,7 +58,7 @@ public class Global {
         return copyright;
     }
 
-    public  void setCopyright(String copyright) {
+    public void setCopyright(String copyright) {
         Global.copyright = copyright;
     }
 
@@ -47,7 +66,7 @@ public class Global {
         return profile;
     }
 
-    public  void setProfile(String profile) {
+    public void setProfile(String profile) {
         Global.profile = profile;
     }
 
@@ -55,31 +74,28 @@ public class Global {
         return addressEnabled;
     }
 
-    public  void setAddressEnabled(boolean addressEnabled) {
+    public void setAddressEnabled(boolean addressEnabled) {
         Global.addressEnabled = addressEnabled;
     }
 
     /**
      * 获取头像上传路径
      */
-    public static String getAvatarPath()
-    {
+    public static String getAvatarPath() {
         return getProfile() + "/avatar";
     }
 
     /**
      * 获取下载路径
      */
-    public static String getDownloadPath()
-    {
+    public static String getDownloadPath() {
         return getProfile() + "/download/";
     }
 
     /**
      * 获取上传路径
      */
-    public static String getUploadPath()
-    {
+    public static String getUploadPath() {
         return getProfile() + "/upload";
     }
 

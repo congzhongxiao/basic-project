@@ -52,25 +52,26 @@
             left: 50%;
             transform: translateY(-50%) translateX(-50%);
             width: 430px;
-            height: 370px;
+            height: 400px;
             background: #FFFFFF;
             padding: 25px;
+            border-radius: 4px;
         }
 
         .login-title {
             color: #3c8dbc;
             font-size: 25px;
             text-align: center;
-            padding: 10px;
+            padding: 0px 10px 10px 10px;
             border-bottom: 1px solid #d8d6d6;
         }
 
-        .login-form-group {
+        .login-row {
             margin: 20px 0;
             position: relative;
         }
 
-        .login-form-group input {
+        .form-input {
             width: 100%;
             border: 1px solid #c6c6c6;
             height: 50px;
@@ -79,13 +80,18 @@
             outline: none;
         }
 
-        .login-form-group .input-icon {
+        .code {
+            padding: 8px;
+        }
+
+        .input-icon {
             position: absolute;
             top: 10px;
-            left: 15px;
+            left: 30px;
             font-size: 22px;
             color: #b1b1b1;
         }
+
         .login-btn {
             width: 100%;
             height: 50px;
@@ -94,7 +100,8 @@
             color: #FFFFFF;
             font-size: 18px;
         }
-        .login-btn:hover{
+
+        .login-btn:hover {
             background: #347ba5;
         }
     </style>
@@ -102,19 +109,40 @@
 
 <body class="login-page">
 <div class="login-panel">
-    <div class="login-title">欢迎登录</div>
-    <form role="form">
-        <div class="login-form-group">
-            <span class="input-icon"><i class="fa fa-user"></i></span>
-            <input placeholder="请输入登录帐号" id="username" name="username" type="text" value="" autofocus>
+    <div class="login-title">欢迎登录后台管理系统</div>
+    <input type="hidden" id="captchaType" value="${captchaType}">
+    <form role="form" class="form-horizontal">
+        <div class="row login-row">
+            <div class="col-xs-12">
+                <span class="input-icon"><i class="fa fa-user"></i></span>
+                <input class="form-input" placeholder="请输入登录帐号" id="username" name="username" type="text" value="admin"
+                       autofocus>
+            </div>
         </div>
-        <div class="login-form-group">
-            <span class="input-icon"><i class="fa fa-lock"></i></span>
-            <input class="" placeholder="请输入密码" id="password" name="password" value=""
-                   type="password">
+        <div class="row login-row">
+            <div class="col-xs-12">
+                <span class="input-icon"><i class="fa fa-lock"></i></span>
+                <input class="form-input" placeholder="请输入密码" id="password" name="password" value="admin"
+                       type="password">
+            </div>
         </div>
-        <div class="login-form-group">
-            <button id="login" class="login-btn" type="submit" >登录</button>
+        <#if isCaptchaLogin == 'true'>
+            <div class="row login-row">
+                <div class="col-xs-6">
+                    <input placeholder="请输入验证码" class="form-input code" id="validateCode" name="validateCode" value=""
+                           maxlength="4"
+                           type="text">
+                </div>
+                <div class="col-xs-6"><a href="javascript:void(0);" title="点击更换验证码">
+                        <img class="captchaImage" style="width: 100%;height: 50px;"/>
+                    </a></div>
+            </div>
+        </#if>
+
+        <div class="row login-row">
+            <div class="col-xs-12">
+                <button id="login" class="login-btn" type="submit">登录</button>
+            </div>
         </div>
     </form>
 </div>
@@ -124,7 +152,23 @@
 <script src="${ctx}/static/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/plugins/layer/layer.min.js"></script>
 <script>
+<#if isCaptchaLogin == 'true'>
+    function getCaptcha() {
+       var captchaType = $("#captchaType").val();
+       if(captchaType != 'math' && captchaType != 'char') {
+           captchaType = 'char';
+       }
+        var url = "${ctx}/captcha/captchaImage?type=" + captchaType;
+        $(".captchaImage").attr("src", url);
+    }
+</#if>
     $(function () {
+        <#if isCaptchaLogin == 'true'>
+        getCaptcha();
+        $(".captchaImage").click(function () {
+            getCaptcha();
+        });
+        </#if>
         if (top != self) {
             layer.alert('未登录或登录超时，请重新登录',
                 {
@@ -135,6 +179,8 @@
                     top.location = self.location;
                 });
         }
+
+
         $("#login").click(function () {
             if (!$("#username").val()) {
                 layer.msg('请输入登录帐号', {time: 1000});
@@ -144,6 +190,12 @@
                 layer.msg('请输入密码', {time: 1000});
                 return false;
             }
+            <#if isCaptchaLogin == 'true'>
+            if (!$("#validateCode").val()) {
+                layer.msg('请输入验证码', {time: 1000});
+                return false;
+            }
+            </#if>
             $.ajax({
                 url: '/login',
                 type: 'post',
@@ -155,6 +207,9 @@
                             window.location.href = "${ctx}/";
                         });
                     } else {
+                        <#if isCaptchaLogin == 'true'>
+                        getCaptcha();
+                        </#if>
                         layer.open({
                             title: '登录失败',
                             icon: 5,
