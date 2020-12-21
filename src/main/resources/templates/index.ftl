@@ -18,24 +18,50 @@
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg theme-dark skin-blue" style="overflow: hidden">
 <div id="wrapper">
+    <div class="main-header">
+        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-brand">
+                <a href="javascript:void(0);">
+                    <div class="logo">
+                        <span class="logo-lg">公司后台管理系统</span>
+                    </div>
+                    <div class="mini-logo hide">
+                        <span class="logo-lg">
+                           GS
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div class="navbar-header">
+                <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+            <ul class="nav navbar-top-links navbar-right welcome-message">
+                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
+                </li>
+                <li class="dropdown user-menu">
+                    <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
+                        <span class="hidden-xs"><@shiro.principal property="nickname"/></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a onclick="resetPwd()">
+                                <i class="fa fa-key"></i> 修改密码</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout">
+                                <i class="fa fa-sign-out"></i> 退出登录</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
     <!--左侧导航开始-->
     <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="nav-close">
-            <i class="fa fa-times-circle"></i>
-        </div>
-        <div class="nav navbar-left-header">
-            <a href="javascript:void(0);">
-                <div class="logo">
-                    <span class="logo-lg">公司后台管理系统</span>
-                </div>
-                <div class="mini-logo hide">
-                        <span class="logo-lg">
-                           Lee
-                        </span>
-                </div>
-            </a>
-        </div>
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
@@ -58,7 +84,6 @@
                         <li><a class="menuItem" href="${ctx}/server">服务监控</a></li>
                     </ul>
                 </li>
-
             </ul>
         </div>
     </nav>
@@ -66,35 +91,7 @@
 
     <!--右侧部分开始-->
     <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                </div>
-                <ul class="nav navbar-top-links navbar-right welcome-message">
-                    <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
-                    </li>
-                    <li class="dropdown user-menu">
-                        <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
-                            <span class="hidden-xs"><@shiro.principal property="nickname"/></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a onclick="resetPwd()">
-                                    <i class="fa fa-key"></i> 修改密码</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="/logout">
-                                    <i class="fa fa-sign-out"></i> 退出登录</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+
         <div class="row content-tabs">
             <button class="roll-nav roll-left tabLeft">
                 <i class="fa fa-backward"></i>

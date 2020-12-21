@@ -12,7 +12,7 @@ $(function() {
     //固定菜单栏
     $(function() {
         $('.sidebar-collapse').slimScroll({
-            height: '100%',
+            height: 'calc(100% - 50px)',
             railOpacity: 0.9,
             alwaysVisible: false
         });
@@ -38,8 +38,8 @@ function() {
     if ($(this).width() < 769) {
         $('body').addClass('mini-navbar');
         $('.navbar-static-side').fadeIn();
-        $(".navbar-left-header .logo").addClass("hide");
-        $(".navbar-left-header .mini-logo").removeClass("hide");
+        $(".navbar-brand .logo").addClass("hide");
+        $(".navbar-brand .mini-logo").removeClass("hide");
       //  $(".slimScrollDiv").css({ "overflow":"hidden" })
     }
 });
@@ -51,16 +51,16 @@ function NavToggle() {
 function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar')) {
         $( "[id^='side-menu']").hide();
-        $(".navbar-left-header .logo").removeClass("hide");
-        $(".navbar-left-header .mini-logo").addClass("hide");
+        $(".navbar-brand .logo").removeClass("hide");
+        $(".navbar-brand .mini-logo").addClass("hide");
         setTimeout(function() {
             $( "[id^='side-menu']").fadeIn(500);
         },
         100);
     } else if ($('body').hasClass('fixed-sidebar')) {
         $( "[id^='side-menu']").hide();
-        $(".navbar-left-header .logo").addClass("hide");
-        $(".navbar-left-header .mini-logo").removeClass("hide");
+        $(".navbar-brand .logo").addClass("hide");
+        $(".navbar-brand .mini-logo").removeClass("hide");
 
         setTimeout(function() {
             $( "[id^='side-menu']").fadeIn(500);
