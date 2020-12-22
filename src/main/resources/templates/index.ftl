@@ -73,15 +73,29 @@
                     </ul>
                 </li>
                 <li>
+                    <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label">权限管理</span> <span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
+                        <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-server"></i> <span class="nav-label">系统监控</span> <span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="menuItem" href="${ctx}/operateLog">系统日志</a></li>
+                        <li><a class="menuItem" href="${ctx}/server">服务监控</a></li>
+                    </ul>
+                </li>
+                <li>
                     <a href="#"><i class="fa fa-cog"></i> <span class="nav-label">系统管理</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="menuItem" href="${ctx}/user">管理员管理</a></li>
-                        <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
-                        <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
                         <li><a class="menuItem" href="${ctx}/dictionary">字典管理</a></li>
                         <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
-                        <li><a class="menuItem" href="${ctx}/server">服务监控</a></li>
+
                     </ul>
                 </li>
             </ul>

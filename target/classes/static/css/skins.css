@@ -1,6 +1,6 @@
 ﻿/*
  *
- *   SKIN blue 若依管理系统
+ *   SKIN blue 管理系统
  *   NAME - blue/green/purple/red/yellow
  *
 */
@@ -57,16 +57,6 @@
 	.skin-blue .navbar .dropdown-menu li a:hover {
 		background: #367fa9
 	}
-}
-
-.skin-blue .logo {
-	background-color: #367fa9;
-	color: #fff;
-	border-bottom: 0 solid transparent
-}
-
-.skin-blue .logo:hover {
-	background-color: #357ca5
 }
 
 .skin-blue li.user-header {

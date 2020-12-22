@@ -6,56 +6,36 @@ package com.basic.common.enums;
 public enum BusinessType
 {
     /**
-     * 其它
+     * 登录 0
      */
-    OTHER,
-
+    LOGIN,
     /**
-     * 新增
+     * 新增1
      */
     INSERT,
-
     /**
-     * 修改
+     * 修改2
      */
     UPDATE,
-
     /**
-     * 删除
+     * 删除3
      */
     DELETE,
-
     /**
-     * 授权
-     */
-    GRANT,
-
-    /**
-     * 导出
+     * 导出4
      */
     EXPORT,
 
     /**
-     * 导入
+     * 导入5
      */
     IMPORT,
-
     /**
-     * 强退
+     * 授权6
      */
-    FORCE,
-
+    GRANT,
     /**
-     * 生成代码
+     * 其它7
      */
-    GENCODE,
-    
-    /**
-     * 清空
-     */
-    CLEAN,
-    /**
-     * 登录
-     */
-    LOGIN,
+    OTHER,
 }
