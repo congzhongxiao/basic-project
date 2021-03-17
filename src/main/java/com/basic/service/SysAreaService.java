@@ -12,4 +12,5 @@ public interface SysAreaService extends IService<SysArea> {
     boolean isCodeExist(SysArea area);
     int addArea(SysArea area);
     int updateArea(SysArea area);
+    int deleteById(String id);
 }

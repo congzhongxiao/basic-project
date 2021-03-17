@@ -69,5 +69,16 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysArea> impl
         }
     }
 
-
+    public int deleteById(String id) {
+        SysArea area = baseMapper.selectById(id);
+        if (area != null) {
+            List<SysArea> children = baseMapper.selectList(new QueryWrapper<SysArea>().eq("pid", id));
+            if (children != null && children.size() > 0) {
+                return -1;//存在子信息
+            } else {
+                baseMapper.deleteById(id);
+            }
+        }
+        return 1;
+    }
 }

@@ -1,10 +1,7 @@
 package ${pageInfo.parentPage}.${pageInfo.entityPage};
 
 import lombok.Data;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -34,6 +31,15 @@ public class ${entityName} extends Model<${entityName}> {
     <#else >
     <#if column.deleteKey == column.changeColumnName>
     @TableLogic
+    </#if>
+    <#if column.columnName == 'create_by'>
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
+    <#elseif column.columnName == 'create_time'>
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
+    <#elseif column.columnName == 'update_time'>
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    <#elseif column.columnName == 'update_by'>
+    @TableField(value = "update_by", fill = FieldFill.INSERT_UPDATE)
     </#if>
     <#if column.columnType == "Date">
     @DateTimeFormat(pattern = "yyyy-MM-dd")

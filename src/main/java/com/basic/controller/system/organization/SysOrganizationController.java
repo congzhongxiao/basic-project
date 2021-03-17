@@ -20,15 +20,16 @@ import java.util.Map;
 
 
 /**
-*组织架构控制器
-*@author: lee
-*@time: 2021-03-17 15:22:02
-*/
+ * 组织架构控制器
+ *
+ * @author: lee
+ * @time: 2021-03-17 15:22:02
+ */
 
 @Controller
 @RequestMapping("/organization")
-public class SysOrganizationController extends BasicController{
-    String prefix = "organization";
+public class SysOrganizationController extends BasicController {
+    String prefix = "system/organization";
     @Autowired
     SysOrganizationService sysOrganizationService;
 
@@ -41,31 +42,56 @@ public class SysOrganizationController extends BasicController{
     //加载列表分页数据
     @PostMapping("findList")
     @ResponseBody
-    public Result findList(@RequestParam(name = "pid",defaultValue = "0",required = false)String pid) {
+    public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        if(StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid",pid);
+        if (StringUtils.isNotBlank(pid)) {
+            queryWrapper.eq("pid", pid);
         } else {
-            queryWrapper.eq("pid","0");
+            queryWrapper.eq("pid", "0");
         }
         queryWrapper.orderByDesc("sort");
         queryWrapper.orderByDesc("id");
 
         return Result.success(sysOrganizationService.list(queryWrapper));
     }
-    //添加页面跳转
-    @GetMapping("add")
-    public String add() {
-        return prefix + "/sys_organization_add";
+
+    //添加根页面跳转
+    @GetMapping("addRoot")
+    public String addRoot() {
+        return prefix + "/sys_organization_root_add";
     }
 
     //添加页面数据提交
-    @PostMapping("add")
+    @PostMapping("addRoot")
     @ResponseBody
-    public Result doAdd(@Validated SysOrganization sysOrganization) {
+    public Result doAddRoot(@Validated SysOrganization organization) {
         try {
-            sysOrganizationService.save(sysOrganization);
-            return Result.success();
+            organization.setPid("0");
+            sysOrganizationService.addOrganization(organization);
+            return Result.success(organization);
+        } catch (Exception e) {
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+        }
+    }
+
+    //添加根页面跳转
+    @GetMapping("addChild/{pid}")
+    public String addChild(@PathVariable String pid, Model model) {
+        SysOrganization parent = sysOrganizationService.getById(pid);
+        if (parent == null) {
+            return redirectNoPage();
+        }
+        model.addAttribute("parent", parent);
+        return prefix + "/sys_organization_child_add";
+    }
+
+    //添加页面数据提交
+    @PostMapping("addChild")
+    @ResponseBody
+    public Result doAdd(@Validated SysOrganization organization) {
+        try {
+            sysOrganizationService.addOrganization(organization);
+            return Result.success(organization);
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
@@ -76,11 +102,13 @@ public class SysOrganizationController extends BasicController{
     public String update(@PathVariable String id, Model model) {
         SysOrganization sysOrganization = sysOrganizationService.getById(id);
         if (sysOrganization != null) {
+            SysOrganization parent = sysOrganizationService.getById(sysOrganization.getPid());
+            model.addAttribute("parent", parent);
             model.addAttribute("sysOrganization", sysOrganization);
         } else {
             return redirectNoPage();
         }
-        return prefix +"/sys_organization_update";
+        return prefix + "/sys_organization_update";
     }
 
     //修改数据提交
@@ -88,22 +116,29 @@ public class SysOrganizationController extends BasicController{
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadSysOrganization") SysOrganization sysOrganization) {
         try {
-            sysOrganizationService.updateById( sysOrganization);
-            return Result.success();
+            sysOrganizationService.updateOrganization(sysOrganization);
+            return Result.success(sysOrganization);
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
     }
 
-    //删除根据ids数组删除数据
+
     @PostMapping("delete")
     @ResponseBody
-    public Result delete(@RequestParam(value = "ids") List<String> ids) {
+    public Result delete(@RequestParam(value = "id") String id) {
         try {
-            for (String id : ids) {
-                sysOrganizationService.removeById(id);
+            SysOrganization organization = sysOrganizationService.getById(id);
+            if (organization != null) {
+                int result = sysOrganizationService.deleteById(id);
+                if (result == -1) {
+                    return Result.fail("存在下级组织，无法删除");
+                } else {
+                    return Result.success(organization);
+                }
+            } else {
+                return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
-            return Result.success();
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }

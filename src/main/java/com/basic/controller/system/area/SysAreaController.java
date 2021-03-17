@@ -25,7 +25,7 @@ import java.util.Date;
 @Controller
 @RequestMapping("/area")
 public class SysAreaController extends BasicController {
-    String prefix = "area";
+    String prefix = "system/area";
     @Autowired
     SysAreaService sysAreaService;
 
@@ -124,15 +124,18 @@ public class SysAreaController extends BasicController {
         }
     }
 
-    //删除根据ids数组删除数据
     @PostMapping("delete")
     @ResponseBody
     public Result delete(@RequestParam(value = "id") String id) {
         try {
             SysArea area = sysAreaService.getById(id);
-            if(area != null) {
-                sysAreaService.removeById(id);
-                return Result.success(area);
+            if (area != null) {
+                int result = sysAreaService.deleteById(id);
+                if(result == -1) {
+                    return Result.fail("存在下级区划，无法删除");
+                } else {
+                    return Result.success(area);
+                }
             } else {
                 return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
