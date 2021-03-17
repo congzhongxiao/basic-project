@@ -73,7 +73,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-address-book-o"></i> <span class="nav-label">权限管理</span> <span
+                    <a href="#"><i class="fa fa-key"></i> <span class="nav-label">权限管理</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>

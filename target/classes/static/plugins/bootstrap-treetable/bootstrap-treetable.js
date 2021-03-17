@@ -1,6 +1,5 @@
 /**
  * 基于bootstrapTreeTable/bootstrap-table-treegrid修改
- * Copyright (c) 2019 ruoyi
  * J2eeFast 二次修改
  * 1. 增强功能、
  * 2. 支持异步加载数据、增加排序
@@ -351,18 +350,18 @@
             var _icon = options.expanderCollapsedClass;
 
             if(_async) {
-                $tr.css("display", "table");
+                $tr.css("display", "table-row");
                 _icon = options.expanderCollapsedClass;
             } else {
                 if (options.expandAll) {
-                    $tr.css("display", "table");
+                    $tr.css("display", "table-row");
                     _icon = options.expanderExpandedClass;
                 } else if (lv == 1) {
-                    $tr.css("display", "table");
+                    $tr.css("display", "table-row");
                     _icon = (options.expandFirst) ? options.expanderExpandedClass : options.expanderCollapsedClass;
                 } else if (lv == 2) {
                     if (options.expandFirst) {
-                        $tr.css("display", "table");
+                        $tr.css("display", "table-row");
                     } else {
                         $tr.css("display", "none");
                     }
@@ -448,7 +447,7 @@
                     }
                     if (options.expandColumn == index) {
                         if(_async){
-                                $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
+                            $td.prepend('<span class="treetable-expander ' + _icon + '"></span>');
                         }else {
                             if (!isP)  {
                                 $td.prepend('<span class="treetable-expander"></span>')
@@ -547,7 +546,7 @@
                                     // 父icon
                                     var _p_icon = target.find("#" + $(item).attr("pid")).children().eq(options.expandColumn).find(".treetable-expander");
                                     if (_p_icon.hasClass(options.expanderExpandedClass)) {
-                                        $(item).css("display", "table");
+                                        $(item).css("display", "table-row");
                                     }
                                 });
                             }
@@ -564,9 +563,9 @@
                                     var _icon = $(item).eq(options.expandColumn).find(".treetable-expander");
                                     if(_icon && _icon.hasClass(options.expanderExpandedClass)){
                                         //递归显示
-                                        $(item).css("display", "table");
+                                        $(item).css("display", "table-row");
                                     }else{
-                                        $(item).css("display", "table");
+                                        $(item).css("display", "table-row");
                                     }
                                 });
                             }
@@ -709,7 +708,7 @@
                     if (_isExpanded || _isCollapsed) {
                         // 父节点展开状态显示新加行
                         if (_isExpanded) {
-                            tr.css("display", "table");
+                            tr.css("display", "table-row");
                         }
                     } else {
                         // 父节点没有展开收缩按钮则添加
@@ -889,7 +888,7 @@
         },
         // 刷新记录
         refreshNode: function(target, id) {
-                target.refreshNode(id);
+            target.refreshNode(id);
         },
         // 添加数据到表格
         appendData: function(target, data) {
