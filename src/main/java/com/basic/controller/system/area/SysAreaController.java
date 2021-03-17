@@ -66,8 +66,6 @@ public class SysAreaController extends BasicController {
                 return Result.fail("行政区划编码已存在。");
             }
             sysArea.setPid("0");
-            sysArea.setCreateBy(getCurrentUser().getUsername());
-            sysArea.setCreateTime(new Date());
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
@@ -93,8 +91,6 @@ public class SysAreaController extends BasicController {
             if(sysAreaService.isCodeExist(sysArea)) {
                 return Result.fail("行政区划编码已存在");
             }
-            sysArea.setCreateTime(new Date());
-            sysArea.setCreateBy(getCurrentUser().getUsername());
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
@@ -121,8 +117,6 @@ public class SysAreaController extends BasicController {
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadSysArea") SysArea sysArea) {
         try {
-            sysArea.setUpdateBy(getCurrentUser().getUsername());
-            sysArea.setUpdateTime(new Date());
             sysAreaService.updateArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {

@@ -95,6 +95,7 @@
                         <li><a class="menuItem" href="${ctx}/user">管理员管理</a></li>
                         <li><a class="menuItem" href="${ctx}/dictionary">字典管理</a></li>
                         <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
+                        <li><a class="menuItem" href="${ctx}/organization/">组织架构</a></li>
 
                     </ul>
                 </li>

@@ -44,8 +44,6 @@ public class CommonController extends BasicController {
             image.setUrl(url);
             image.setType("image");
             image.setExtension(FileUploadUtils.getExtension(file));
-            image.setCreateBy(getCurrentUser().getUsername());
-            image.setCreateTime(new Date());
             uploadFilesService.save(image);
             return Result.success(image);
         } catch (Exception e) {
@@ -67,8 +65,6 @@ public class CommonController extends BasicController {
             uploadFile.setUrl(url);
             uploadFile.setType("file");
             uploadFile.setExtension(FileUploadUtils.getExtension(file));
-            uploadFile.setCreateBy(getCurrentUser().getUsername());
-            uploadFile.setCreateTime(new Date());
             uploadFilesService.save(uploadFile);
             return Result.success(uploadFile);
         } catch (Exception e) {

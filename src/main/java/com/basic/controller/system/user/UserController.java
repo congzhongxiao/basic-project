@@ -70,8 +70,6 @@ public class UserController extends BasicController {
             user.setStatus(1);
             user.setSalt(EncryptionUtil.getRandomString(10));
             user.setPassword(EncryptionUtil.encryption(user.getPassword(),user.getSalt()));
-            user.setCreateTime(new Date());
-            user.setCreateBy(getCurrentUser().getUsername());
             userService.save(user);
             return Result.success("操作成功！");
         } catch (Exception e) {
@@ -215,9 +213,7 @@ public class UserController extends BasicController {
                 userInfo.setNickname(user.getNickname());
                 userInfo.setEmail(user.getEmail());
                 userInfo.setMobile(user.getMobile());
-                userInfo.setUpdateTime(new Date());
                 userInfo.setRemark(user.getRemark());
-                userInfo.setUpdateBy(getCurrentUser().getUsername());
                 userService.updateById(userInfo);
                 return Result.success("信息修改成功");
             } else {

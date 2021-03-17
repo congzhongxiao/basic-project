@@ -1,9 +1,6 @@
 package com.basic.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.basic.common.annotation.Excel;
@@ -75,25 +72,29 @@ public class Person extends Model<Person> {
     private String summary;
 
     /**
-    *创建用户
-    */
+     *创建账号
+     */
+    @TableField(value = "create_by", fill = FieldFill.INSERT)
     private String createBy;
 
     /**
-    *创建时间
-    */
+     *创建时间
+     */
+    @TableField(value = "create_time", fill = FieldFill.INSERT)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
-    *更新用户
-    */
+     *更新账号
+     */
+    @TableField(value = "update_by", fill = FieldFill.INSERT_UPDATE)
     private String updateBy;
 
     /**
-    *更新时间
-    */
+     *更新时间
+     */
+    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;

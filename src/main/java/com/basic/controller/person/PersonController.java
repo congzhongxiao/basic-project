@@ -65,8 +65,6 @@ public class PersonController extends BasicController {
     @ResponseBody
     public Result doAdd(@Validated Person person) {
         try {
-            person.setCreateBy(getCurrentUser().getUsername());
-            person.setCreateTime(new Date());
             boolean result = personService.add(person);
             if (result) {
                 return Result.success();

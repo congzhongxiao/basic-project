@@ -1,77 +1,70 @@
 package com.basic.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
-import java.util.Date;
-
 /**
- * <p>
- *
- * </p>
- *
- * @author lee
- * @since 2020-03-10
- */
+*组织架构实体类
+*@author: lee
+*@time: 2021-03-17 15:22:02
+*/
+
 @Data
-@TableName("sys_user")
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class User extends Model<User> {
-
+@TableName("sys_organization")
+public class SysOrganization extends Model<SysOrganization> {
     private static final long serialVersionUID = 1L;
-
     /**
-     * 主键
-     */
+    *组织id
+    */
     @TableId(value = "id", type = IdType.ID_WORKER_STR)
     private String id;
 
     /**
-     * 用户名
-     */
-    @NotEmpty(message = "用户名不能为空")
-    private String username;
+    *父级组织id
+    */
+    private String pid;
 
     /**
-     * 密码
-     */
-    @NotEmpty(message = "密码不能为空")
-    private String password;
+    *祖级列表
+    */
+    private String ancestors;
 
-    private String salt;
     /**
-     * 昵称
-     */
-    @NotEmpty(message = "昵称不能为空")
-    private String nickname;
+    *组织名称
+    */
+    private String name;
+
     /**
-     * 电子邮箱
-     */
-    @Email(message = "邮箱格式不正确")
+    *显示顺序
+    */
+    private Integer sort;
+
+    /**
+    *负责人
+    */
+    private String leader;
+
+    /**
+    *联系电话
+    */
+    private String phone;
+
+    /**
+    *邮箱
+    */
     private String email;
 
     /**
-     * 手机号码
-     */
-    private String mobile;
-
-    /**
-     * 头像地址
-     */
-    private String icon;
-
-    /**
-     * 用户状态，0禁用，1启用
-     */
+    *状态（0正常 1停用）
+    */
     private Integer status;
 
     /**
@@ -101,14 +94,11 @@ public class User extends Model<User> {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
-    /**
-     * 备注
-     */
-    private String remark;
 
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
+    /**
+    *组织类型：0公司 1部门
+    */
+    private String orgType;
+
 
 }

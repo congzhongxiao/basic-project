@@ -40,8 +40,6 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
                     } else {
                         person.setGender(0);
                     }
-                    person.setCreateBy(currentUser);
-                    person.setCreateTime(new Date());
                     this.baseMapper.insert(person);
                     successNum ++;
                     successMsg.append("<br />" + successNum + "、(" + person.getName() + ")信息数据导入成功！");

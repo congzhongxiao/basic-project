@@ -84,8 +84,6 @@ public class ProductController extends BasicController {
                 product.setShortId(shortImageId);
                 product.setShortImage(image.getUrl());
             }
-            product.setCreateBy(getCurrentUser().getUsername());
-            product.setCreateTime(new Date());
             productService.addProduct(product, mainImageIds, tempFileIds);
             return Result.success();
 
@@ -136,8 +134,6 @@ public class ProductController extends BasicController {
                 product.setShortId(shortImageId);
                 product.setShortImage(image.getUrl());
             }
-            product.setUpdateBy(getCurrentUser().getUsername());
-            product.setUpdateTime(new Date());
             productService.updateProduct(product, mainImageIds, tempFileIds);
             return Result.success();
         } catch (Exception e) {
