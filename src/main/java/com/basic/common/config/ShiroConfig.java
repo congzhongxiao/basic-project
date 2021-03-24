@@ -135,6 +135,9 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/logout", "logout");
         // 不需要拦截的访问
         filterChainDefinitionMap.put("/login", "anon");
+        //接口不需要拦截
+        filterChainDefinitionMap.put("/openApi/**", "anon");
+
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
         shiroFilterFactoryBean.setFilters(filters);
 

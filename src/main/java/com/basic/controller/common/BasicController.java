@@ -2,6 +2,7 @@ package com.basic.controller.common;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.domain.PageResult;
+import com.basic.common.utils.StringUtils;
 import com.basic.entity.User;
 import lombok.Data;
 import org.apache.shiro.SecurityUtils;
@@ -38,5 +39,13 @@ public class BasicController {
             result.setTotal(page.getTotal());
         }
         return result;
+    }
+
+    /**
+     * 页面跳转
+     */
+    protected String redirect(String url)
+    {
+        return StringUtils.format("redirect:{}", url);
     }
 }

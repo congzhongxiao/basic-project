@@ -16,6 +16,10 @@ public class ResourcesConfig implements WebMvcConfigurer {
     {
         /** 本地上传路径构建虚拟路径 */
         registry.addResourceHandler(Global.RESOURCE_PREFIX + "/**").addResourceLocations("file:" + Global.getProfile() + "/");
+
+        /** swagger配置 */
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
 }
