@@ -1,53 +1,89 @@
 package com.basic.common.xss;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
+
+import com.basic.common.utils.StringUtils;
 import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * xss过滤包装类
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
-    private static final Logger logger = LoggerFactory.getLogger(XssHttpServletRequestWrapper.class);
+    HttpServletRequest orgRequest;
+
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
-    }
-
-    @Override
-    public String getHeader(String name) {
-        String strHeader = super.getHeader(name);
-        if(StringUtils.isEmpty(strHeader)){
-            return strHeader;
-
-        }
-        return HtmlUtils.htmlEscape(strHeader,"UTF-8");
+        orgRequest = request;
     }
 
     @Override
     public String getParameter(String name) {
-        String strParameter = super.getParameter(name);
-        if(StringUtils.isEmpty(strParameter)){
-            return strParameter;
+        String value = super.getParameter(xssEncode(name));
+        if (StringUtils.isNotBlank(value)) {
+            value = xssEncode(value);
         }
-        return HtmlUtils.htmlEscape(strParameter,"UTF-8");
+        return value;
     }
-
 
     @Override
     public String[] getParameterValues(String name) {
-        String[] values = super.getParameterValues(name);
-        if(values==null){
-            return values;
+        String[] parameters = super.getParameterValues(name);
+        if (parameters == null || parameters.length == 0) {
+            return null;
         }
-        int length = values.length;
-        String[] escapseValues = new String[length];
-        for(int i = 0;i<length;i++){
-            //过滤一切可能的xss攻击字符串
-            escapseValues[i] = HtmlUtils.htmlEscape(values[i],"UTF-8");
+
+        for (int i = 0; i < parameters.length; i++) {
+            parameters[i] = xssEncode(parameters[i]);
         }
-        return escapseValues;
+        return parameters;
     }
+
+    @Override
+    public Map<String, String[]> getParameterMap() {
+        Map<String, String[]> map = new LinkedHashMap<>();
+        Map<String, String[]> parameters = super.getParameterMap();
+        for (String key : parameters.keySet()) {
+            String[] values = parameters.get(key);
+            for (int i = 0; i < values.length; i++) {
+                values[i] = xssEncode(values[i]);
+            }
+            map.put(key, values);
+        }
+        return map;
+    }
+
+    @Override
+    public String getHeader(String name) {
+        String value = super.getHeader(xssEncode(name));
+        if (StringUtils.isNotBlank(value)) {
+            value = xssEncode(value);
+        }
+        return value;
+    }
+
+    private String xssEncode(String input) {
+        return HtmlUtils.htmlEscape(input,"UTF-8");
+    }
+
+    /**
+     * 获取最原始的request
+     */
+    public HttpServletRequest getOrgRequest() {
+        return orgRequest;
+    }
+
+    /**
+     * 获取最原始的request
+     */
+    public static HttpServletRequest getOrgRequest(HttpServletRequest request) {
+        if (request instanceof XssHttpServletRequestWrapper) {
+            return ((XssHttpServletRequestWrapper) request).getOrgRequest();
+        }
+
+        return request;
+    }
+
 }

@@ -34,11 +34,15 @@ public class ShiroUtils
     public static User getCurrentUser()
     {
         User user = null;
-        Object obj = getSubject().getPrincipal();
-        if (StringUtils.isNotNull(obj))
-        {
-            user = new User();
-            BeanUtils.copyProperties(obj, user);
+        try{
+            Object obj = getSubject().getPrincipal();
+            if (StringUtils.isNotNull(obj))
+            {
+                user = new User();
+                BeanUtils.copyProperties(obj, user);
+            }
+        } catch (Exception e) {
+            return null;
         }
         return user;
     }
