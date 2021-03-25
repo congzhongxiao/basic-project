@@ -76,18 +76,18 @@
                 title: '作者'
             },
             {
-                field: 'short_image',
+                field: 'shortImage',
                 title: '缩略图',
                 formatter:function (value) {
                     return $.table.imageView(value,350,500);
                 }
             },
             {
-                field: 'create_by',
+                field: 'createBy',
                 title: '创建人'
             },
             {
-                field: 'create_time',
+                field: 'createTime',
                 title: '创建时间'
             },
             {

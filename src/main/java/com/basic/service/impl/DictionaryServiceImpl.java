@@ -46,7 +46,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
             queryWrapper.like("value",queryParam.get("value"));
         }
         queryWrapper.orderByAsc("type","sort");
-        IPage<Dictionary> iPage = baseMapper.selectPage(page, queryWrapper);
+        IPage iPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(iPage));
     }
 

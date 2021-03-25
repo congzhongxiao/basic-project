@@ -26,7 +26,7 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
         Page<SysOperateLog> page = new PageUtil<SysOperateLog>(queryParam).getPage();
         QueryWrapper<SysOperateLog> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
-        IPage<SysOperateLog> mapIPage = baseMapper.selectPage(page, queryWrapper);
+        IPage mapIPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
     }
 

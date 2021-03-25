@@ -37,7 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         queryWrapper.orderByDesc("create_time");
 
-        Page<User> page = new PageUtil<User>(queryParam).getPage();
+        Page page = new PageUtil<User>(queryParam).getPage();
         return Result.success(PageUtil.initPage(baseMapper.selectPage(page, queryWrapper)));
     }
 
