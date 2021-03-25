@@ -73,7 +73,7 @@
             },
             <#list columns as column>
             {
-                field: '${column.columnName}',
+                field: '${column.changeColumnName}',
                 title: '${column.columnComment}'
             },
             </#list>

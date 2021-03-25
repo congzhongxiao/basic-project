@@ -8,7 +8,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-${tableName}-update">
+    <form class="form-horizontal m" id="form_${tableName}_update">
         <input id="id" name="id" type="hidden" value="<#noparse>${</#noparse>${varName}.id<#noparse>}</#noparse>">
         <#list columns as column>
             <div class="form-group">
@@ -33,7 +33,7 @@
     <#noparse>
     var prefix = "${ctx}/</#noparse>${varName}<#noparse>";
     </#noparse>
-    $("#form-${tableName}-update").validate({
+    $("#form_${tableName}_update").validate({
         onkeyup: false,
         ignore: ":hidden",
         ignore: "",
@@ -45,7 +45,7 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.save(prefix + "/update", $('#form-${tableName}-update').serialize());
+            $.operate.save(prefix + "/update", $('#form_${tableName}_update').serialize());
         }
     }
 </script>

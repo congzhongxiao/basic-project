@@ -13,5 +13,4 @@ import java.util.Map;
 */
 public interface ProductImageService extends IService<ProductImage> {
     boolean add(ProductImage productImage);
-    IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
 }

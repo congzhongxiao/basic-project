@@ -32,7 +32,7 @@ public class BasicController {
         return "redirect:/404";
     }
     //组装分页列表页面返回数据
-    protected PageResult installPageData(IPage<Map<String, Object>> page) {
+    protected PageResult installPageData(IPage page) {
         PageResult result = new PageResult();
         if (page != null) {
             result.setRows(page.getRecords());

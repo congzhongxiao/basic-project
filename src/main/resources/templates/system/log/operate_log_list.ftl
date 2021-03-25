@@ -106,23 +106,23 @@
                     }
                 },
                 {
-                    field: 'request_type',
+                    field: 'requestType',
                     title: '请求类型'
                 },
                 {
-                    field: 'oper_user_name',
+                    field: 'operUserName',
                     title: '操作用户'
                 },
                 {
-                    field: 'oper_ip',
+                    field: 'operIp',
                     title: '操作IP'
                 },
                 {
-                    field: 'oper_location',
+                    field: 'operLocation',
                     title: '操作地点'
                 },
                 {
-                    field: 'oper_time',
+                    field: 'operTime',
                     title: '操作时间'
                 },
                 {

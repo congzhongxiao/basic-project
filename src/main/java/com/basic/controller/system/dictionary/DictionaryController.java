@@ -1,6 +1,5 @@
 package com.basic.controller.system.dictionary;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.StringUtils;
@@ -42,8 +41,7 @@ public class DictionaryController extends BasicController {
     @ResponseBody
     public Result findList(@RequestBody Map map) {
         try {
-            IPage<Map<String, Object>> page = dictionaryService.getPageInfo(map);
-            return Result.success(installPageData(page));
+            return dictionaryService.getPageInfo(map);
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.basic.common.domain.Result;
 import com.basic.common.utils.PageUtil;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.Dictionary;
@@ -31,7 +32,7 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
     }
 
     //分页查询
-    public IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam){
+    public Result getPageInfo(Map<String, Object> queryParam){
         Page<Dictionary> page = new PageUtil<Dictionary>(queryParam).getPage();
         QueryWrapper<Dictionary> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
@@ -45,8 +46,8 @@ public class DictionaryServiceImpl extends ServiceImpl<DictionaryMapper, Diction
             queryWrapper.like("value",queryParam.get("value"));
         }
         queryWrapper.orderByAsc("type","sort");
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return mapIPage;
-        }
+        IPage<Dictionary> iPage = baseMapper.selectPage(page, queryWrapper);
+        return Result.success(PageUtil.initPage(iPage));
+    }
 
 }

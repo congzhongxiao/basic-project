@@ -124,7 +124,7 @@
                 },
 
                 {
-                    field: 'create_time',
+                    field: 'createTime',
                     title: '创建时间'
                 },
 

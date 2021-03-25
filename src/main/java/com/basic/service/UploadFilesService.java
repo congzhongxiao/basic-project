@@ -14,7 +14,6 @@ import java.util.Map;
 */
 public interface UploadFilesService extends IService<UploadFiles> {
     boolean add(UploadFiles uploadFiles);
-    IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
     List<UploadFiles> selectImageByProductId(String productId);
     List<UploadFiles> selectFileByProductId(String productId);
 }

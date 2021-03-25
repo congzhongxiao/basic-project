@@ -37,14 +37,4 @@ public class UploadFilesServiceImpl extends ServiceImpl<UploadFilesMapper, Uploa
             return false;
         }
     }
-
-    //分页查询
-    public IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam){
-        Page<UploadFiles> page = new PageUtil<UploadFiles>(queryParam).getPage();
-        QueryWrapper<UploadFiles> queryWrapper = new QueryWrapper();
-        //填充查询、排序条件
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return mapIPage;
-        }
-
 }

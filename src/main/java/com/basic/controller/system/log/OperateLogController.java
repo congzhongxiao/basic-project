@@ -34,8 +34,7 @@ public class OperateLogController extends BasicController {
     @ResponseBody
     public Result findList(@RequestBody Map map) {
         try {
-            IPage<Map<String, Object>> page = operateLogService.getPageInfo(map);
-            return Result.success(installPageData(page));
+            return operateLogService.getPageInfo(map);
         } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }

@@ -1,7 +1,7 @@
 package com.basic.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.basic.common.domain.Result;
 import com.basic.entity.Dictionary;
 
 import java.util.Map;
@@ -13,5 +13,5 @@ import java.util.Map;
 */
 public interface DictionaryService extends IService<Dictionary> {
     boolean add(Dictionary dictionary);
-    IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam);
+    Result getPageInfo(Map<String, Object> queryParam);
 }

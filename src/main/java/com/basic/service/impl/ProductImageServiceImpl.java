@@ -28,14 +28,4 @@ public class ProductImageServiceImpl extends ServiceImpl<ProductImageMapper, Pro
             return false;
         }
     }
-
-    //分页查询
-    public IPage<Map<String,Object>> getPageInfo(Map<String, Object> queryParam){
-        Page<ProductImage> page = new PageUtil<ProductImage>(queryParam).getPage();
-        QueryWrapper<ProductImage> queryWrapper = new QueryWrapper();
-        //填充查询、排序条件
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return mapIPage;
-        }
-
 }

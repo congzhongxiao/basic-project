@@ -1,7 +1,6 @@
 package com.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Result;
@@ -38,8 +37,7 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         Page<Product> page = new PageUtil<Product>(queryParam).getPage();
         QueryWrapper<Product> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
-        return Result.success(PageUtil.initPage(mapIPage));
+        return Result.success(PageUtil.initPage(baseMapper.selectPage(page, queryWrapper)));
     }
 
     @Override
