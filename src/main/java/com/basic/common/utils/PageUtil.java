@@ -38,7 +38,7 @@ public class PageUtil<T> extends LinkedHashMap<String, Object> {
     }
 
     //组装分页列表页面返回数据
-    public static PageResult initPage(IPage<Map<String, Object>> page) {
+    public static PageResult initPage(IPage page) {
         PageResult result = new PageResult();
         if (page != null) {
             result.setRows(page.getRecords());

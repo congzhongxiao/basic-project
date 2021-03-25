@@ -77,7 +77,7 @@ public class PersonServiceImpl extends ServiceImpl<PersonMapper, Person> impleme
         Page<Person> page = new PageUtil<Person>(queryParam).getPage();
         QueryWrapper<Person> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
+        IPage<Person> mapIPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
     }
 

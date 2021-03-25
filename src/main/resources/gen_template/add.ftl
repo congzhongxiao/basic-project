@@ -8,7 +8,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-${tableName}-add">
+    <form class="form-horizontal m" id="form_${tableName}_add">
         <#list columns as column>
             <div class="form-group">
                 <label class="col-sm-3 control-label is-required">${column.columnComment}：</label>
@@ -27,7 +27,7 @@
     <#noparse>
     var prefix = "${ctx}/</#noparse>${varName}<#noparse>";
     </#noparse>
-    $("#form-${tableName}-add").validate({
+    $("#form_${tableName}_add").validate({
         onkeyup: false,
         ignore: ":hidden",
         ignore: "",
@@ -41,7 +41,7 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.save(prefix + "/add", $('#form-${tableName}-add').serialize());
+            $.operate.save(prefix + "/add", $('#form_${tableName}_add').serialize());
         }
     }
 </script>

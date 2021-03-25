@@ -27,7 +27,7 @@ public class ${serviceImplName} extends ServiceImpl<${mapperName}, ${entityName}
         Page<${entityName}> page = new PageUtil<${entityName}>(queryParam).getPage();
         QueryWrapper<${entityName}> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
-        IPage<Map<String, Object>> mapIPage = baseMapper.selectMapsPage(page, queryWrapper);
+        IPage<${entityName}> mapIPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
     }
 
