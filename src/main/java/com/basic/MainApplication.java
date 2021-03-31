@@ -10,6 +10,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 @SpringBootApplication(scanBasePackages = "com")
 @MapperScan("com.*.mapper")
@@ -18,13 +19,16 @@ public class MainApplication {
     public static void main(String[] args) {
         SpringApplication.run(MainApplication.class, args);
     }
+
     /**
      * 解决RequestBody下json的xss防御问题
      */
     @Bean
     public MappingJackson2HttpMessageConverter getMappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
-        mappingJackson2HttpMessageConverter.setObjectMapper(new XssObjectMapper());
+        XssObjectMapper xssObjectMapper = new XssObjectMapper();
+        xssObjectMapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        mappingJackson2HttpMessageConverter.setObjectMapper(xssObjectMapper);
         //设置中文编码格式
         List<MediaType> list = new ArrayList();
         list.add(MediaType.APPLICATION_JSON_UTF8);
