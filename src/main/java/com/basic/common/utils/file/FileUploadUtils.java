@@ -101,7 +101,7 @@ public class FileUploadUtils {
             ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
             String path = url.getPath();
             String fileExt = path.substring(path.lastIndexOf("."));
-            String filePath = DateUtils.datePath() + "/" + IdWorker.get32UUID() + fileExt;
+            String filePath = DateUtils.dateTimePath() + "/" + IdWorker.get32UUID() + fileExt;
             File desc = getAbsoluteFile(baseDir, filePath);
             FileOutputStream fileOutputStream = new FileOutputStream(desc);
             FileChannel channel = fileOutputStream.getChannel();
@@ -130,7 +130,7 @@ public class FileUploadUtils {
     public static final String extractFilename(MultipartFile file) {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
-        fileName = DateUtils.datePath() + "/" + encodingFilename(fileName) + "." + extension;
+        fileName = DateUtils.dateTimePath() + "/" + encodingFilename(fileName) + "." + extension;
         return fileName;
     }
 
@@ -155,6 +155,7 @@ public class FileUploadUtils {
 
     /**
      * 根据文件绝对路径，返回访问相对路径
+     *
      * @param absolutePath
      * @return
      */
