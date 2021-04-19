@@ -52,11 +52,14 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">描述：</label>
+            <label class="col-sm-3 control-label ">详情</label>
             <div class="col-sm-8">
-                <textarea class="form-control " name="detail" id="detail" rows="4">${product.detail}</textarea>
+                <div class="custom-form-html" data-code="content">
+                    <textarea name="content" id="content">${product.content}</textarea>
+                </div>
             </div>
         </div>
+
     </form>
 </div>
 <@js_common/>

@@ -1,6 +1,8 @@
 package com.basic.common.utils.file;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.basic.common.config.Global;
+import com.basic.common.domain.FileUploadResult;
 import com.basic.common.exception.file.FileNameLengthLimitExceededException;
 import com.basic.common.exception.file.FileSizeLimitExceededException;
 import com.basic.common.exception.file.InvalidExtensionException;
@@ -11,7 +13,12 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 
 /**
  * 文件上传工具类
@@ -20,7 +27,7 @@ public class FileUploadUtils {
     /**
      * 默认大小 50M
      */
-    public static final long DEFAULT_MAX_SIZE = 50 * 1024 * 1024;
+    public static final long DEFAULT_MAX_SIZE = 500 * 1024 * 1024;
 
     /**
      * 默认的文件名最大长度 100
@@ -43,37 +50,6 @@ public class FileUploadUtils {
     }
 
     /**
-     * 以默认配置进行文件上传
-     *
-     * @param file 上传的文件
-     * @return 文件名称
-     * @throws Exception
-     */
-    public static final String upload(MultipartFile file) throws IOException {
-        try {
-            return upload(getDefaultBaseDir(), file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
-        } catch (Exception e) {
-            throw new IOException(e.getMessage(), e);
-        }
-    }
-
-    /**
-     * 根据文件路径上传
-     *
-     * @param baseDir 相对应用的基目录
-     * @param file    上传的文件
-     * @return 文件名称
-     * @throws IOException
-     */
-    public static final String upload(String baseDir, MultipartFile file) throws IOException {
-        try {
-            return upload(baseDir, file, MimeTypeUtils.DEFAULT_ALLOWED_EXTENSION);
-        } catch (Exception e) {
-            throw new IOException(e.getMessage(), e);
-        }
-    }
-
-    /**
      * 文件上传
      *
      * @param baseDir 相对应用的基目录
@@ -84,9 +60,12 @@ public class FileUploadUtils {
      * @throws IOException                          比如读写文件出错时
      * @throws InvalidExtensionException            文件校验异常
      */
-    public static final String upload(String baseDir, MultipartFile file, String[] allowedExtension)
+    public static final FileUploadResult upload(String baseDir, MultipartFile file, String[] allowedExtension)
             throws FileSizeLimitExceededException, IOException, FileNameLengthLimitExceededException,
             InvalidExtensionException {
+        FileUploadResult result = new FileUploadResult();
+        result.setSize(file.getSize());
+        result.setContentType(file.getContentType());
         int fileNamelength = file.getOriginalFilename().length();
         if (fileNamelength > FileUploadUtils.DEFAULT_FILE_NAME_LENGTH) {
             throw new FileNameLengthLimitExceededException(FileUploadUtils.DEFAULT_FILE_NAME_LENGTH);
@@ -99,8 +78,51 @@ public class FileUploadUtils {
         File desc = getAbsoluteFile(baseDir, fileName);
         file.transferTo(desc);
         String pathFileName = getPathFileName(baseDir, fileName);
-        return pathFileName;
+
+        result.setOriginalFileName(file.getOriginalFilename());
+        result.setExtension(getExtension(file));
+        result.setAbsolutePath(desc.getAbsolutePath());
+        result.setRelativePath(pathFileName);
+        result.setLastName(desc.getName());
+        return result;
     }
+
+    /**
+     * 根据图片url保存图片到本地
+     *
+     * @param baseDir
+     * @param source
+     * @return
+     * @throws IOException
+     */
+    public static final FileUploadResult upload(String baseDir, String source, String[] allowedExtension) {
+        try {
+            URL url = new URL(source);
+            ReadableByteChannel readableByteChannel = Channels.newChannel(url.openStream());
+            String path = url.getPath();
+            String fileExt = path.substring(path.lastIndexOf("."));
+            String filePath = DateUtils.datePath() + "/" + IdWorker.get32UUID() + fileExt;
+            File desc = getAbsoluteFile(baseDir, filePath);
+            FileOutputStream fileOutputStream = new FileOutputStream(desc);
+            FileChannel channel = fileOutputStream.getChannel();
+            channel.transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
+            String pathFileName = getPathFileName(baseDir, filePath);
+
+
+            FileUploadResult result = new FileUploadResult();
+            result.setSize(desc.length());
+            result.setOriginalFileName(desc.getName());
+            result.setExtension(fileExt);
+            result.setAbsolutePath(desc.getAbsolutePath());
+            result.setRelativePath(pathFileName);
+            result.setLastName(desc.getName());
+            return result;
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
 
     /**
      * 编码文件名
@@ -132,6 +154,17 @@ public class FileUploadUtils {
     }
 
     /**
+     * 根据文件绝对路径，返回访问相对路径
+     * @param absolutePath
+     * @return
+     */
+    public static final String getRelativeFilePath(String absolutePath) {
+        int dirLastIndex = Global.getProfile().length() + 1;
+        String currentDir = StringUtils.substring(absolutePath, dirLastIndex);
+        return Global.RESOURCE_PREFIX + "/" + currentDir;
+    }
+
+    /**
      * 编码文件名
      */
     private static final String encodingFilename(String fileName) {
@@ -158,13 +191,16 @@ public class FileUploadUtils {
         String fileName = file.getOriginalFilename();
         String extension = getExtension(file);
         if (allowedExtension != null && !isAllowedExtension(extension, allowedExtension)) {
-            if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {
+            if (allowedExtension == MimeTypeUtils.IMAGE_EXTENSION) {//图片文件
                 throw new InvalidExtensionException.InvalidImageExtensionException(allowedExtension, extension,
                         fileName);
-            } else if (allowedExtension == MimeTypeUtils.FLASH_EXTENSION) {
-                throw new InvalidExtensionException.InvalidFlashExtensionException(allowedExtension, extension,
+            } else if (allowedExtension == MimeTypeUtils.DOCUMENT_EXTENSION) {//文档文件
+                throw new InvalidExtensionException.InvalidDocumentExtensionException(allowedExtension, extension,
                         fileName);
-            } else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION) {
+            } else if (allowedExtension == MimeTypeUtils.COMPRESS_EXTENSION) {//压缩文件
+                throw new InvalidExtensionException.InvalidCompressExtensionException(allowedExtension, extension,
+                        fileName);
+            } else if (allowedExtension == MimeTypeUtils.MEDIA_EXTENSION) {//多媒体文件
                 throw new InvalidExtensionException.InvalidMediaExtensionException(allowedExtension, extension,
                         fileName);
             } else {

@@ -3,6 +3,8 @@ package com.basic.common.utils;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * 字符串工具类
@@ -400,5 +402,49 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * @param rex 正则校验规则
+     * @param str 要校验的字符串
+     * @return 返回校验结果，若满足校验规则，则返回true，否则返回false
+     */
+    public static Boolean match(String rex, String str) {
+        Pattern pattern = Pattern.compile(rex);
+        Matcher matcher = pattern.matcher(str);
+        return matcher.matches();
+    }
+
+    /**
+     * 转义正则特殊字符 （$()*+.[]?\^{},|）
+     *
+     * @param keyword
+     * @return
+     */
+    public static String escapeExprSpecialWord(String keyword) {
+        if (StringUtils.isNotBlank(keyword)) {
+            String[] fbsArr = { "\\", "$", "(", ")", "*", "+", ".", "[", "]", "?", "^", "{", "}", "|" };
+            for (String key : fbsArr) {
+                if (keyword.contains(key)) {
+                    keyword = keyword.replace(key, "\\" + key);
+                }
+            }
+        }
+        return keyword;
+    }
+
+    /**
+     * 判断字符串是否存在数组中,不区分大小写
+     * @param key
+     * @param arrays
+     * @return
+     */
+    public static boolean containsInArray(String key,String[] arrays) {
+        for(int i = 0; i < arrays.length; i ++) {
+            if(key.equalsIgnoreCase(arrays[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 }

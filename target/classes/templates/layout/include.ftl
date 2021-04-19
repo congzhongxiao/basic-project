@@ -18,6 +18,7 @@
     <#nested>
 </#macro>
 <#macro js_common>
+    <script> var ctx = '${ctx}'</script>
     <script src="${ctx}/static/js/jquery.min.js"></script>
     <script src="${ctx}/static/js/bootstrap.min.js"></script>
     <!-- bootstrap-table 表格插件 -->
@@ -36,6 +37,10 @@
     <script src="${ctx}/static/plugins/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
     <script src="${ctx}/static/plugins/bootstrap-table/extensions/export/tableExport.js"></script>
     <script src="${ctx}/static/plugins/select2/select2.js"></script>
+    <script src="${ctx}/static/plugins/ueditor/ueditor.config.js"></script>
+    <script src="${ctx}/static/plugins/ueditor/ueditor.all.min.js"></script>
+    <script src="${ctx}/static/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <script src="${ctx}/static/js/ueditor-init.js"></script>
     <!-- 遮罩层 -->
     <script src="${ctx}/static/plugins/blockUI/jquery.blockUI.js"></script>
     <script src="${ctx}/static/plugins/iCheck/icheck.min.js"></script>

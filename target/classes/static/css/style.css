@@ -7136,3 +7136,6 @@ ul.ul-auto-3 li label{
     text-overflow: ellipsis;
     overflow:hidden;
 }
+.ueditor-tool a{
+    margin: 4px 4px 4px 0;
+}

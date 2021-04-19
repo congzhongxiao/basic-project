@@ -18,6 +18,58 @@ $(function() {
 		})
 	}
 
+	/** 自定义表单组装html **/
+	if($(".custom-form-html").length > 0) {
+		$(".custom-form-html").each(function() {
+			var _this = $(this);
+			var code = _this.data("code");
+			var ue = UE.getEditor(code);
+			ue.ready(function () {
+				ue.setHeight(300);
+				var toolDiv = $('<div class="ueditor-tool"></div>');
+				var imageLocalBtn = $('<a class="btn btn-primary btn-xs" href="javascript:void(0);">远程图片本地化</a>');
+				var cleanUrlBtn = $('<a class="btn btn-primary btn-xs" href="javascript:void(0);">清除非本站链接</a>');
+				imageLocalBtn.click(function () {
+					$.modal.loading("正在本地化图片，请稍后...");
+					$.ajax({
+						url: ctx + '/common/imageLocal',
+						type: 'post',
+						data: {"content":ue.getContent()},
+						dataType: 'json',
+						cache: false,
+						success: function (result) {
+							if(result.success) {
+								ue.setContent(result.data.content);
+								$.modal.msgSuccess(result.message);
+							}
+							$.modal.closeLoading();
+						}
+					});
+				});
+				cleanUrlBtn.click(function () {
+					$.modal.loading("正在清理外链，请稍后...");
+					$.ajax({
+						url: ctx + '/common/cleanUrl',
+						type: 'post',
+						data: {"content":ue.getContent()},
+						dataType: 'json',
+						cache: false,
+						success: function (result) {
+							if(result.success) {
+								ue.setContent(result.data.content);
+								$.modal.msgSuccess(result.message);
+							}
+							$.modal.closeLoading();
+						}
+					});
+				});
+				toolDiv.append(imageLocalBtn);
+				toolDiv.append(cleanUrlBtn);
+				_this.append(toolDiv);
+			});
+		});
+	}
+
 
 	// iCheck单选框及复选框事件绑定
 	if ($.fn.iCheck !== undefined) {
