@@ -38,7 +38,7 @@
     <script src="${ctx}/static/plugins/bootstrap-table/extensions/export/tableExport.js"></script>
     <script src="${ctx}/static/plugins/select2/select2.js"></script>
     <script src="${ctx}/static/plugins/ueditor/ueditor.config.js"></script>
-    <script src="${ctx}/static/plugins/ueditor/ueditor.all.min.js"></script>
+    <script src="${ctx}/static/plugins/ueditor/ueditor.all.js?v=1.0"></script>
     <script src="${ctx}/static/plugins/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script src="${ctx}/static/js/ueditor-init.js"></script>
     <!-- 遮罩层 -->
