@@ -46,6 +46,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 使用druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
+    # 禁用druid连接池监控页面
+    druid:
+      stat-view-servlet:
+        enabled: false
     url: jdbc:mysql://localhost:3306/basic-project?characterEncoding=utf8&serverTimezone=GMT%2b8
     username: root
     password: root
