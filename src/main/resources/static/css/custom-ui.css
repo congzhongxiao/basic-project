@@ -852,6 +852,7 @@ label {
     border-bottom: 1px solid #e7eaec !important;
     background-color: transparent;
     border: 0px;
+    white-space: nowrap;
 }
 
 
@@ -927,7 +928,7 @@ label {
 
 .right-fixed-table-columns {
     position: absolute;
-    right: 63px;
+    right: 0px;
     border-left: 1px solid #ddd;
     display: none;
     z-index: 100;

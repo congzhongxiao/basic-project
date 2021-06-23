@@ -79,6 +79,8 @@
             importTemplateUrl: prefix + "/importTemplate",
             modalName: "人员信息",
             uniqueId: "id",
+            rightFixedColumns:true,
+            rightFixedNumber:2,
             columns: [
                 {
                     checkbox: true
@@ -92,6 +94,58 @@
                     }
                 },
 
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
+                {
+                    field: 'name',
+                    title: '姓名'
+                },
                 {
                     field: 'name',
                     title: '姓名'

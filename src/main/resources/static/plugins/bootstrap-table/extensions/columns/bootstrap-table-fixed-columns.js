@@ -27,7 +27,7 @@
                 '<thead></thead>',
                 '</table>',
                 '</div>'].join(''));
-            
+
             this.$fixedHeader.find('table').attr('class', this.$el.attr('class'));
             this.$fixedHeaderColumns = this.$fixedHeader.find('thead');
             this.$tableHeader.before(this.$fixedHeader);
@@ -56,7 +56,7 @@
             this.$rightfixedBodyColumns = this.$rightfixedBody.find('tbody');
             this.$tableBody.before(this.$rightfixedBody);
             if (this.options.fixedColumns) {
-                $('.right-fixed-table-columns').attr('style','right:0px');
+                $('.right-fixed-table-columns').attr('style', 'right:0px');
             }
         }
     };
@@ -64,7 +64,7 @@
     BootstrapTable.prototype.initHeader = function () {
         _initHeader.apply(this, Array.prototype.slice.apply(arguments));
 
-        if (!this.options.fixedColumns && !this.options.rightFixedColumns){
+        if (!this.options.fixedColumns && !this.options.rightFixedColumns) {
             return;
         }
         this.initFixedColumns();
@@ -92,9 +92,9 @@
             this.$fixedHeaderColumns.html('').append($ltr);
             this.$selectAll = $ltr.find('[name="btSelectAll"]');
             this.$selectAll.on('click', function () {
-            	var checked = $(this).prop('checked');
-            	$(".left-fixed-body-columns input[name=btSelectItem]").filter(':enabled').prop('checked', checked);
-            	$('.fixed-table-body input[name=btSelectItem]').closest('tr').removeClass('selected');
+                var checked = $(this).prop('checked');
+                $(".left-fixed-body-columns input[name=btSelectItem]").filter(':enabled').prop('checked', checked);
+                $('.fixed-table-body input[name=btSelectItem]').closest('tr').removeClass('selected');
             });
         }
     };
@@ -185,18 +185,15 @@
             this.$body.find('tr:first-child:not(.no-records-found) > *').each(function (i) {
                 var $this = $(this),
                     index = i;
-
-                if (i >= visibleFields.length - that.options.rightFixedNumber) {
-                    return false;
-
-
-                    if (that.options.detailView && !that.options.cardView) {
-                       index = i - 1;
-                    }
-                    that.$rightfixedBody.find('thead th[data-field="' + visibleFields[index] + '"]')
-                        .find('.fht-cell').width($this.innerWidth() - 1);
-                    headerWidth += $this.outerWidth();
+                if (i < visibleFields.length - that.options.rightFixedNumber) {//如果当前行数小于固定行数
+                    return true;
                 }
+
+                if (that.options.detailView && !that.options.cardView) {
+                    index = i - 1;
+                }
+                that.$rightfixedBody.find('thead th[data-field="' + visibleFields[index] + '"]').find('.fht-cell').width($this.innerWidth() - 1);
+                headerWidth += $this.outerWidth();
             });
             this.$rightfixedBody.width(headerWidth - 1).show();
         }
@@ -212,9 +209,9 @@
                 this.$fixedBody.hide();
                 return;
             }
-            
+
             if (!this.options.height) {
-                top = this.$fixedHeader.height()- 1;
+                top = this.$fixedHeader.height() - 1;
                 height = height - top;
             }
 
@@ -225,23 +222,23 @@
             }).show();
 
             this.$body.find('> tr').each(function (i) {
-            	that.$fixedBody.find('tr:eq(' + i + ')').height($(this).height() - 0.5);
+                that.$fixedBody.find('tr:eq(' + i + ')').height($(this).height() - 0.5);
                 var thattds = this;
                 that.$fixedBody.find('tr:eq(' + i + ')').find('td').each(function (j) {
                     $(this).width($($(thattds).find('td')[j]).width() + 1);
                 });
             });
-            
+
             $("#" + table.options.id).on("check.bs.table uncheck.bs.table", function (e, rows, $element) {
-        	    var index= $element.data('index');
+                var index = $element.data('index');
                 $(this).find('.bs-checkbox').find('input[data-index="' + index + '"]').prop("checked", true);
                 var selectFixedItem = $('.left-fixed-body-columns input[name=btSelectItem]');
                 var checkAll = selectFixedItem.filter(':enabled').length &&
                     selectFixedItem.filter(':enabled').length ===
-                	selectFixedItem.filter(':enabled').filter(':checked').length;
+                    selectFixedItem.filter(':enabled').filter(':checked').length;
                 $(".left-fixed-table-columns input[name=btSelectAll]").prop('checked', checkAll);
                 $('.fixed-table-body input[name=btSelectItem]').closest('tr').removeClass('selected');
-        	});
+            });
 
             //// events
             this.$tableBody.on('scroll', function () {
