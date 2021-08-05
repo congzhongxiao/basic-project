@@ -44,10 +44,12 @@ public class ${entityName} extends Model<${entityName}> {
     <#if column.columnType == "Date">
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @TableField(updateStrategy= FieldStrategy.IGNORED)
     private Date ${column.changeColumnName};
     <#elseif column.columnType == "DateTime">
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @TableField(updateStrategy= FieldStrategy.IGNORED)
     private Date ${column.changeColumnName};
     <#else >
     private ${column.columnType} ${column.changeColumnName};

@@ -52,6 +52,7 @@ public class Person extends Model<Person> {
     @Excel(name = "出生日期",dateFormat="yyyy-MM-dd")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @TableField(updateStrategy= FieldStrategy.IGNORED)
     private Date birthday;
 
     /**
