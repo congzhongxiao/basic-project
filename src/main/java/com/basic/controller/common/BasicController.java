@@ -6,6 +6,7 @@ import com.basic.common.utils.StringUtils;
 import com.basic.entity.User;
 import lombok.Data;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +28,23 @@ public class BasicController {
         User user = (User)SecurityUtils.getSubject().getPrincipal();
         return user;
     }
-    //跳转404页面
-    protected String redirectNoPage() {
-        return "redirect:/404";
+    //跳转错误页面
+    protected String ErrorPage(String code, String msg, Model model) {
+        model.addAttribute("code",code);
+        model.addAttribute("msg",msg);
+        return "/error";
     }
-    //组装分页列表页面返回数据
-    protected PageResult installPageData(IPage page) {
-        PageResult result = new PageResult();
-        if (page != null) {
-            result.setRows(page.getRecords());
-            result.setTotal(page.getTotal());
-        }
-        return result;
+    //跳转错误页面
+    protected String ErrorPage(String msg,Model model) {
+        model.addAttribute("code","404");
+        model.addAttribute("msg",msg);
+        return "/error";
+    }
+    //跳转错误页面
+    protected String ErrorPage(Model model) {
+        model.addAttribute("code","404");
+        model.addAttribute("msg","页面不存在或已被删除。");
+        return "/error";
     }
 
     /**

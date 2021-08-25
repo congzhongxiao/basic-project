@@ -49,7 +49,7 @@ public class PersonController extends BasicController {
         try {
             return personService.getPageInfo(map);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -70,7 +70,7 @@ public class PersonController extends BasicController {
                 return Result.success();
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
         return Result.fail();
     }
@@ -82,7 +82,7 @@ public class PersonController extends BasicController {
         if (person != null) {
             model.addAttribute("person", person);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/person_update";
     }
@@ -95,7 +95,7 @@ public class PersonController extends BasicController {
             personService.updateById(person);
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -109,7 +109,7 @@ public class PersonController extends BasicController {
             }
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

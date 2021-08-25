@@ -39,6 +39,10 @@ public class Result {
     public static Result alert(ResultCode code){
         return new Result(code);
     }
+    public static Result alert(ResultCode code,Exception e){
+        e.printStackTrace();
+        return new Result(code);
+    }
 
     public static Result fail(String msg ){
         return new Result(ResultCode.COMMON_FAIL,msg);

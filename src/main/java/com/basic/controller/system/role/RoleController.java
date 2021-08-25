@@ -66,7 +66,7 @@ public class RoleController extends BasicController {
         if (role != null) {
             model.addAttribute("role", role);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/role_update";
     }

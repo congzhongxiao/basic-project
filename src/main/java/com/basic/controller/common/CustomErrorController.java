@@ -31,7 +31,7 @@ class CustomErrorController extends BasicErrorController {
                 isIncludeStackTrace(request, MediaType.TEXT_HTML));
         ModelAndView modelAndView = resolveErrorView(request, response, status, model);
         //指定自定义的视图
-        return (modelAndView == null ? new ModelAndView("404", model) : modelAndView);
+        return (modelAndView == null ? new ModelAndView("error", model) : modelAndView);
     }
 
     //通过http client访问的接口如果发生异常会调用这个方法

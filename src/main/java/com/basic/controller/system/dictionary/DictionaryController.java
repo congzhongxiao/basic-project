@@ -43,7 +43,7 @@ public class DictionaryController extends BasicController {
         try {
             return dictionaryService.getPageInfo(map);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -63,7 +63,7 @@ public class DictionaryController extends BasicController {
                 return Result.success();
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
         return Result.fail();
     }
@@ -75,7 +75,7 @@ public class DictionaryController extends BasicController {
         if (dictionary != null) {
             model.addAttribute("dictionary", dictionary);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/dictionary_update";
     }
@@ -88,7 +88,7 @@ public class DictionaryController extends BasicController {
             dictionaryService.updateById(dictionary);
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -102,7 +102,7 @@ public class DictionaryController extends BasicController {
             }
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

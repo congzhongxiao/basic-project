@@ -70,7 +70,7 @@ public class SysOrganizationController extends BasicController {
             sysOrganizationService.addOrganization(organization);
             return Result.success(organization);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -79,7 +79,7 @@ public class SysOrganizationController extends BasicController {
     public String addChild(@PathVariable String pid, Model model) {
         SysOrganization parent = sysOrganizationService.getById(pid);
         if (parent == null) {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         model.addAttribute("parent", parent);
         return prefix + "/sys_organization_child_add";
@@ -93,7 +93,7 @@ public class SysOrganizationController extends BasicController {
             sysOrganizationService.addOrganization(organization);
             return Result.success(organization);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -106,7 +106,7 @@ public class SysOrganizationController extends BasicController {
             model.addAttribute("parent", parent);
             model.addAttribute("sysOrganization", sysOrganization);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/sys_organization_update";
     }
@@ -119,7 +119,7 @@ public class SysOrganizationController extends BasicController {
             sysOrganizationService.updateOrganization(sysOrganization);
             return Result.success(sysOrganization);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -140,7 +140,7 @@ public class SysOrganizationController extends BasicController {
                 return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

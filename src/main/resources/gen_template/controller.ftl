@@ -44,7 +44,7 @@ public class ${controllerName} extends BasicController{
         try {
             return ${varName}Service.getPageInfo(map);
         } catch (Exception e) {
-            return  Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return  Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -62,7 +62,7 @@ public class ${controllerName} extends BasicController{
             ${varName}Service.save(${varName});
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -73,7 +73,7 @@ public class ${controllerName} extends BasicController{
         if (${varName} != null) {
             model.addAttribute("${varName}", ${varName});
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix +"/${tableName}_update";
     }
@@ -86,7 +86,7 @@ public class ${controllerName} extends BasicController{
             ${varName}Service.updateById( ${varName});
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -100,7 +100,7 @@ public class ${controllerName} extends BasicController{
             }
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

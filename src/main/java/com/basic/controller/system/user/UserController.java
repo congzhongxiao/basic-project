@@ -104,7 +104,7 @@ public class UserController extends BasicController {
                 return Result.fail("信息不存在或已被删除！");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -125,7 +125,7 @@ public class UserController extends BasicController {
             List<Role> roleList = roleService.getAllRoles();
             model.addAttribute("roleList", roleList);
         } else {
-           return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/user_empower";
     }
@@ -193,7 +193,7 @@ public class UserController extends BasicController {
         if (user != null) {
             model.addAttribute("userInfo", user);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/user_update";
     }
@@ -220,7 +220,7 @@ public class UserController extends BasicController {
                 return Result.fail("信息不存在或已被删除");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

@@ -17,10 +17,11 @@ import java.util.Date;
 
 
 /**
-*行政区划控制器
-*@author: lee
-*@time: 2020-11-12 10:07:45
-*/
+ * 行政区划控制器
+ *
+ * @author: lee
+ * @time: 2020-11-12 10:07:45
+ */
 
 @Controller
 @RequestMapping("/area")
@@ -38,12 +39,12 @@ public class SysAreaController extends BasicController {
     //加载列表分页数据
     @PostMapping("findList")
     @ResponseBody
-    public Result findList(@RequestParam(name = "pid",defaultValue = "0",required = false)String pid) {
+    public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        if(StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid",pid);
+        if (StringUtils.isNotBlank(pid)) {
+            queryWrapper.eq("pid", pid);
         } else {
-            queryWrapper.eq("pid","0");
+            queryWrapper.eq("pid", "0");
         }
         queryWrapper.orderByDesc("sort");
         queryWrapper.orderByAsc("code");
@@ -57,44 +58,46 @@ public class SysAreaController extends BasicController {
     public String addRoot() {
         return prefix + "/sys_area_root_add";
     }
+
     //添加页面数据提交
     @PostMapping("addRoot")
     @ResponseBody
     public Result doAddRoot(@Validated SysArea sysArea) {
         try {
-            if(sysAreaService.isCodeExist(sysArea)) {
+            if (sysAreaService.isCodeExist(sysArea)) {
                 return Result.fail("行政区划编码已存在。");
             }
             sysArea.setPid("0");
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
     //添加根页面跳转
     @GetMapping("addChild/{pid}")
-    public String addChild(@PathVariable String pid,Model model) {
+    public String addChild(@PathVariable String pid, Model model) {
         SysArea parent = sysAreaService.getById(pid);
-        if(parent == null) {
-            return redirectNoPage();
+        if (parent == null) {
+            return ErrorPage(model);
         }
-        model.addAttribute("parent",parent);
+        model.addAttribute("parent", parent);
         return prefix + "/sys_area_child_add";
     }
+
     //添加页面数据提交
     @PostMapping("addChild")
     @ResponseBody
     public Result doAdd(@Validated SysArea sysArea) {
         try {
-            if(sysAreaService.isCodeExist(sysArea)) {
+            if (sysAreaService.isCodeExist(sysArea)) {
                 return Result.fail("行政区划编码已存在");
             }
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -104,12 +107,12 @@ public class SysAreaController extends BasicController {
         SysArea sysArea = sysAreaService.getById(id);
         if (sysArea != null) {
             SysArea parent = sysAreaService.getById(sysArea.getPid());
-            model.addAttribute("parent",parent);
+            model.addAttribute("parent", parent);
             model.addAttribute("sysArea", sysArea);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
-        return prefix +"/sys_area_update";
+        return prefix + "/sys_area_update";
     }
 
     //修改数据提交
@@ -120,7 +123,7 @@ public class SysAreaController extends BasicController {
             sysAreaService.updateArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -131,7 +134,7 @@ public class SysAreaController extends BasicController {
             SysArea area = sysAreaService.getById(id);
             if (area != null) {
                 int result = sysAreaService.deleteById(id);
-                if(result == -1) {
+                if (result == -1) {
                     return Result.fail("存在下级区划，无法删除");
                 } else {
                     return Result.success(area);
@@ -140,7 +143,7 @@ public class SysAreaController extends BasicController {
                 return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

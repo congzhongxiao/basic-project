@@ -36,7 +36,7 @@ public class OperateLogController extends BasicController {
         try {
             return operateLogService.getPageInfo(map);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -46,7 +46,7 @@ public class OperateLogController extends BasicController {
         if (operateLog != null) {
             model.addAttribute("operateLog",operateLog);
         } else {
-            redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/operate_log_view";
     }

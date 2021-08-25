@@ -58,8 +58,8 @@ public class PermissionController extends BasicController {
             permission.setPid("0");
             permissionService.save(permission);
             return Result.success(permission);
-        } catch (Exception ex) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+        } catch (Exception e) {
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -68,7 +68,7 @@ public class PermissionController extends BasicController {
     public String addChild(@PathVariable String pid, Model model) {
         Permission parent = permissionService.getById(pid);
         if (parent == null) {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         model.addAttribute("parent", parent);
         return prefix + "/permission_child_add";
@@ -85,7 +85,7 @@ public class PermissionController extends BasicController {
             permissionService.save(permission);
             return Result.success(permission);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -117,7 +117,7 @@ public class PermissionController extends BasicController {
             model.addAttribute("parent", parent);
             model.addAttribute("permission", permission);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/permission_update";
     }
@@ -164,7 +164,7 @@ public class PermissionController extends BasicController {
                 return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

@@ -27,9 +27,9 @@
 </head>
 <body>
 <div class="error-box">
-    <p style="font-size: 24px; color: #FF9800;">页面出错啦！</p>
-    <p >错误编码：404</p>
-    <p >错误信息：请求地址错误或页面不存在！</p>
+    <p style="font-size: 24px; color: #FF9800;">页面访问出错！</p>
+    <p >错误编码：${code}</p>
+    <p >错误信息：${msg}</p>
 </div>
 
 </body>

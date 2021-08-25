@@ -51,7 +51,7 @@ public class ProductController extends BasicController {
         try {
             return productService.getPageInfo(map);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -88,7 +88,7 @@ public class ProductController extends BasicController {
             return Result.success();
 
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -103,7 +103,7 @@ public class ProductController extends BasicController {
         if (product != null) {
             model.addAttribute("product", product);
         } else {
-            return redirectNoPage();
+            return ErrorPage(model);
         }
         return prefix + "/product_update";
     }
@@ -137,7 +137,7 @@ public class ProductController extends BasicController {
             productService.updateProduct(product, mainImageIds, tempFileIds);
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 
@@ -151,7 +151,7 @@ public class ProductController extends BasicController {
             }
             return Result.success();
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
         }
     }
 

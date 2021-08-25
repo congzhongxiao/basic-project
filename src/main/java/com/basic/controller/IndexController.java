@@ -20,8 +20,10 @@ public class IndexController {
     }
 
     @RequestMapping("404")
-    public String pageNotFound() {
-        return "/404";
+    public String pageNotFound(Model model) {
+        model.addAttribute("code","404");
+        model.addAttribute("msg","页面不存在或已被删除。");
+        return "/error";
     }
 
     @GetMapping("server")
