@@ -7,7 +7,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal m" id="form-user-add">
+    <form class="form-horizontal m15" id="form-user-add">
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">用户账号：</label>
             <div class="col-sm-8">

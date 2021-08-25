@@ -17,7 +17,7 @@
     border: 1px dashed #c3c3c3;
     padding: 5px;
     border-radius: 2px;
-    width: 114px;
+    width: 120px;
     height: 94px;
     color: #666;
     text-align: center;
@@ -50,15 +50,21 @@
     position: relative;
     float: left;
     margin: 5px;
-    width: 114px;
+    width: 120px;
     height: 94px;
     padding: 2px;
     border: 1px dashed #c3c3c3;
+    background: #f1f1f1;
 }
 
 .image-uploader.uploader-list .file-item img {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    max-width:100%;
+    max-height:100%;
+    background: #ffffff;
 }
 
 .image-uploader.uploader-list .file-item .file-panel {
@@ -88,6 +94,15 @@
     left: 0;
     width: 100%;
     background: #ff0000;
+    color: #FFFFFF;
+    text-align: center;
+}
+.image-uploader.uploader-list .file-item.file-item .success {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #1dd953;
     color: #FFFFFF;
     text-align: center;
 }

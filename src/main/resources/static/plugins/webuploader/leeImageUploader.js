@@ -17,7 +17,7 @@
             thumb_width: 110,//缩略图宽度
             thumb_height: 90,//缩略图高度
             max: 5,//最大上传个数
-            fileSize: 2,//默认单个文件大小限制，单位M
+            fileSize: 10,//默认单个文件大小限制，单位M
             existFiles: ''
         };
 
@@ -35,6 +35,9 @@
             var _this = this;
             _this._fileList.append(_this._pick);
             _this.element.append(_this._fileList);
+            if(_this.settings.max == 1) {
+                _this.settings.multiple = false;
+            }
             var uploader = WebUploader.create({
                 auto: true,
                 swf: '/static/plugins/webuploader/Uploader.swf',
@@ -48,7 +51,7 @@
                 fileNumLimit: _this.settings.max, // 限制上传个数
                 accept: {
                     title: 'Images',
-                    extensions: 'gif,jpg,jpeg,bmp,png',
+                    extensions: 'gif,jpg,jpeg,bmp,png,ico',
                     mimeTypes: 'image/*' //修改这行
                 },
                 thumb: {
@@ -79,15 +82,6 @@
                     itemBox.remove();
                     _this._pick.css("display","inline-block");
                 });
-                // // 创建缩略图
-                // uploader.makeThumb(file, function (error, src) {
-                //     console.info(src);
-                //     if (error) {
-                //         img.replaceWith('<span>不能预览</span>');
-                //         return;
-                //     }
-                //     img.attr('src', src);
-                // }, _this.element.thumb_width, _this.element.thumb_height);
                 if (_this._fileList.find('.file-item').length >= _this.settings.max) {
                     _this._pick.hide();
                     if (_this._fileList.find('.file-item').length >= (_this.settings.max + 1)) {
@@ -125,6 +119,25 @@
                     if (_this.settings.urlName != '') {
                         fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + response.data.url + '">'));
                     }
+                    var successMsg = fileItem.find('div.success');
+                    // 避免重复创建
+                    if (!successMsg.length) {
+                        successMsg = $('<div class="success"></div>').appendTo(fileItem);
+                    }
+                    successMsg.html('上传完成');
+                    setTimeout(function () {
+                        successMsg.remove();
+                    },1000);
+                    img.click(function () {
+                        layer.open({
+                            title: false,
+                            type: 1,
+                            closeBtn: true,
+                            shadeClose: true,
+                            area: ['auto', 'auto'],
+                            content: "<img src='" + fileUrl + "' height= '240' width='400'/>"
+                        });
+                    });
                 } else {
                     layer.msg(response.message);
                     var error = fileItem.find('div.error');
@@ -178,6 +191,16 @@
                         var fileItem = _this._fileList.find('#' + file.id);
                         if (fileItem.find("img")) {
                             fileItem.find("img").attr("src", item.url);
+                            fileItem.find("img").click(function () {
+                                layer.open({
+                                    title: false,
+                                    type: 1,
+                                    closeBtn: true,
+                                    shadeClose: true,
+                                    area: ['auto', 'auto'],
+                                    content: "<img src='" + item.url + "' height= '240' width='400'/>"
+                                });
+                            });
                         }
                         if (_this.settings.idName != '') {
                             fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + item.id + '">'));

@@ -22,7 +22,7 @@
                             字典值：<input type="text" name="value"/>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                            <a class="btn btn-success btn-rounded btn-sm" onclick="$.table.search()"><i
                                         class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
                                         class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()">
+            <a class="btn btn-primary" onclick="$.operate.add()">
                 <i class="fa fa-plus"></i> 新增
             </a>
             <a class="btn btn-danger multiple " onclick="$.operate.removeAll()">
@@ -88,7 +88,7 @@
                     title: '状态',
                     formatter:function (value,row,index) {
                         if(value == '1') {
-                            return '<span class="badge badge-primary">启用</span>';
+                            return '<span class="badge badge-success">启用</span>';
                         } else {
                             return '<span class="badge badge-danger">停用</span>';
                         }
@@ -107,7 +107,7 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }

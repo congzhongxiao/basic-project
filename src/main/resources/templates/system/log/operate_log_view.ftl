@@ -7,7 +7,7 @@
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-    <form class="form-horizontal" >
+    <form class="form-horizontal">
         <div class="form-group">
             <label class="col-sm-2 control-label">模块名称：</label>
             <div class="form-control-static">${operateLog.name}</div>
@@ -15,24 +15,25 @@
         <div class="form-group">
             <label class="col-sm-2 control-label">业务类型：</label>
             <div class="form-control-static">
-                <#if operateLog.type == 0>
-                    <label class="badge badge-primary">登录</label>
+                <label class="badge badge-success">
+                    <#if operateLog.type == 0>
+                        登录
                     <#elseif  operateLog.type == 1>
-                        <label class="badge badge-primary">新增</label>
+                        新增
                     <#elseif  operateLog.type == 2>
-                        <label class="badge badge-primary">修改</label>
+                        修改
                     <#elseif  operateLog.type == 3>
-                        <label class="badge badge-primary">删除</label>
+                        删除
                     <#elseif  operateLog.type == 4>
-                        <label class="badge badge-primary">导出</label>
+                        导出
                     <#elseif  operateLog.type == 5>
-                        <label class="badge badge-primary">导入</label>
+                        导入
                     <#elseif  operateLog.type == 6>
-                        <label class="badge badge-primary">授权</label>
+                        授权
                     <#elseif  operateLog.type == 7>
-                        <label class="badge badge-primary">其他</label>
-                </#if>
-
+                        其他
+                    </#if>
+                </label>
             </div>
         </div>
         <div class="form-group">
@@ -59,7 +60,7 @@
             <label class="col-sm-2 control-label">操作状态：</label>
             <div class="form-control-static">
                 <#if operateLog.state == 0>
-                    <label class="badge badge-primary">成功</label>
+                    <label class="badge badge-success">成功</label>
                 <#else >
                     <label class="badge badge-danger">失败</label>
                 </#if>

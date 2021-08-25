@@ -10,7 +10,7 @@
     <title>欢迎登录</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${ctx}/static/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="${ctx}/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
@@ -149,19 +149,21 @@
 
 <!-- jQuery -->
 <script src="${ctx}/static/js/jquery.min.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/plugins/layer/layer.min.js"></script>
 <script>
-<#if isCaptchaLogin == 'true'>
+    <#if isCaptchaLogin == 'true'>
+
     function getCaptcha() {
-       var captchaType = $("#captchaType").val();
-       if(captchaType != 'math' && captchaType != 'char') {
-           captchaType = 'char';
-       }
+        var captchaType = $("#captchaType").val();
+        if (captchaType != 'math' && captchaType != 'char') {
+            captchaType = 'char';
+        }
         var url = "${ctx}/captcha/captchaImage?type=" + captchaType;
         $(".captchaImage").attr("src", url);
     }
-</#if>
+
+    </#if>
     $(function () {
         <#if isCaptchaLogin == 'true'>
         getCaptcha();

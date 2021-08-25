@@ -700,7 +700,6 @@
                     _lv = _p_data.lv + 1; //如果有父
                     // 绘制行
                     tr = renderRow(item, true, _lv, row_id, p_id,options.async,item[options.code]);
-
                     var _p_icon = $("#" + _p_data.row_id).children().eq(options.expandColumn).find(".treetable-expander");
                     var _isExpanded = _p_icon.hasClass(options.expanderExpandedClass);
                     var _isCollapsed = _p_icon.hasClass(options.expanderCollapsedClass);
@@ -714,7 +713,6 @@
                         // 父节点没有展开收缩按钮则添加
                         _p_icon.addClass(options.expanderCollapsedClass);
                     }
-
                     if (_data) {
                         $("#" + _data.row_id).before(tr);
                         $("#" + _data.row_id).remove();
@@ -723,8 +721,14 @@
                         var _tmp_ls = _p_data.row_id.split("_");
                         var _p_next = _p_data.row_id.substring(0, _p_data.row_id.length - (_tmp_ls[_tmp_ls.length - 1]+"").length) + (parseInt(_tmp_ls[_tmp_ls.length - 1]) + 1);
                         // 画上
-                        //$("#" + _p_next).before(tr);
-                        $("#" + _p_data.row_id).after(tr);
+                        var nextDiv = $("#" + _p_next);
+                        if(nextDiv.length == 0) {
+                            nextDiv = $('<tr id="'+ _p_next +'" style="display: none;"></tr>');
+                            $("#" + _p_data.row_id).after(nextDiv);
+                           nextDiv.before(tr);
+                        } else {
+                            nextDiv.before(tr);
+                        }
                     }
                 } else {
                     tr = renderRow(item, false, _lv, row_id, p_id,options.async,item[options.code]);

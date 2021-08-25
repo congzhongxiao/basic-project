@@ -33,7 +33,7 @@
                             操作用户：<input type="text" name="operUserName"/>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                            <a class="btn btn-success btn-rounded btn-sm" onclick="$.table.search()"><i
                                         class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
                                         class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -130,7 +130,7 @@
                     title: '操作状态',
                     formatter: function (value) {
                         if (value == 0) {
-                            return '<label class="badge badge-primary">成功</label>';
+                            return '<label class="badge badge-success">成功</label>';
                         } else {
                             return '<label class="badge badge-danger">失败</label>';
                         }
@@ -142,7 +142,7 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-warning  btn-xs " href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i>详情</a> ');
+                        actions.push('<a class="btn btn-info  btn-xs " href="javascript:void(0)" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-eye"></i>详情</a> ');
                         return actions.join('');
                     }
                 }]

@@ -8,7 +8,7 @@ system:
   #开启验证码登录后验证码类型：math-计算型，char-字符型
   captcha-type: math
 server:
-  port: 8888
+  port: 9999
   servlet:
     context-path: /
   tomcat:

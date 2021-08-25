@@ -9,7 +9,7 @@
 <div class="container-div">
     <div class="row">
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="addRoot()">
+            <a class="btn btn-primary" onclick="addRoot()">
                 <i class="fa fa-plus"></i> 新增
             </a>
         </div>

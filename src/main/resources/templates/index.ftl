@@ -8,60 +8,69 @@
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->
-    <link href="${ctx}/static/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/jquery.contextMenu.min.css" rel="stylesheet"/>
+    <link href="${ctx}/static/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="${ctx}/static/plugins/contextMenu/jquery.contextMenu.min.css" rel="stylesheet"/>
     <link href="${ctx}/static/css/font-awesome.min.css" rel="stylesheet"/>
     <link href="${ctx}/static/css/animate.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/style.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/skins.css" rel="stylesheet"/>
-    <link href="${ctx}/static/css/custom-ui.css?v=4.1.0" rel="stylesheet"/>
+    <link href="${ctx}/static/css/common.css" rel="stylesheet"/>
+    <link href="${ctx}/static/css/app.css" rel="stylesheet"/>
 </head>
-<body class="fixed-sidebar full-height-layout gray-bg theme-dark skin-blue" style="overflow: hidden">
-<div id="wrapper">
-    <div class="main-header">
-        <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-brand">
-                <a href="javascript:void(0);">
-                    <div class="logo">
-                        <span class="logo-lg">公司后台管理系统</span>
-                    </div>
-                    <div class="mini-logo hide">
-                        <span class="logo-lg">
-                           GS
-                        </span>
-                    </div>
+<body class="mini-menu">
+<div class="wrapper">
+    <div class="main-head">
+        <nav class="navbar">
+            <div class="navbar-head">
+                <a class="navbar-brand" href="#">后台管理系统</a>
+                <a class="mini-navbar-brand" href="#">HD</a>
+            </div>
+            <div class="head-bar">
+                <a href="#" class="menu-model-bar">
+                    <span class="fa fa-bars"></span>
                 </a>
             </div>
-            <div class="navbar-header">
-                <a class="navbar-minimalize minimalize-styl-2" style="color:#FFF;" href="#" title="收起菜单">
-                    <i class="fa fa-bars"></i>
-                </a>
-            </div>
-            <ul class="nav navbar-top-links navbar-right welcome-message">
-                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
-                </li>
-                <li class="dropdown user-menu">
-                    <a href="javascript:void(0)" class="dropdown-toggle" data-hover="dropdown">
-                        <span class="hidden-xs"><@shiro.principal property="nickname"/></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a onclick="resetPwd()">
-                                <i class="fa fa-key"></i> 修改密码</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="/logout">
-                                <i class="fa fa-sign-out"></i> 退出登录</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+            <div class="navbar-collapse ">
+                <ul class="nav navbar-nav hidden-xs">
+                    <li><a href="#">首页 </a></li>
+                    <li><a href="#">新闻中心</a></li>
+                    <li><a href="#">产品案例</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-hover="dropdown">更多 <span
+                                    class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">中文</a></li>
+                            <li><a href="#">英文</a></li>
+                            <li><a href="#">日文</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-hover="dropdown"><i
+                                    class="fa fa-fw fa-user"></i><@shiro.principal property="nickname"/> <span
+                                    class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:;" onclick="">
+                                    <i class="fa fa-user-circle-o"></i> 个人中心</a>
+                            </li>
+                            <li>
+                                <a href="javascript:;" onclick="resetPwd()">
+                                    <i class="fa fa-key"></i> 修改密码</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li>
+                                <a href="/logout">
+                                    <i class="fa fa-sign-out"></i> 退出登录</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
         </nav>
     </div>
-
-    <!--左侧导航开始-->
-    <nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="main-left">
         <div class="sidebar-collapse">
             <ul class="nav" id="side-menu">
                 <li>
@@ -101,13 +110,9 @@
                 </li>
             </ul>
         </div>
-    </nav>
-    <!--左侧导航结束-->
-
-    <!--右侧部分开始-->
-    <div id="page-wrapper" class="gray-bg dashbard-1">
-
-        <div class="row content-tabs">
+    </div>
+    <div class="main-content">
+        <div class="content-tabs">
             <button class="roll-nav roll-left tabLeft">
                 <i class="fa fa-backward"></i>
             </button>
@@ -121,35 +126,31 @@
             </button>
             <a href="javascript:void(0);" class="roll-nav roll-right tabReload"><i class="fa fa-refresh"></i> 刷新</a>
         </div>
-
-        <a id="ax_close_max" class="ax_close_max" href="#" title="关闭全屏"> <i class="fa fa-times-circle-o"></i> </a>
-
-        <div class="row mainContent" id="content-main">
+        <div class="content-main" id="content-main">
             <iframe class="index_iframe" name="iframe0" width="100%" height="100%" data-id="${ctx}/home"
-                    src="${ctx}/home" frameborder="0" seamless></iframe>
+                    src="${ctx}/home"
+                    frameborder="0" seamless></iframe>
         </div>
     </div>
-    <!--右侧部分结束-->
 </div>
 <!-- 全局js -->
 <script src="${ctx}/static/js/jquery.min.js"></script>
-<script src="${ctx}/static/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/static/plugins/metisMenu/jquery.metisMenu.js"></script>
 <script src="${ctx}/static/plugins/slimscroll/jquery.slimscroll.min.js"></script>
-<script src="${ctx}/static/js/jquery.contextMenu.min.js"></script>
+<script src="${ctx}/static/plugins/contextMenu/jquery.contextMenu.min.js"></script>
 <script src="${ctx}/static/plugins/blockUI/jquery.blockUI.js"></script>
 <script src="${ctx}/static/plugins/layer/layer.min.js"></script>
-<script src="${ctx}/static/js/custom-ui.js?v=4.1.0"></script>
-<script src="${ctx}/static/js/common.js?v=4.1.0"></script>
+<script src="${ctx}/static/js/common-core.js"></script>
+<script src="${ctx}/static/js/common-extend.js"></script>
 <script src="${ctx}/static/js/index.js"></script>
 <script src="${ctx}/static/plugins/fullscreen/jquery.fullscreen.js"></script>
 <script>
     /* 用户管理-重置密码 */
     function resetPwd() {
         var url = '${ctx}/user/resetPassword';
-        $.modal.open("重置密码", url, '770', '380');
+        $.modal.open("密码修改", url, '770', '380');
     }
-
 </script>
 </body>
 </html>

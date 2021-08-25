@@ -10,12 +10,13 @@
     var pluginName = "leeFileUploader",
         defaults = {
             title: '上传文件',
-            multiple: false,//是否多选
+            multiple: true,//是否多选
             idName: '',//存放id的隐藏域
             urlName: '',//存放url的隐藏域
             uploadUrl: '',
+            accept:null,
             max: 5,//最大上传个数
-            fileSize: 2,//默认单个文件大小限制，单位M
+            fileSize: 500,//默认单个文件大小限制，单位M
             existFiles: ''
         };
 
@@ -33,6 +34,16 @@
             var _this = this;
             _this._fileList.append(_this._pick);
             _this.element.append(_this._fileList);
+            if(_this.settings.max == 1) {
+                _this.settings.multiple = false;
+            }
+            var accept = _this.settings.accept;
+            if(accept == null) {
+                accept =  {
+                    title: 'Files',
+                    extensions: '*',
+                };
+            }
             var uploader = WebUploader.create({
                 auto: true,
                 swf: '/static/plugins/webuploader/Uploader.swf',
@@ -41,6 +52,7 @@
                     id: _this._pick,
                     multiple: _this.settings.multiple
                 },
+                accept:accept,
                 duplicate: true,
                 fileSingleSizeLimit: _this.settings.fileSize * 1024 * 1024, //  单个文件大小
                 fileNumLimit: _this.settings.max // 限制上传个数
@@ -51,7 +63,7 @@
 
 
                 var item = $('<div class="file-panel">');
-                item.append('<div class="file-name" title="' + file.name +'">' + file.name + "</div>" );
+                item.append('<div class="file-name" title="' + file.name +'">' + file.name + '</div><span class="file-upload-progress" ></span>' );
                 var remove = $('<div class = "remove" title="删除"><i class="fa fa-trash"></i></div>');
                 item.append(remove);
                 itemBox.append(item);
@@ -73,17 +85,25 @@
                     _this._pick.css("display","inline-block");
                 }
             });
+            // 文件上传过程中创建进度条实时显示。
+            uploader.on('uploadProgress', function (file, percentage) {
+                var fileItem = _this._fileList.find('#' + file.id);
+                var progress = fileItem.find('.file-upload-progress');
+                progress.text('上传中：' + parseInt(percentage * 100) + '%');
+            });
             uploader.on('uploadSuccess', function (file, response) {
                 var fileItem = _this._fileList.find('#' + file.id);
                 var panel = fileItem.find('.file-panel');
+
                 if (response.success) {//服务端返回结果
                     if (_this.settings.idName != '') {
                         fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + response.data.id + '">'));
                     }
                     if (_this.settings.urlName != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + response.data.url + '">'));
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '_name" value="' + response.data.name + '">'));
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + response.data.url + '|'+ response.data.name +'">'));
                     }
+                    var progress = fileItem.find('.file-upload-progress');
+                    progress.text("上传成功");
                 } else {
                     layer.msg(response.message);
                     var error = fileItem.find('span.error');
@@ -111,7 +131,12 @@
                         layer.msg("最多只能上传 " + _this.settings.max + "个文件",{icon:2});
                         break;
                     case "Q_TYPE_DENIED":
-                        layer.msg("文件内容为空或类型不支持",{icon:2});
+                        var extStr = _this.settings.accept.extensions;
+                        var msg = "文件内容为空或类型不支持";
+                        if(extStr && $.common.isNotEmpty(extStr)){
+                            msg += ',当前只支持后缀名：' + extStr;
+                        }
+                        layer.msg(msg,{icon:2});
                         break;
                     case "F_EXCEED_SIZE":
                         layer.msg("上传文件超过限制大小,限制最大" + _this.settings.fileSize + "M",{icon:2});
@@ -139,8 +164,7 @@
                             fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + item.id + '">'));
                         }
                         if (_this.settings.urlName != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + item.url + '">'));
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '_name" value="' + item.name + '">'));
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + item.url + '|'+ item.name +'">'));
 
                         }
                     }
