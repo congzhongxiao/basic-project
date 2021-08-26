@@ -32,19 +32,19 @@ public class BasicController {
     protected String ErrorPage(String code, String msg, Model model) {
         model.addAttribute("code",code);
         model.addAttribute("msg",msg);
-        return "/error";
+        return "/errorPage";
     }
     //跳转错误页面
     protected String ErrorPage(String msg,Model model) {
         model.addAttribute("code","404");
         model.addAttribute("msg",msg);
-        return "/error";
+        return "/errorPage";
     }
     //跳转错误页面
     protected String ErrorPage(Model model) {
         model.addAttribute("code","404");
         model.addAttribute("msg","页面不存在或已被删除。");
-        return "/error";
+        return "/errorPage";
     }
 
     /**

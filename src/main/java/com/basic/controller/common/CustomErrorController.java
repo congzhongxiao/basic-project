@@ -20,7 +20,7 @@ class CustomErrorController extends BasicErrorController {
         super(new DefaultErrorAttributes(), serverProperties.getError());
     }
 
-    //通过浏览器访问的url 如果发生异常全部会被浏览并跳转到list.html页面
+    //通过浏览器访问的url 如果发生异常全部会被浏览并跳转到指定页面
     @Override
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
         //请求的状态
@@ -31,7 +31,9 @@ class CustomErrorController extends BasicErrorController {
                 isIncludeStackTrace(request, MediaType.TEXT_HTML));
         ModelAndView modelAndView = resolveErrorView(request, response, status, model);
         //指定自定义的视图
-        return (modelAndView == null ? new ModelAndView("error", model) : modelAndView);
+        model.put("code", "404");
+        model.put("msg", "请求地址错误或页面不存在");
+        return (modelAndView == null ? new ModelAndView("errorPage", model) : modelAndView);
     }
 
     //通过http client访问的接口如果发生异常会调用这个方法
