@@ -60,8 +60,8 @@ spring:
 
 #mybatis-plus配置
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
@@ -80,3 +80,6 @@ shiro:
   user:
     loginUrl: /login
     unauthorizedUrl: /unauthorized
+#logging:
+#  level:
+#    org.springframework.web: trace   #输出的日志打印出来的最低级别。
