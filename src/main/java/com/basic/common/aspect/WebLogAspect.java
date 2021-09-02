@@ -1,6 +1,6 @@
 package com.basic.common.aspect;
 
-import com.basic.common.json.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,8 +8,11 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 @Slf4j
 @Aspect
@@ -28,28 +31,43 @@ public class WebLogAspect {
      * @param joinPoint
      */
     @Before("webLog()")
-    public void doBefore(JoinPoint joinPoint){
-        try{
-            // 开始打印请求日志
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-            HttpServletRequest request = attributes.getRequest();
+    public void doBefore(JoinPoint joinPoint) {
 
-            // 打印请求相关参数
-            log.info("========================================== Start ==========================================");
-            // 打印请求 url
-            log.info("URL            : {}", request.getRequestURL().toString());
-            // 打印 Http method
-            log.info("HTTP Method    : {}", request.getMethod());
-            // 打印调用 controller 的全路径以及执行方法
-            log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-            // 打印请求的 IP
-            log.info("IP             : {}", request.getRemoteAddr());
-            // 打印请求入参
-            Map<String, String[]> map = request.getParameterMap();
-            String params = JSON.marshal(map);
-            log.info("params             : {}", params);
-        }catch (Exception e){
+        // 开始打印请求日志
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
 
+        // 打印请求相关参数
+        log.info("========================================== Start ==========================================");
+        // 打印请求 url
+        log.info("URL            : {}", request.getRequestURL().toString());
+        // 打印 Http method
+        log.info("HTTP Method    : {}", request.getMethod());
+        // 打印调用 controller 的全路径以及执行方法
+        log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
+        // 打印请求的 IP
+        log.info("IP             : {}", request.getRemoteAddr());
+        // 打印请求入参
+        try {
+            Object[] args = joinPoint.getArgs();
+            Object[] arguments = new Object[args.length];
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] instanceof ServletRequest || args[i] instanceof ServletResponse || args[i] instanceof MultipartFile) {
+                    continue;
+                }
+                arguments[i] = args[i];
+            }
+            String parameter = "";
+            if (arguments != null) {
+                try {
+                    parameter = JSONObject.toJSONString(arguments);
+                } catch (Exception e) {
+                    parameter = arguments.toString();
+                }
+            }
+            log.info("Params         : {}", parameter);
+        } catch (Exception e) {
+            log.info("Params-error   : {}", e.getMessage());
         }
     }
 
