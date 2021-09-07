@@ -29,7 +29,7 @@ public class SysLoginLogServiceImpl extends ServiceImpl<SysLoginLogMapper, SysLo
         QueryWrapper<SysLoginLog> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
         queryWrapper.like(StringUtils.isNotBlank(queryParam.get("username")),"username",queryParam.get("username"));
-        queryWrapper.orderByAsc("id");
+        queryWrapper.orderByDesc("id");
         IPage mapIPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
     }
