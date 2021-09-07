@@ -1,6 +1,7 @@
 package com.basic.controller.system.user;
 
 import com.basic.common.annotation.Log;
+import com.basic.common.constants.UserConstant;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.enums.BusinessType;
@@ -20,7 +21,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -50,8 +50,10 @@ public class UserController extends BasicController {
     //加载列表分页数据
     //新增页面
     @GetMapping("add")
-    public String add() {
-
+    public String add(Model model) {
+        model.addAttribute("nameMin", UserConstant.USER_NAME_LENGTH_MIN);
+        model.addAttribute("nameMax", UserConstant.USER_NAME_LENGTH_MAX);
+        model.addAttribute("passwordMin", UserConstant.USER_PASSWORD_LENGTH_MIN);
         return prefix + "/user_add";
     }
     //新增数据保存
@@ -145,6 +147,9 @@ public class UserController extends BasicController {
         }
         if(StringUtils.isBlank(newPassword)) {
             return Result.fail("请输入新密码");
+        }
+        if(newPassword.length() < UserConstant.USER_PASSWORD_LENGTH_MIN) {
+            return Result.fail("新密码长度不能少于"+ UserConstant.USER_PASSWORD_LENGTH_MIN + "位");
         }
         User user = getCurrentUser();
         if(!StringUtils.equals(EncryptionUtil.encryption(oldPassword,user.getSalt()),user.getPassword())) {

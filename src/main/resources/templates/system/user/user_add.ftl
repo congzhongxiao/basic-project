@@ -71,15 +71,17 @@
                             return $.common.trim($("#username").val());
                         }
                     }
-                }
+                },
+                minlength: ${nameMin},
+                maxlength:${nameMax}
             },
             password: {
                 required: true,
-                minlength: 5,
+                minlength: ${passwordMin},
             },
             confirmPassword: {
                 required: true,
-                minlength: 5,
+                minlength: ${passwordMin},
                 equalTo: "#password"
             },
             mobile: {
@@ -93,15 +95,18 @@
         messages: {
             username: {
                 required: '请输入用户账号',
-                remote: '用户账号已存在'
+                remote: '用户账号已存在',
+                minlength: '用户账号最少${nameMin}位',
+                maxlength: '用户账号最大${nameMax}位',
             },
             password: {
                 required: '请输入密码',
-                minlength: '确认密码长度最少5位'
+                minlength: '密码长度最少${passwordMin}位',
             },
             confirmPassword: {
                 required: '请输入确认密码',
-                equalTo: '确认密码和密码不一致'
+                equalTo: '确认密码和密码不一致',
+                minlength: '确认密码长度最少${passwordMin}位',
             },
             mobile: {
                 isPhone: '请输入正确的手机号码格式'

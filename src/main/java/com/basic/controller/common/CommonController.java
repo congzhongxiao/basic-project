@@ -2,7 +2,7 @@ package com.basic.controller.common;
 
 import com.basic.common.config.Global;
 import com.basic.common.config.ServerConfig;
-import com.basic.common.constans.SystemConst;
+import com.basic.common.constants.UploadConstant;
 import com.basic.common.domain.FileUploadResult;
 import com.basic.common.domain.Result;
 import com.basic.common.utils.StringUtils;
@@ -51,7 +51,7 @@ public class CommonController extends BasicController {
     @ResponseBody
     public Result uploadImage(@RequestPart("file") MultipartFile file) {
         try {
-            String filePath = Global.getUploadPath() + SystemConst.UPLOAD_FOLDER_IMAGE;
+            String filePath = Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_IMAGE;
             FileUploadResult result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.IMAGE_EXTENSION);
 
             UploadFiles image = new UploadFiles();
@@ -78,16 +78,16 @@ public class CommonController extends BasicController {
             String extension = FileUploadUtils.getExtension(file);
             FileUploadResult result;
             if (StringUtils.containsInArray(extension, MimeTypeUtils.IMAGE_EXTENSION)) {//是图片文件
-                filePath += SystemConst.UPLOAD_FOLDER_IMAGE;
+                filePath += UploadConstant.UPLOAD_FOLDER_IMAGE;
                 result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.IMAGE_EXTENSION);
             } else if (StringUtils.containsInArray(extension, MimeTypeUtils.DOCUMENT_EXTENSION)) {
-                filePath += SystemConst.UPLOAD_FOLDER_DOCUMENT;
+                filePath += UploadConstant.UPLOAD_FOLDER_DOCUMENT;
                 result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.DOCUMENT_EXTENSION);
             } else if (StringUtils.containsInArray(extension, MimeTypeUtils.MEDIA_EXTENSION)) {
-                filePath += SystemConst.UPLOAD_FOLDER_MEDIA;
+                filePath += UploadConstant.UPLOAD_FOLDER_MEDIA;
                 result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.MEDIA_EXTENSION);
             } else if (StringUtils.containsInArray(extension, MimeTypeUtils.COMPRESS_EXTENSION)) {
-                filePath += SystemConst.UPLOAD_FOLDER_COMPRESS;
+                filePath += UploadConstant.UPLOAD_FOLDER_COMPRESS;
                 result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.COMPRESS_EXTENSION);
             } else {
                 return Result.fail("上传类型不支持");
@@ -157,7 +157,7 @@ public class CommonController extends BasicController {
     @ResponseBody
     public Map ueditorUpload(@RequestPart("upfile") MultipartFile upfile) {
         try {
-            String filePath = Global.getUploadPath() + SystemConst.UPLOAD_FOLDER_UEDITOR;
+            String filePath = Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_UEDITOR;
             String fileName = upfile.getOriginalFilename();
             FileUploadResult uploadResult = FileUploadUtils.upload(filePath, upfile, MimeTypeUtils.IMAGE_EXTENSION);
 
@@ -186,7 +186,7 @@ public class CommonController extends BasicController {
         for (Element img : imgTags) {
             String imageSrc = img.attr("src");
             if (isOutLink(imageSrc)) {//外链地址，进行图片本地化处理
-                FileUploadResult result = FileUploadUtils.upload(Global.getUploadPath() + SystemConst.UPLOAD_FOLDER_UEDITOR, imageSrc, MimeTypeUtils.IMAGE_EXTENSION);
+                FileUploadResult result = FileUploadUtils.upload(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_UEDITOR, imageSrc, MimeTypeUtils.IMAGE_EXTENSION);
                 img.attr("src", result.getRelativePath());
             }
         }

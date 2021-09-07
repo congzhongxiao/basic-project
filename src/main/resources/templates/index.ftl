@@ -94,6 +94,7 @@
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <li><a class="menuItem" href="${ctx}/operateLog">系统日志</a></li>
+                        <li><a class="menuItem" href="${ctx}/loginLog">登录日志</a></li>
                         <li><a class="menuItem" href="${ctx}/server">服务监控</a></li>
                     </ul>
                 </li>
