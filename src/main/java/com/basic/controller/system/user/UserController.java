@@ -91,7 +91,7 @@ public class UserController extends BasicController {
         }
         return true;
     }
-
+    @Log(name = "用户状态变更",type = BusinessType.UPDATE)
     @PostMapping("state")
     @ResponseBody
     public Result status(@RequestParam String id) {
@@ -136,7 +136,7 @@ public class UserController extends BasicController {
         model.addAttribute("user",getCurrentUser());
         return prefix + "/user_reset_password";
     }
-
+    @Log(name = "用户重置密码",type = BusinessType.UPDATE)
     @PostMapping("resetPassword")
     @ResponseBody
     public Result resetPassword(){
@@ -161,7 +161,7 @@ public class UserController extends BasicController {
         return Result.success("密码重置成功");
     }
 
-
+    @Log(name = "用户授权",type = BusinessType.GRANT)
     @PostMapping("empower")
     @ResponseBody
     public Result doEmpower(@ModelAttribute("preloadUser") User user, @RequestParam(value = "role_id", required = false) List<String> roleIds) {
@@ -209,6 +209,7 @@ public class UserController extends BasicController {
      * @param user
      * @return
      */
+    @Log(name = "用户信息修改",type = BusinessType.UPDATE)
     @PostMapping("update")
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadUser") User user) {
@@ -229,7 +230,7 @@ public class UserController extends BasicController {
         }
     }
 
-
+    @Log(name = "用户信息删除",type = BusinessType.DELETE)
     @PostMapping("delete")
     @ResponseBody
     public Result delete(@RequestParam(value = "ids") List<String> ids) {

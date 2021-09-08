@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.domain.Result;
 import com.basic.common.utils.PageUtil;
+import com.basic.common.utils.StringUtils;
 import com.basic.entity.SysOperateLog;
 import com.basic.mapper.SysOperateLogMapper;
 import com.basic.service.SysOperateLogService;
@@ -26,6 +27,9 @@ public class SysOperateLogServiceImpl extends ServiceImpl<SysOperateLogMapper, S
         Page<SysOperateLog> page = new PageUtil<SysOperateLog>(queryParam).getPage();
         QueryWrapper<SysOperateLog> queryWrapper = new QueryWrapper();
         //填充查询、排序条件
+        queryWrapper.like(StringUtils.isNotBlank(queryParam.get("name")),"name",queryParam.get("name"));
+        queryWrapper.eq(StringUtils.isNotBlank(queryParam.get("type")),"type",queryParam.get("type"));
+        queryWrapper.orderByDesc("id");
         IPage mapIPage = baseMapper.selectPage(page, queryWrapper);
         return Result.success(PageUtil.initPage(mapIPage));
     }

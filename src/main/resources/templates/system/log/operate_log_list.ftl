@@ -30,9 +30,6 @@
                             </select>
                         </li>
                         <li>
-                            操作用户：<input type="text" name="operUserName"/>
-                        </li>
-                        <li>
                             <a class="btn btn-success btn-rounded btn-sm" onclick="$.table.search()"><i
                                         class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
@@ -42,13 +39,6 @@
                 </div>
             </form>
         </div>
-
-        <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-danger multiple " onclick="$.operate.removeAll()">
-                <i class="fa fa-remove"></i> 删除
-            </a>
-        </div>
-
         <div class="col-sm-12 select-table table-striped">
             <table id="bootstrap-table"></table>
         </div>
@@ -64,10 +54,9 @@
             modalName: "操作日志",
             detailUrl:prefix + "/view/{id}",
             uniqueId: "id",
+            showRefresh:false,
+            showSearch:false,
             columns: [
-                {
-                    checkbox: true
-                },
                 {
                     title: '序号',
                     width: 5,
