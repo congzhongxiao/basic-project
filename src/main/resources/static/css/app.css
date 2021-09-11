@@ -157,6 +157,10 @@
     overflow: hidden;
     height: calc(100vh - 88px); }
 
+.slimScrollDiv > * {
+  overflow-y: hidden;
+  overflow-x: visible; }
+
 body.mini-menu .main-head .navbar .navbar-head .mini-navbar-brand {
   display: block;
   width: 70px;

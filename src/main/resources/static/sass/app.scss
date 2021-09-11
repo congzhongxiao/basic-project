@@ -247,7 +247,10 @@
     height: calc(100vh - #{ $head-height + $tab-height }px);
   }
 }
-
+.slimScrollDiv>* {
+  overflow-y: hidden;
+  overflow-x: visible;
+}
 body.mini-menu {
   .main-head {
     .navbar .navbar-head {
