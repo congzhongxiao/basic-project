@@ -69,7 +69,24 @@ li {
   .mb#{$size} {
     margin-bottom: #{$size}px;
   }
+  .pd#{$size} {
+    padding: #{$size}px;
+  }
 }
+.align-center-force{
+  text-align: center !important;
+}
+.align-left-force{
+  text-align: left !important;
+}
+.align-right-force{
+  text-align: right !important;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
 
 input[type=checkbox] {
   position: relative;

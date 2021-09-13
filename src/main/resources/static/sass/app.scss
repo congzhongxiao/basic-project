@@ -8,7 +8,16 @@
   padding: 0px 28px;
   height: 100%;
 }
-
+.slimScrollDiv>* {
+  overflow-y: hidden;
+  overflow-x: visible;
+}
+.hr-line-dashed {
+  border-width: 1px 0 0 0;
+  border-color: #ddd;
+  border-style: dashed;
+  margin: 10px 0;
+}
 /* 页面顶部部分 */
 .main-head {
   background: #3c8dbc;
@@ -144,7 +153,6 @@
     }
   }
 }
-
 /* 页面内容部分 */
 .main-content {
   height: calc(100vh - #{$head-height}px);
@@ -247,10 +255,7 @@
     height: calc(100vh - #{ $head-height + $tab-height }px);
   }
 }
-.slimScrollDiv>* {
-  overflow-y: hidden;
-  overflow-x: visible;
-}
+
 body.mini-menu {
   .main-head {
     .navbar .navbar-head {
@@ -604,4 +609,9 @@ ul.ul-auto-3 {
     text-overflow: ellipsis;
     overflow: hidden;
   }
+}
+/*消息提示*/
+.help-block{
+  color: #f8ac59;
+  font-size: 12px;
 }

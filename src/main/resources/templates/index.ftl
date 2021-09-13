@@ -106,6 +106,7 @@
                         <li><a class="menuItem" href="${ctx}/dictionary">字典管理</a></li>
                         <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
                         <li><a class="menuItem" href="${ctx}/organization/">组织架构</a></li>
+                        <li><a class="menuItem" href="${ctx}/system/config/basic">系统基础设置</a></li>
 
                     </ul>
                 </li>

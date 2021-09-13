@@ -6,6 +6,16 @@
   padding: 0px 28px;
   height: 100%; }
 
+.slimScrollDiv > * {
+  overflow-y: hidden;
+  overflow-x: visible; }
+
+.hr-line-dashed {
+  border-width: 1px 0 0 0;
+  border-color: #ddd;
+  border-style: dashed;
+  margin: 10px 0; }
+
 /* 页面顶部部分 */
 .main-head {
   background: #3c8dbc; }
@@ -156,10 +166,6 @@
   .main-content #content-main {
     overflow: hidden;
     height: calc(100vh - 88px); }
-
-.slimScrollDiv > * {
-  overflow-y: hidden;
-  overflow-x: visible; }
 
 body.mini-menu .main-head .navbar .navbar-head .mini-navbar-brand {
   display: block;
@@ -409,5 +415,10 @@ ul.ul-auto-3 {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden; }
+
+/*消息提示*/
+.help-block {
+  color: #f8ac59;
+  font-size: 12px; }
 
 /*# sourceMappingURL=app.css.map */

@@ -56,6 +56,9 @@ li {
 .mb5 {
   margin-bottom: 5px; }
 
+.pd5 {
+  padding: 5px; }
+
 .m10 {
   margin: 10px; }
 
@@ -64,6 +67,9 @@ li {
 
 .mb10 {
   margin-bottom: 10px; }
+
+.pd10 {
+  padding: 10px; }
 
 .m15 {
   margin: 15px; }
@@ -74,6 +80,9 @@ li {
 .mb15 {
   margin-bottom: 15px; }
 
+.pd15 {
+  padding: 15px; }
+
 .m20 {
   margin: 20px; }
 
@@ -82,6 +91,21 @@ li {
 
 .mb20 {
   margin-bottom: 20px; }
+
+.pd20 {
+  padding: 20px; }
+
+.align-center-force {
+  text-align: center !important; }
+
+.align-left-force {
+  text-align: left !important; }
+
+.align-right-force {
+  text-align: right !important; }
+
+.font-bold {
+  font-weight: bold; }
 
 input[type=checkbox] {
   position: relative;
