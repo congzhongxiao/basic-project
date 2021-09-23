@@ -676,9 +676,9 @@
         }
         // 添加数据刷新表格
         target.appendData = function(data) {
+            target.find(".temp-delete").remove();//全局删除临时加的底层虚拟定位节点
             // 下边的操作主要是为了查询时让一些没有根节点的节点显示
             $.each(data, function(i, item) {
-               target.find(".temp-delete").remove();//全局删除临时加的底层虚拟定位节点
                 var _data = target.data_obj["id_" + item[options.code]];
                 var _p_data = target.data_obj["id_" + item[options.parentCode]];
                 var _c_list = target.data_list["_n_" + item[options.parentCode]];
@@ -723,7 +723,7 @@
                         var _p_next = _p_data.row_id.substring(0, _p_data.row_id.length - (_tmp_ls[_tmp_ls.length - 1]+"").length) + (parseInt(_tmp_ls[_tmp_ls.length - 1]) + 1);
                         // 画上
                         var nextDiv = $("#" + _p_next);
-
+                        console.info(nextDiv.html())
                         if(nextDiv.length == 0) {
                             //增加虚拟定位节点，使新增保持底部插入，页面初始时全部清除 leeyt
                             nextDiv = $('<tr id="'+ _p_next +'" style="display: none;" class="temp-delete"></tr>');
