@@ -13,4 +13,5 @@ import java.util.Map;
 public interface UserService extends IService<User> {
     Result getPageInfo(Map<String, Object> queryParam);
     User getByUsername(String username);
+    Result validateUserNameAndPassword(String username, String password);
 }

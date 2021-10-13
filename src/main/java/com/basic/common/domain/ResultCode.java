@@ -12,6 +12,7 @@ public enum  ResultCode {
     COMMON_NO_PERMIT(false,1003,"权限不足!"),
     COMMON_SERVER_ERROR(false,1004,"系统繁忙，请稍后重试！"),
     COMMON_DATA_OPTION_ERROR(false,1005,"数据操作异常！"),
+    COMMON_PASSWORD_RESET(false,1010,"密码已过期！"),
     //校验失败可能存在message自定义，在Result中实现
     COMMON_FAIL_VALIDATE(false,1050,"参数校验失败！");
     //业务细分返回码

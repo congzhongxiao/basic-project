@@ -6,6 +6,7 @@ import com.basic.common.manager.AsyncManager;
 import com.basic.common.manager.factory.AsyncFactory;
 import com.basic.common.utils.DateUtils;
 import com.basic.common.utils.EncryptionUtil;
+import com.basic.common.utils.RSAUtil;
 import com.basic.common.utils.ShiroUtils;
 import com.basic.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,10 @@ public class LoginService {
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户名或密码为空"));
             throw new UserNotExistsException();
         }
+        try{
+            username = RSAUtil.decrypt(username);
+            password = RSAUtil.decrypt(password);
+        } catch ( Exception e) {}
         // 查询用户信息
         User user = userService.getByUsername(username);
         if (user == null) {
@@ -69,6 +74,7 @@ public class LoginService {
                 throw new UserPasswordNotMatchException();
             }
         }
+
         user.setLastLoginTime(new Date());
         user.setLastLoginIp(ShiroUtils.getIp());
         userService.updateById(user);

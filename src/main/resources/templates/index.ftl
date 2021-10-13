@@ -150,9 +150,57 @@
 <script>
     /* 用户管理-重置密码 */
     function resetPwd() {
-        var url = '${ctx}/user/resetPassword';
+        var url = '${ctx}/user/changePassword';
         $.modal.open("密码修改", url, '770', '380');
     }
+
+    function changePassword() {
+        var url = '${ctx}/user/changePassword';
+        layer.open({
+            type: 2,
+            closeBtn: 0,
+            area: ['770px', '380px'],
+            shade: 0.3,
+            title: "密码修改",
+            content: url,
+            btn: ['<i class="fa fa-check-square-o" />提交修改', '<i class="fa fa-sign-out" />退出登录'],
+            // 弹层外区域关闭
+            shadeClose: false,
+            yes: function (index, layero) {
+                var iframeWin = layero.find('iframe')[0];
+                iframeWin.contentWindow.submitHandler(index, layero);
+            },
+            btn2: function () {
+                $.modal.confirm('点击确定将返回登录页面，确定退出系统？', function () {
+                    window.location.href = "${ctx}/logout";
+                });
+                return false;
+            }
+        });
+    }
+
+    $(function () {
+        try {
+            $.get('${ctx}/user/checkPasswordReset', function (result) {
+                if (!result.success) {
+                    layer.open({
+                        title: '账号安全检测',
+                        icon: 0,
+                        closeBtn: 0,
+                        content: result.message,
+                        btn: ['修改密码'],
+                        yes: function (index) {
+                            layer.close(index);
+                            changePassword();
+                        }
+                    });
+                }
+            });
+        } catch (e) {
+            console.info("密码过期检查异常");
+        }
+
+    });
 </script>
 </body>
 </html>

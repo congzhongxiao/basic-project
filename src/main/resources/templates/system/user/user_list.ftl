@@ -69,6 +69,13 @@
         $.modal.open("设置角色", url);
     }
 
+
+    function resetPassword(id) {
+        $.modal.confirm("确定重置该用户的登录密码？", function () {
+            $.operate.post(prefix + "/resetPassword", {"id": id});
+        })
+    }
+
     $(function () {
         var options = {
             url: prefix + "/findList",
@@ -126,6 +133,7 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="resetPassword(\'' + row.id + '\')"><i class="fa fa-key"></i>重置密码</a> ');
                         actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-key"></i>设置角色</a> ');
                         actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');

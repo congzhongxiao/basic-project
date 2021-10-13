@@ -75,9 +75,10 @@
             width: 100%;
             border: 1px solid #c6c6c6;
             height: 50px;
-            padding: 8px 0px 8px 40px;
+            padding: 8px 8px 8px 40px;
             font-size: 16px;
             outline: none;
+            color: #8f8f8f;
         }
 
         .code {
@@ -115,14 +116,14 @@
         <div class="row login-row">
             <div class="col-xs-12">
                 <span class="input-icon"><i class="fa fa-user"></i></span>
-                <input class="form-input" placeholder="请输入登录账号" id="username" name="username" type="text" value="admin"
+                <input class="form-input" placeholder="请输入登录账号" id="username" name="username" type="text" value=""
                        autofocus>
             </div>
         </div>
         <div class="row login-row">
             <div class="col-xs-12">
                 <span class="input-icon"><i class="fa fa-lock"></i></span>
-                <input class="form-input" placeholder="请输入密码" id="password" name="password" value="admin"
+                <input class="form-input" placeholder="请输入密码" id="password" name="password" value=""
                        type="password">
             </div>
         </div>
@@ -150,6 +151,7 @@
 <!-- jQuery -->
 <script src="${ctx}/static/js/jquery.min.js"></script>
 <script src="${ctx}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="${ctx}/static/plugins/jsencrypt/jsencrypt.js"></script>
 <script src="${ctx}/static/plugins/layer/layer.min.js"></script>
 <script>
     <#if isCaptchaLogin == 'true'>
@@ -192,16 +194,26 @@
                 layer.msg('请输入密码', {time: 1000});
                 return false;
             }
+
             <#if isCaptchaLogin == 'true'>
             if (!$("#validateCode").val()) {
                 layer.msg('请输入验证码', {time: 1000});
                 return false;
             }
             </#if>
+            var public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnq5fgSl3VzTXR54QkmlCyD1X/FC4ds5ZICyhOb8Snw1DUVDgz/wvnOAgG2NnLjg83gUS1Djo0B6IWzgZcT09gP7KyIISI/aPtb9UgmTYyv060DS2YYEzIaIfhx2ZBA9bSzOjaE6cgk5NZq38U6+my516o3j/JTuguhX3SHP+S6QIDAQAB";
+            var encrypt = new JSEncrypt();
+            encrypt.setPublicKey(public_key);
+            var data = $("form").serializeArray();
+            data.forEach(function (item) {
+                if (item.name === 'username' || item.name === 'password') {
+                    item.value = encrypt.encrypt(item.value);
+                }
+            });
             $.ajax({
                 url: '/login',
                 type: 'post',
-                data: $('form').serialize(),
+                data: data,
                 dataType: 'json',
                 success: function (data) {
                     if (data.success) {
@@ -215,8 +227,7 @@
                         layer.open({
                             title: '登录失败',
                             icon: 5,
-                            content: data.message,
-                            time: 2000
+                            content: data.message
                         });
                     }
                 }

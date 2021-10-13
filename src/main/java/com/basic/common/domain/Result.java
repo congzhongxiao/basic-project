@@ -43,6 +43,9 @@ public class Result {
         e.printStackTrace();
         return new Result(code);
     }
+    public static Result alert(ResultCode code,String message){
+        return new Result(code,message);
+    }
 
     public static Result fail(String msg ){
         return new Result(ResultCode.COMMON_FAIL,msg);

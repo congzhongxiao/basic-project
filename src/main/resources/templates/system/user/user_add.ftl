@@ -19,6 +19,7 @@
             <div class="col-sm-8">
                 <input class="form-control required" type="password" name="password" id="password" placeholder="请输入密码"
                        autocomplete="new-password">
+                <div class="help-block">密码必须由大写字母、小写字母和数字组成，且位数需要${passwordMin} - ${passwordMax}位。</div>
             </div>
         </div>
         <div class="form-group">
@@ -78,10 +79,10 @@
             password: {
                 required: true,
                 minlength: ${passwordMin},
+                maxlength:${passwordMax}
             },
             confirmPassword: {
                 required: true,
-                minlength: ${passwordMin},
                 equalTo: "#password"
             },
             mobile: {
@@ -102,11 +103,11 @@
             password: {
                 required: '请输入密码',
                 minlength: '密码长度最少${passwordMin}位',
+                maxlength: '密码长度最长${passwordMax}位',
             },
             confirmPassword: {
                 required: '请输入确认密码',
                 equalTo: '确认密码和密码不一致',
-                minlength: '确认密码长度最少${passwordMin}位',
             },
             mobile: {
                 isPhone: '请输入正确的手机号码格式'

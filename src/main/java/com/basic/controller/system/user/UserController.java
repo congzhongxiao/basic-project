@@ -5,6 +5,7 @@ import com.basic.common.constants.UserConstant;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.enums.BusinessType;
+import com.basic.common.utils.DateUtils;
 import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.StringUtils;
 import com.basic.controller.common.BasicController;
@@ -21,6 +22,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,14 @@ public class UserController extends BasicController {
 
     String prefix = "system/user";
 
+    @ModelAttribute
+    public void userInit(Model model) {
+        model.addAttribute("nameMin", UserConstant.USER_NAME_LENGTH_MIN);
+        model.addAttribute("nameMax", UserConstant.USER_NAME_LENGTH_MAX);
+        model.addAttribute("passwordMin", UserConstant.USER_PASSWORD_LENGTH_MIN);
+        model.addAttribute("passwordMax", UserConstant.USER_PASSWORD_LENGTH_MAX);
+    }
+
     //列表页面
     @GetMapping("")
     public String list() {
@@ -47,17 +57,16 @@ public class UserController extends BasicController {
     public Result findList(@RequestBody Map map) {
         return userService.getPageInfo(map);
     }
+
     //加载列表分页数据
     //新增页面
     @GetMapping("add")
-    public String add(Model model) {
-        model.addAttribute("nameMin", UserConstant.USER_NAME_LENGTH_MIN);
-        model.addAttribute("nameMax", UserConstant.USER_NAME_LENGTH_MAX);
-        model.addAttribute("passwordMin", UserConstant.USER_PASSWORD_LENGTH_MIN);
+    public String add() {
         return prefix + "/user_add";
     }
+
     //新增数据保存
-    @Log(name = "新增用户",type = BusinessType.INSERT)
+    @Log(name = "新增用户", type = BusinessType.INSERT)
     @PostMapping("add")
     @ResponseBody
     public Result doAdd(@Validated User user) {
@@ -69,9 +78,15 @@ public class UserController extends BasicController {
             if (!confirmPassword.equals(user.getPassword())) {
                 return Result.fail("密码和确认密码不一致！");
             }
+            Result validate = userService.validateUserNameAndPassword(user.getUsername(), confirmPassword);
+            if (!validate.isSuccess()) {
+                return Result.fail(validate.getMessage());
+            }
             user.setStatus(1);
             user.setSalt(EncryptionUtil.getRandomString(10));
-            user.setPassword(EncryptionUtil.encryption(user.getPassword(),user.getSalt()));
+            user.setPassword(EncryptionUtil.encryption(user.getPassword(), user.getSalt()));
+            user.setPasswordTime(new Date());
+            user.setPasswordStatus(0);
             userService.save(user);
             return Result.success("操作成功！");
         } catch (Exception e) {
@@ -91,7 +106,8 @@ public class UserController extends BasicController {
         }
         return true;
     }
-    @Log(name = "用户状态变更",type = BusinessType.UPDATE)
+
+    @Log(name = "用户状态变更", type = BusinessType.UPDATE)
     @PostMapping("state")
     @ResponseBody
     public Result status(@RequestParam String id) {
@@ -106,7 +122,7 @@ public class UserController extends BasicController {
                 return Result.fail("信息不存在或已被删除！");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 
@@ -131,37 +147,83 @@ public class UserController extends BasicController {
         }
         return prefix + "/user_empower";
     }
-    @GetMapping("resetPassword")
-    public String resetPassword(Model model){
-        model.addAttribute("user",getCurrentUser());
-        return prefix + "/user_reset_password";
-    }
-    @Log(name = "用户重置密码",type = BusinessType.UPDATE)
+
     @PostMapping("resetPassword")
     @ResponseBody
-    public Result resetPassword(){
-        String oldPassword = request.getParameter("oldPassword");
-        String newPassword = request.getParameter("newPassword");
-        if(StringUtils.isBlank(oldPassword)) {
-            return Result.fail("请输入原密码");
-        }
-        if(StringUtils.isBlank(newPassword)) {
-            return Result.fail("请输入新密码");
-        }
-        if(newPassword.length() < UserConstant.USER_PASSWORD_LENGTH_MIN) {
-            return Result.fail("新密码长度不能少于"+ UserConstant.USER_PASSWORD_LENGTH_MIN + "位");
-        }
-        User user = getCurrentUser();
-        if(!StringUtils.equals(EncryptionUtil.encryption(oldPassword,user.getSalt()),user.getPassword())) {
-            return Result.fail("原密码不正确");
+    public Result resetPassword(@RequestParam(value = "id") String id) {
+        User user = userService.getById(id);
+        if (user == null) {
+            return Result.fail("用户不存在或已被删除");
         }
         user.setSalt(EncryptionUtil.getRandomString(10));
-        user.setPassword(EncryptionUtil.encryption(newPassword,user.getSalt()));
+        user.setPassword(EncryptionUtil.encryption(UserConstant.USER_RESET_DEFAULT_PASSWORD, user.getSalt()));
+        user.setPasswordTime(new Date());
+        user.setPasswordStatus(1);
         userService.updateById(user);
-        return Result.success("密码重置成功");
+        return Result.success("密码重置成功，初始密码为：" + UserConstant.USER_RESET_DEFAULT_PASSWORD);
     }
 
-    @Log(name = "用户授权",type = BusinessType.GRANT)
+    //检查密码重置情况
+    @GetMapping("checkPasswordReset")
+    @ResponseBody
+    public Result checkPassword() {
+        User currentUser = getCurrentUser();
+        if(currentUser.getPasswordStatus() == 1) {//用户密码需要初始化
+            return Result.fail("系统检测您的密码已长时间未更新，为保障您的账号安全，请先修改密码后再继续操作。");
+        }
+        if(UserConstant.USER_PASSWORD_INVALID_CHECK && currentUser.getPasswordTime() != null) {//用户密码重置时间不存在的情况不进行过期检查
+            long resetTimeDiff = DateUtils.getDateDiff(DateUtils.getNowDate(), currentUser.getPasswordTime());
+            //当前时间与密码重置时间差大于设置数值时，要求用户修改密码
+            if(resetTimeDiff > UserConstant.USER_PASSWORD_INVALID_TIME){
+                return Result.fail("系统检测您的密码已长时间未更新，为保障您的账号安全，请先修改密码后再继续操作。");
+            }
+        }
+        return Result.success();
+    }
+
+    @GetMapping("changePassword")
+    public String changePassword(Model model) {
+        model.addAttribute("user", getCurrentUser());
+        return prefix + "/user_change_password";
+    }
+
+    @Log(name = "用户修改密码", type = BusinessType.UPDATE)
+    @PostMapping("changePassword")
+    @ResponseBody
+    public Result changePassword() {
+        String oldPassword = request.getParameter("oldPassword");
+        String newPassword = request.getParameter("newPassword");
+        String confirmPassword = request.getParameter("confirmPassword");
+        if (StringUtils.isBlank(oldPassword)) {
+            return Result.fail("请输入原密码");
+        }
+        if (StringUtils.isBlank(newPassword)) {
+            return Result.fail("请输入新密码");
+        }
+        if (StringUtils.isBlank(confirmPassword)) {
+            return Result.fail("请输入确认密码");
+        }
+        if(!StringUtils.equals(confirmPassword,newPassword)) {
+            return Result.fail("确认密码和新密码不一致");
+        }
+
+        User user = getCurrentUser();
+        if (!StringUtils.equals(EncryptionUtil.encryption(oldPassword, user.getSalt()), user.getPassword())) {
+            return Result.fail("原密码不正确");
+        }
+        Result validate = userService.validateUserNameAndPassword(user.getUsername(), newPassword);
+        if (!validate.isSuccess()) {
+            return Result.fail(validate.getMessage());
+        }
+        user.setSalt(EncryptionUtil.getRandomString(10));
+        user.setPassword(EncryptionUtil.encryption(newPassword, user.getSalt()));
+        user.setPasswordTime(new Date());
+        user.setPasswordStatus(0);
+        userService.updateById(user);
+        return Result.success("密码修改成功");
+    }
+
+    @Log(name = "用户授权", type = BusinessType.GRANT)
     @PostMapping("empower")
     @ResponseBody
     public Result doEmpower(@ModelAttribute("preloadUser") User user, @RequestParam(value = "role_id", required = false) List<String> roleIds) {
@@ -209,7 +271,7 @@ public class UserController extends BasicController {
      * @param user
      * @return
      */
-    @Log(name = "用户信息修改",type = BusinessType.UPDATE)
+    @Log(name = "用户信息修改", type = BusinessType.UPDATE)
     @PostMapping("update")
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadUser") User user) {
@@ -226,11 +288,11 @@ public class UserController extends BasicController {
                 return Result.fail("信息不存在或已被删除");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 
-    @Log(name = "用户信息删除",type = BusinessType.DELETE)
+    @Log(name = "用户信息删除", type = BusinessType.DELETE)
     @PostMapping("delete")
     @ResponseBody
     public Result delete(@RequestParam(value = "ids") List<String> ids) {

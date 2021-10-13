@@ -1,7 +1,5 @@
 package com.basic.controller.common;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.basic.common.domain.PageResult;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.User;
 import lombok.Data;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 @Data
 public class BasicController {

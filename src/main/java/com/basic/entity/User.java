@@ -38,17 +38,12 @@ public class User extends Model<User> {
      * 用户名
      */
     @NotEmpty(message = "用户名不能为空")
-    @Size(min = UserConstant.USER_NAME_LENGTH_MIN,
-            max = UserConstant.USER_NAME_LENGTH_MAX,
-            message = "用户账号需要" + UserConstant.USER_NAME_LENGTH_MIN + "-" + UserConstant.USER_NAME_LENGTH_MAX + "位")
     private String username;
 
     /**
      * 密码
      */
     @NotEmpty(message = "密码不能为空")
-    @Size(min = UserConstant.USER_PASSWORD_LENGTH_MIN,
-            message = "密码位数最少为" + UserConstant.USER_PASSWORD_LENGTH_MIN + "位")
     private String password;
 
     private String salt;
@@ -58,6 +53,20 @@ public class User extends Model<User> {
      * 0初始 1很弱 2弱 3安全 4很安全
      */
     private Integer passwordLevel;
+
+    /**
+     * 密码重置状态 0正常，1重置
+     */
+    private Integer passwordStatus;
+
+    /**
+     *密码重置时间
+     */
+    @TableField(value = "password_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date passwordTime;
+
     /**
      * 昵称
      */
