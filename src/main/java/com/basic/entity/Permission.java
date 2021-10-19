@@ -27,7 +27,7 @@ public class Permission extends Model<Permission> {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     /**
@@ -61,11 +61,5 @@ public class Permission extends Model<Permission> {
      * 备注
      */
     private String comment;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

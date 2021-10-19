@@ -10,6 +10,9 @@
   overflow-y: hidden;
   overflow-x: visible; }
 
+.mini-menu .main-left .slimScrollDiv > * {
+  overflow: visible !important; }
+
 .hr-line-dashed {
   border-width: 1px 0 0 0;
   border-color: #ddd;

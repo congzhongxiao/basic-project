@@ -31,7 +31,7 @@ public class User extends Model<User> {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     /**
@@ -60,7 +60,7 @@ public class User extends Model<User> {
     private Integer passwordStatus;
 
     /**
-     *密码重置时间
+     * 密码重置时间
      */
     @TableField(value = "password_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -100,7 +100,7 @@ public class User extends Model<User> {
 
 
     /**
-     *最近登录失败时间
+     * 最近登录失败时间
      */
     @TableField(value = "last_fail_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -113,7 +113,7 @@ public class User extends Model<User> {
     private String lastLoginIp;
 
     /**
-     *最近登录时间
+     * 最近登录时间
      */
     @TableField(value = "last_login_time")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -151,10 +151,5 @@ public class User extends Model<User> {
      * 备注
      */
     private String remark;
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

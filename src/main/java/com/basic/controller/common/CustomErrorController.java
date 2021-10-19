@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,8 +28,7 @@ class CustomErrorController extends BasicErrorController {
         HttpStatus status = getStatus(request);
         response.setStatus(getStatus(request).value());
 
-        Map<String, Object> model = getErrorAttributes(request,
-                isIncludeStackTrace(request, MediaType.TEXT_HTML));
+        Map<String, Object> model = Collections.unmodifiableMap(this.getErrorAttributes(request, this.getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
         ModelAndView modelAndView = resolveErrorView(request, response, status, model);
         //指定自定义的视图
         model.put("code", "404");
@@ -47,6 +47,6 @@ class CustomErrorController extends BasicErrorController {
         map.put("code", "10001");
         map.put("message", "请求地址错误或页面不存在");
 
-        return new ResponseEntity<Map<String, Object>>(map, status);
+        return new ResponseEntity<>(map, status);
     }
 }

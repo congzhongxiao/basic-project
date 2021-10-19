@@ -26,7 +26,7 @@ public class Role extends Model<Role> {
     /**
      * 主键
      */
-    @TableId(value = "id", type = IdType.ID_WORKER_STR)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private String id;
 
     /**
@@ -44,11 +44,5 @@ public class Role extends Model<Role> {
      * 备注
      */
     private String comment;
-
-
-    @Override
-    protected Serializable pkVal() {
-        return this.id;
-    }
 
 }

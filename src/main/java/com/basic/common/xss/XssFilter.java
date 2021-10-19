@@ -1,6 +1,7 @@
 package com.basic.common.xss;
 
-import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+
+import com.basic.common.utils.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

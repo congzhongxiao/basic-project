@@ -1,5 +1,6 @@
 package com.basic.common.config.interceptor.impl;
 
+import com.basic.common.annotation.RepeatSubmit;
 import com.basic.common.config.interceptor.RepeatSubmitInterceptor;
 import com.basic.common.json.JSON;
 import org.springframework.stereotype.Component;
@@ -32,9 +33,9 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
         this.intervalTime = intervalTime;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public boolean isRepeatSubmit(HttpServletRequest request) throws Exception {
+    public boolean isRepeatSubmit(HttpServletRequest request, RepeatSubmit annotation) throws Exception
+    {
         // 本次参数及系统时间
         String nowParams = JSON.marshal(request.getParameterMap());
         Map<String, Object> nowDataMap = new HashMap<String, Object>();
@@ -46,11 +47,14 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
 
         HttpSession session = request.getSession();
         Object sessionObj = session.getAttribute(SESSION_REPEAT_KEY);
-        if (sessionObj != null) {
+        if (sessionObj != null)
+        {
             Map<String, Object> sessionMap = (Map<String, Object>) sessionObj;
-            if (sessionMap.containsKey(url)) {
+            if (sessionMap.containsKey(url))
+            {
                 Map<String, Object> preDataMap = (Map<String, Object>) sessionMap.get(url);
-                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap)) {
+                if (compareParams(nowDataMap, preDataMap) && compareTime(nowDataMap, preDataMap, annotation.interval()))
+                {
                     return true;
                 }
             }
@@ -64,7 +68,8 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     /**
      * 判断参数是否相同
      */
-    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap) {
+    private boolean compareParams(Map<String, Object> nowMap, Map<String, Object> preMap)
+    {
         String nowParams = (String) nowMap.get(REPEAT_PARAMS);
         String preParams = (String) preMap.get(REPEAT_PARAMS);
         return nowParams.equals(preParams);
@@ -73,10 +78,12 @@ public class SameUrlDataInterceptor extends RepeatSubmitInterceptor {
     /**
      * 判断两次间隔时间
      */
-    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap) {
+    private boolean compareTime(Map<String, Object> nowMap, Map<String, Object> preMap, int interval)
+    {
         long time1 = (Long) nowMap.get(REPEAT_TIME);
         long time2 = (Long) preMap.get(REPEAT_TIME);
-        if ((time1 - time2) < (this.intervalTime * 1000)) {
+        if ((time1 - time2) < interval)
+        {
             return true;
         }
         return false;
