@@ -1,7 +1,7 @@
 system:
   name: basic-project
 #  系统版本号
-  version: 1.0
+  version: 2.0
 #  静态资源版本号
   static-version: 20211020
   copyright: 2020
