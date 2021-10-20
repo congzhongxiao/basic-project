@@ -10,8 +10,8 @@
     <title>欢迎登录</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="${ctx}/static/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${ctx}/static/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${ctx}/static/plugins/bootstrap/css/bootstrap.min.css?version=${version}" rel="stylesheet">
+    <link href="${ctx}/static/css/font-awesome.min.css?version=${version}" rel="stylesheet" type="text/css">
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -149,10 +149,10 @@
 </div>
 
 <!-- jQuery -->
-<script src="${ctx}/static/js/jquery.min.js"></script>
-<script src="${ctx}/static/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="${ctx}/static/plugins/jsencrypt/jsencrypt.js"></script>
-<script src="${ctx}/static/plugins/layer/layer.min.js"></script>
+<script src="${ctx}/static/js/jquery.min.js?version=${version}"></script>
+<script src="${ctx}/static/plugins/bootstrap/js/bootstrap.min.js?version=${version}"></script>
+<script src="${ctx}/static/plugins/jsencrypt/jsencrypt.js?version=${version}"></script>
+<script src="${ctx}/static/plugins/layer/layer.min.js?version=${version}"></script>
 <script>
     <#if isCaptchaLogin == 'true'>
 

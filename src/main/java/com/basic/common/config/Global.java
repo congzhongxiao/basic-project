@@ -12,15 +12,32 @@ import org.springframework.stereotype.Component;
 public class Global {
     private static String name;//项目名称
     private static String version;//版本
+    private static String staticVersion;//静态资源版本号
     private static String copyright;//版权年份
     private static String profile;//上传路径
     private static boolean captchaLogin;//验证码登录开关
     private static String captchaType;//验证码类型
-
+    private static boolean requestLog;//网络访问日志开关
     private static boolean addressEnabled;//获取ip地址开关
 
     public static final String RESOURCE_PREFIX = "/profile";
 
+
+    public static boolean isRequestLog() {
+        return requestLog;
+    }
+
+    public void setRequestLog(boolean requestLog) {
+        Global.requestLog = requestLog;
+    }
+
+    public static String getStaticVersion() {
+        return staticVersion;
+    }
+
+    public void setStaticVersion(String staticVersion) {
+        Global.staticVersion = staticVersion;
+    }
 
     public static boolean isCaptchaLogin() {
         return captchaLogin;

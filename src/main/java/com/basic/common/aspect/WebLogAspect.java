@@ -1,13 +1,13 @@
 package com.basic.common.aspect;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.basic.common.config.Global;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
@@ -18,6 +18,11 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 public class WebLogAspect {
+
+    private static final ThreadLocal<Long> START_TIME_MILLIS = new ThreadLocal<>();
+    @Autowired
+    HttpServletRequest request;
+
     /**
      * 以 controller 包下定义的所有请求为切入点
      */
@@ -26,28 +31,31 @@ public class WebLogAspect {
     }
 
     /**
-     * 在切点之前
+     * 前置通知:在某连接点之前执行的通知，但这个通知不能阻止连接点之前的执行流程（除非它抛出一个异常）。
      *
-     * @param joinPoint
+     * @param joinPoint 参数
      */
     @Before("webLog()")
-    public void doBefore(JoinPoint joinPoint) {
+    public void before(JoinPoint joinPoint) {
+        START_TIME_MILLIS.set(System.currentTimeMillis());
+    }
 
-        // 开始打印请求日志
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
+    /**
+     * 后置通知:在某连接点正常完成后执行的通知，通常在一个匹配的方法返回的时候执行。
+     *
+     * @param joinPoint 参数
+     */
+    @AfterReturning(value = "webLog()", returning = "result")
+    public void afterReturning(JoinPoint joinPoint, Object result) {
+        if (Global.isRequestLog()) {
+            String logTemplate = "请求响应正常->URL:{}, Method:{}, IP:{}, Params:{}, Class:{}.{}, time:{}ms, Response: {}";
+            log.info(logTemplate, request.getRequestURL(), request.getMethod(), request.getRemoteAddr(), getParameterInfo(joinPoint), joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName(), (System.currentTimeMillis() - START_TIME_MILLIS.get()), JSON.toJSONString(result));
+        }
+        START_TIME_MILLIS.remove();
+    }
 
-        // 打印请求相关参数
-        log.info("========================================== Start ==========================================");
-        // 打印请求 url
-        log.info("URL            : {}", request.getRequestURL().toString());
-        // 打印 Http method
-        log.info("HTTP Method    : {}", request.getMethod());
-        // 打印调用 controller 的全路径以及执行方法
-        log.info("Class Method   : {}.{}", joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
-        // 打印请求的 IP
-        log.info("IP             : {}", request.getRemoteAddr());
-        // 打印请求入参
+    private String getParameterInfo(JoinPoint joinPoint) {
+        String parameter = "";
         try {
             Object[] args = joinPoint.getArgs();
             Object[] arguments = new Object[args.length];
@@ -57,7 +65,7 @@ public class WebLogAspect {
                 }
                 arguments[i] = args[i];
             }
-            String parameter = "";
+
             if (arguments != null) {
                 try {
                     parameter = JSONObject.toJSONString(arguments);
@@ -65,28 +73,32 @@ public class WebLogAspect {
                     parameter = arguments.toString();
                 }
             }
-            log.info("Params         : {}", parameter);
         } catch (Exception e) {
-            log.info("Params-error   : {}", e.getMessage());
+            parameter = "参数异常";
         }
+        return parameter;
     }
 
     /**
-     * 在切点之后
+     * 异常通知:在方法抛出异常退出时执行的通知。
+     *
+     * @param joinPoint 参数
+     */
+    @AfterThrowing(value = "webLog()", throwing = "ex")
+    public void afterThrowing(JoinPoint joinPoint, Throwable ex) {
+        if (Global.isRequestLog()) {
+            String logTemplate = "请求响应异常->URL:{}, Method:{}, IP:{}, Params:{}, Class:{}.{}, time:{}ms,ExInfo: {}";
+            log.error(logTemplate, request.getRequestURL(), request.getMethod(), request.getRemoteAddr(), getParameterInfo(joinPoint), joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName(), (System.currentTimeMillis() - START_TIME_MILLIS.get()), ex.getMessage());
+        }
+        START_TIME_MILLIS.remove();
+    }
+
+    /**
+     * 最终通知。当某连接点退出的时候执行的通知（不论是正常返回还是异常退出）。
+     *
+     * @param joinPoint
      */
     @After("webLog()")
-    public void doAfter() {
-        log.info("=========================================== End ===========================================");
-    }
-
-    /**
-     * 环绕
-     *
-     * @param proceedingJoinPoint
-     * @throws Throwable
-     */
-    @Around("webLog()")
-    public Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        return proceedingJoinPoint.proceed();
+    public void after(JoinPoint joinPoint) {
     }
 }
