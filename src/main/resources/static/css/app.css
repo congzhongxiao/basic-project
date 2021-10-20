@@ -21,59 +21,57 @@
 
 /* 页面顶部部分 */
 .main-head {
-  background: #3c8dbc; }
-  .main-head .navbar {
-    border: none; }
-    .main-head .navbar .navbar-head {
-      text-align: center; }
-      .main-head .navbar .navbar-head .navbar-brand {
-        width: 220px;
-        background: #367fa9;
-        color: #ffffff;
-        float: left;
-        height: auto;
-        padding: 15px 15px;
-        font-size: 18px;
-        line-height: 20px; }
-      .main-head .navbar .navbar-head .mini-navbar-brand {
-        display: none;
-        float: left;
-        height: auto;
-        padding: 15px 15px;
-        font-size: 18px;
-        line-height: 20px; }
-    .main-head .navbar .head-bar {
-      float: left;
-      overflow: hidden; }
-      .main-head .navbar .head-bar .menu-model-bar {
-        padding: 15px 20px;
-        display: block;
-        color: #ffffff; }
-      .main-head .navbar .head-bar .menu-model-bar:hover, .main-head .navbar .head-bar .menu-model-bar:active, .main-head .navbar .head-bar .menu-model-bar:focus {
-        background: #3c8dbc !important; }
-    .main-head .navbar .navbar-nav > li > a {
-      color: #ffffff; }
-    .main-head .navbar .navbar-nav > li > a:hover,
-    .main-head .navbar .navbar-nav > li > a:focus,
-    .main-head .navbar .navbar-nav > li > a:active,
-    .main-head .navbar .navbar-nav > li > a:target,
-    .main-head .navbar .navbar-nav > li > a:focus-within {
-      background: #1179b6; }
-    .main-head .navbar .navbar-right {
-      float: right !important;
-      margin-right: -15px; }
-    .main-head .navbar .navbar-nav {
+  background: #3c8dbc;
+  height: 50px; }
+  .main-head .head-logo-panel {
+    float: left;
+    height: 100%;
+    width: 220px;
+    background: #367fa9;
+    display: flex; }
+    .main-head .head-logo-panel .head-logo {
+      color: #ffffff;
+      font-size: 18px;
+      margin: auto; }
+    .main-head .head-logo-panel .mini-head-logo {
+      display: none;
+      color: #ffffff;
+      font-size: 18px;
+      margin: auto; }
+  .main-head .head-bar {
+    float: left;
+    overflow: hidden;
+    height: 100%; }
+    .main-head .head-bar .menu-model-bar {
+      width: 60px;
+      color: #ffffff;
+      display: flex;
+      height: 100%; }
+      .main-head .head-bar .menu-model-bar span {
+        margin: auto; }
+  .main-head .head-menu-panel {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px; }
+    .main-head .head-menu-panel .head-menu {
+      height: 100%; }
+      .main-head .head-menu-panel .head-menu > li {
+        height: 100%; }
+        .main-head .head-menu-panel .head-menu > li > a {
+          height: 100%;
+          display: flex;
+          align-items: center;
+          color: #ffffff; }
+        .main-head .head-menu-panel .head-menu > li > a:hover, .main-head .head-menu-panel .head-menu > li > a:focus, .main-head .head-menu-panel .head-menu > li > a:active, .main-head .head-menu-panel .head-menu > li > a:target, .main-head .head-menu-panel .head-menu > li > a:focus-within {
+          background: #1179b6; }
+    .main-head .head-menu-panel .navbar-nav {
       margin: 0; }
-      .main-head .navbar .navbar-nav > li {
+      .main-head .head-menu-panel .navbar-nav > li {
         float: left !important;
         margin: 0; }
-        .main-head .navbar .navbar-nav > li > a {
+        .main-head .head-menu-panel .navbar-nav > li > a {
           padding-top: 15px;
           padding-bottom: 15px; }
-  .main-head .dropdown.open > a,
-  .main-head .dropdown.open > a:hover,
-  .main-head .dropdown.open > a:focus {
-    background: #1179b6; }
 
 /* 左侧菜单样式 */
 .main-left {
@@ -170,13 +168,12 @@
     overflow: hidden;
     height: calc(100vh - 88px); }
 
-body.mini-menu .main-head .navbar .navbar-head .mini-navbar-brand {
-  display: block;
-  width: 70px;
-  background: #367fa9;
-  color: #ffffff; }
-body.mini-menu .main-head .navbar .navbar-head .navbar-brand {
-  display: none; }
+body.mini-menu .main-head .head-logo-panel {
+  width: 70px; }
+  body.mini-menu .main-head .head-logo-panel .mini-head-logo {
+    display: block; }
+  body.mini-menu .main-head .head-logo-panel .head-logo {
+    display: none; }
 body.mini-menu .main-left {
   width: 70px; }
   body.mini-menu .main-left .nav li {

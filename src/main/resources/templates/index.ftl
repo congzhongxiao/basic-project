@@ -18,31 +18,59 @@
 <body class="mini-menu">
 <div class="wrapper">
     <div class="main-head">
-        <nav class="navbar">
-            <div class="navbar-head">
-                <a class="navbar-brand" href="#">后台管理系统</a>
-                <a class="mini-navbar-brand" href="#">HD</a>
-            </div>
-            <div class="head-bar">
-                <a href="#" class="menu-model-bar">
-                    <span class="fa fa-bars"></span>
-                </a>
-            </div>
+        <div class="head-logo-panel">
+            <a class="head-logo" href="#">后台管理系统</a>
+            <a class="mini-head-logo" href="#">HD</a>
+        </div>
+        <div class="head-bar">
+            <a href="#" class="menu-model-bar">
+                <span class="fa fa-bars"></span>
+            </a>
+        </div>
+        <div class="head-menu-panel">
+            <ul class="nav navbar-nav head-menu pull-left  hidden-xs">
+                <li><a href="#">首页 </a></li>
+                <li><a href="#">新闻中心</a></li>
+                <li><a href="#">产品案例</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-hover="dropdown">更多 <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">中文</a></li>
+                        <li><a href="#">英文</a></li>
+                        <li><a href="#">日文</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav head-menu pull-right navbar-right">
+                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-hover="dropdown"><i
+                                class="fa fa-fw fa-user"></i><@shiro.principal property="nickname"/> <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:;" onclick="">
+                                <i class="fa fa-user-circle-o"></i> 个人中心</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" onclick="resetPwd()">
+                                <i class="fa fa-key"></i> 修改密码</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/logout">
+                                <i class="fa fa-sign-out"></i> 退出登录</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+<#--        <nav class="navbar">
             <div class="navbar-collapse ">
-                <ul class="nav navbar-nav hidden-xs">
-                    <li><a href="#">首页 </a></li>
-                    <li><a href="#">新闻中心</a></li>
-                    <li><a href="#">产品案例</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-hover="dropdown">更多 <span
-                                    class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">中文</a></li>
-                            <li><a href="#">英文</a></li>
-                            <li><a href="#">日文</a></li>
-                        </ul>
-                    </li>
-                </ul>
+
                 <ul class="nav navbar-nav navbar-right">
                     <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
                     </li>
@@ -67,8 +95,8 @@
                         </ul>
                     </li>
                 </ul>
-            </div><!-- /.navbar-collapse -->
-        </nav>
+            </div><!-- /.navbar-collapse &ndash;&gt;
+        </nav>-->
     </div>
     <div class="main-left">
         <div class="sidebar-collapse">

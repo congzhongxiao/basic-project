@@ -8,91 +8,88 @@
   padding: 0px 28px;
   height: 100%;
 }
-.slimScrollDiv>* {
+
+.slimScrollDiv > * {
   overflow-y: hidden;
   overflow-x: visible;
 }
-.mini-menu .main-left .slimScrollDiv > *{
+
+.mini-menu .main-left .slimScrollDiv > * {
   overflow: visible !important;
 }
+
 .hr-line-dashed {
   border-width: 1px 0 0 0;
   border-color: #ddd;
   border-style: dashed;
   margin: 10px 0;
 }
+
 /* 页面顶部部分 */
 .main-head {
   background: #3c8dbc;
+  height: #{$head-height}px;
 
-  .navbar {
-    border: none;
+  .head-logo-panel {
+    float: left;
+    height: 100%;
+    width: #{$left-width}px;
+    background: #367fa9;
+    display: flex;
 
-    .navbar-head {
-      text-align: center;
-
-      .navbar-brand {
-        width: #{$left-width}px;
-        background: #367fa9;
-        color: #ffffff;
-        float: left;
-        height: auto;
-        padding: 15px 15px;
-        font-size: 18px;
-        line-height: 20px;
-      }
-
-      .mini-navbar-brand {
-        display: none;
-        float: left;
-        height: auto;
-        padding: 15px 15px;
-        font-size: 18px;
-        line-height: 20px;
-      }
+    .head-logo {
+      color: #ffffff;
+      font-size: 18px;
+      margin: auto;
     }
 
-    .head-bar {
-      float: left;
-      overflow: hidden;
+    .mini-head-logo {
+      display: none;
+      color: #ffffff;
+      font-size: 18px;
+      margin: auto;
+    }
+  }
 
-      .menu-model-bar {
-        padding: 15px 20px;
-        display: block;
-        color: #ffffff;
-      }
+  .head-bar {
+    float: left;
+    overflow: hidden;
+    height: 100%;
 
-      .menu-model-bar:hover, .menu-model-bar:active, .menu-model-bar:focus {
-        background: #3c8dbc !important;
+    .menu-model-bar {
+      width: 60px;
+      color: #ffffff;
+      display: flex;
+      height: 100%;
+
+      span {
+        margin: auto;
       }
     }
+  }
 
-    .navbar-nav {
+  .head-menu-panel {
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+    .head-menu {
+      height: 100%;
       > li {
+        height: 100%;
         > a {
+          height: 100%;
+          display: flex;
+          align-items: center;
           color: #ffffff;
         }
-
-        > a:hover,
-        > a:focus,
-        > a:active,
-        > a:target,
-        > a:focus-within {
+        > a:hover,> a:focus, > a:active,> a:target,> a:focus-within {
           background: #1179b6;
         }
 
       }
-
     }
-
-    .navbar-right {
-      float: right !important;
-      margin-right: -15px;
-    }
-
     .navbar-nav {
       margin: 0;
-
       > li {
         float: left !important;
         margin: 0;
@@ -105,12 +102,6 @@
     }
   }
 
-
-  .dropdown.open > a,
-  .dropdown.open > a:hover,
-  .dropdown.open > a:focus {
-    background: #1179b6;
-  }
 }
 
 /* 左侧菜单样式 */
@@ -156,6 +147,7 @@
     }
   }
 }
+
 /* 页面内容部分 */
 .main-content {
   height: calc(100vh - #{$head-height}px);
@@ -261,15 +253,12 @@
 
 body.mini-menu {
   .main-head {
-    .navbar .navbar-head {
-      .mini-navbar-brand {
+    .head-logo-panel {
+      width: #{$left-mini-width}px;
+      .mini-head-logo {
         display: block;
-        width: #{$left-mini-width}px;
-        background: #367fa9;
-        color: #ffffff;
       }
-
-      .navbar-brand {
+      .head-logo {
         display: none;
       }
     }
@@ -613,8 +602,9 @@ ul.ul-auto-3 {
     overflow: hidden;
   }
 }
+
 /*消息提示*/
-.help-block{
+.help-block {
   color: #f8ac59;
   font-size: 12px;
   margin-bottom: 5px;
