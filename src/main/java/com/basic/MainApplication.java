@@ -18,7 +18,12 @@ public class MainApplication {
 
     public static void main(String[] args) {
         TimeZone.setDefault(TimeZone.getTimeZone("GMT+8"));
+        /*解决Druid连接池数据库连接超时检测打印警告信息的问题*/
+        System.setProperty("druid.mysql.usePingMethod","false");
         SpringApplication.run(MainApplication.class, args);
+
+    }
+    static {
     }
 
     /**

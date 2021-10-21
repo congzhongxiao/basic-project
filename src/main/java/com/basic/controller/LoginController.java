@@ -2,6 +2,7 @@ package com.basic.controller;
 
 import com.basic.common.config.Global;
 import com.basic.common.domain.Result;
+import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.ServletUtils;
 import com.basic.common.utils.StringUtils;
 import com.google.code.kaptcha.Constants;
@@ -25,7 +26,7 @@ public class LoginController {
     @GetMapping("")
     public String login(HttpServletRequest request, HttpServletResponse response, Model model) {
         if (ServletUtils.isAjaxRequest(request)) {
-            return ServletUtils.renderString(response, "{\"success\":\"false\",\"message\":\"未登录或登录超时。请重新登录\"}");
+            return ServletUtils.renderString(response, "{\"success\":\"false\",\"code\":\""+ ResultCode.COMMON_NO_LOGIN.getCode() +"\",\"message\":\"未登录或登录超时。请重新登录\"}");
         }
         model.addAttribute("isCaptchaLogin", Global.isCaptchaLogin());
         model.addAttribute("captchaType", Global.getCaptchaType());
