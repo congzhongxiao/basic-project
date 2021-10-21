@@ -3,6 +3,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="">
     <meta name="description" content="">
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
     <#nested>
     <title>${title}</title>
 </#macro>
@@ -16,6 +22,7 @@
     <link href="${ctx}/static/css/common.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/app.css?version=${version}" rel="stylesheet"/>
     <#nested>
+    <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </#macro>
 <#macro js_common>
     <script> var ctx = '${ctx}'</script>

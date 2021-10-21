@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>公司后台管理系统</title>
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
@@ -14,6 +16,7 @@
     <link href="${ctx}/static/css/animate.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/common.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/app.css?version=${version}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </head>
 <body class="mini-menu">
 <div class="wrapper">
