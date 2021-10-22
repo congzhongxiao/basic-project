@@ -4,14 +4,10 @@ import com.basic.common.constants.UserConstant;
 import com.basic.common.exception.user.*;
 import com.basic.common.manager.AsyncManager;
 import com.basic.common.manager.factory.AsyncFactory;
-import com.basic.common.utils.DateUtils;
-import com.basic.common.utils.EncryptionUtil;
-import com.basic.common.utils.RSAUtil;
-import com.basic.common.utils.ShiroUtils;
+import com.basic.common.utils.*;
 import com.basic.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -38,7 +34,7 @@ public class LoginService {
         User user = userService.getByUsername(username);
         if (user == null) {
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户不存在"));
-            throw new UserNotExistsException();
+            throw new UserPasswordNotMatchException();
         }
         if (user.getStatus() == 0) {
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户被禁用"));
