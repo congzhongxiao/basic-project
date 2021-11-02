@@ -189,6 +189,12 @@
                         $tbody.html(_errorMsg);
                     },
                 };
+                //CSRF防御
+                if(String(options.type).toUpperCase() === String('POST').toUpperCase() && $('meta[name="csrf-token"]').attr("content")){
+                    config = $.extend(config,{headers: {
+                            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content") || ''
+                        }});
+                }
                 $.ajax(config);
             } else {
                 renderTable(options.data);
@@ -597,6 +603,12 @@
                                             $("#" + row_id).after(_errorMsg);
                                         }
                                     };
+                                    //CSRF防御
+                                    if(String(options.type).toUpperCase() === String('POST').toUpperCase() && $('meta[name="csrf-token"]').attr("content")){
+                                        config = $.extend(config,{headers: {
+                                                "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content") || ''
+                                            }});
+                                    }
                                     $.ajax(config);
                                 }
                             }
@@ -669,6 +681,12 @@
                         $("#" + nodeId).after(_errorMsg);
                     }
                 };
+                //CSRF防御
+                if(String(options.type).toUpperCase() === String('POST').toUpperCase() && $('meta[name="csrf-token"]').attr("content")){
+                    config = $.extend(config,{headers: {
+                            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content") || ''
+                        }});
+                }
                 $.ajax(config);
             } else {
                 target.refresh();

@@ -3530,6 +3530,14 @@ S2.define('select2/data/ajax',[
         });
       },
       transport: function (params, success, failure) {
+          //CSRF防御
+          if ($('meta[name="csrf-token"]').attr("content")) {
+              params = $.extend(params, {
+                  headers: {
+                      "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
+                  }
+              });
+          }
         var $request = $.ajax(params);
 
         $request.then(success);

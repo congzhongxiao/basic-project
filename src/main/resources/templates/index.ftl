@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
+    <#if sys_csrfToken??>
+    <meta content="${sys_csrfToken}" name="csrf-token" />
+    </#if>
+    <meta name="renderer" content="webkit">
     <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>公司后台管理系统</title>
@@ -70,36 +74,6 @@
                 </li>
             </ul>
         </div>
-
-<#--        <nav class="navbar">
-            <div class="navbar-collapse ">
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-hover="dropdown"><i
-                                    class="fa fa-fw fa-user"></i><@shiro.principal property="nickname"/> <span
-                                    class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="javascript:;" onclick="">
-                                    <i class="fa fa-user-circle-o"></i> 个人中心</a>
-                            </li>
-                            <li>
-                                <a href="javascript:;" onclick="resetPwd()">
-                                    <i class="fa fa-key"></i> 修改密码</a>
-                            </li>
-                            <li class="divider"></li>
-                            <li>
-                                <a href="/logout">
-                                    <i class="fa fa-sign-out"></i> 退出登录</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse &ndash;&gt;
-        </nav>-->
     </div>
     <div class="main-left">
         <div class="sidebar-collapse">

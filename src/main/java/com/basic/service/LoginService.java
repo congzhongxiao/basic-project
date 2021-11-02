@@ -6,13 +6,19 @@ import com.basic.common.manager.AsyncManager;
 import com.basic.common.manager.factory.AsyncFactory;
 import com.basic.common.utils.*;
 import com.basic.entity.User;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Base64Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+@Slf4j
 @Component
 public class LoginService {
+    @Value("#{ @environment['csrf.enabled'] ?: false }")
+    private boolean csrfEnabled;
 
     @Autowired
     private UserService userService;
@@ -26,10 +32,11 @@ public class LoginService {
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户名或密码为空"));
             throw new UserNotExistsException();
         }
-        try{
+        try {
             username = RSAUtil.decrypt(username);
             password = RSAUtil.decrypt(password);
-        } catch ( Exception e) {}
+        } catch (Exception e) {
+        }
         // 查询用户信息
         User user = userService.getByUsername(username);
         if (user == null) {
@@ -74,6 +81,10 @@ public class LoginService {
         user.setLastLoginTime(new Date());
         user.setLastLoginIp(ShiroUtils.getIp());
         userService.updateById(user);
+        if (csrfEnabled && ShiroUtils.getSubject() != null && ShiroUtils.getSubject().getSession() != null) {
+            String sessionId = (String) ShiroUtils.getSubject().getSession().getId();
+            ShiroUtils.getSubject().getSession().setAttribute("sys_csrfToken:" + sessionId, Base64Util.encode(Md5Util.hash(sessionId)) + Base64Util.encode(sessionId));
+        }
         AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 1, "登录成功"));
         return user;
     }

@@ -81,6 +81,11 @@ xss:
   excludes: /static/*
   # 匹配链接
   urlPatterns: /*
+#csrf攻击拦截配置
+csrf:
+  enabled: true
+  # 排除链接（多个用逗号分隔）
+  excludes: /login
 shiro:
   user:
     loginUrl: /login

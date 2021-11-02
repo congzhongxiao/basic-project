@@ -531,14 +531,14 @@ $(function () {
                     });
                 }
             },
-            "open": {
+            /*"open": {
                 name: "新窗口打开",
                 icon: "fa-link",
                 callback: function (key, opt) {
                     var target = $('.index_iframe[data-id="' + this.data('id') + '"]');
                     window.open(target.attr('src'));
                 }
-            },
+            },*/
         }
     });
 });

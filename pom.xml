@@ -27,16 +27,16 @@
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <druid.version>1.2.8</druid.version>
         <mybatisplus.version>3.4.3</mybatisplus.version>
+        <jsoup.version>1.14.3</jsoup.version>
 
     </properties>
 
     <dependencies>
-
         <!--html标签处理用-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.12.1</version>
+            <version>${jsoup.version}</version>
         </dependency>
 
         <!-- 解析客户端操作系统、浏览器等 -->

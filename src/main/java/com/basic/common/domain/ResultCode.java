@@ -13,6 +13,7 @@ public enum  ResultCode {
     COMMON_SERVER_ERROR(false,1004,"系统繁忙，请稍后重试！"),
     COMMON_DATA_OPTION_ERROR(false,1005,"数据操作异常！"),
     COMMON_PASSWORD_RESET(false,1010,"密码已过期！"),
+    COMMON_REQUEST_CSRF(false,1020,"账号登录状态变更，请刷新浏览器后重新操作。"),
     //校验失败可能存在message自定义，在Result中实现
     COMMON_FAIL_VALIDATE(false,1050,"参数校验失败！");
     //业务细分返回码

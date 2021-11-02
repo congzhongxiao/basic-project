@@ -441,7 +441,7 @@ var table = {
                         var index = layer.load(2, { shade: false });
                         $.modal.disable();
                         var formData = new FormData(layero.find('form')[0]);
-                        $.ajax({
+                        var config ={
                             url: table.options.importUrl,
                             data: formData,
                             cache: false,
@@ -459,7 +459,8 @@ var table = {
                                     $.modal.alertError(result.message);
                                 }
                             }
-                        });
+                        };
+                        $.common.sendAjax(config);
                     }
                 });
             },
@@ -954,7 +955,7 @@ var table = {
                         $.operate.ajaxSuccess(result);
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // 提交数据
             submitOnlyCallback: function (url, type, dataType, data, callback) {
@@ -978,7 +979,7 @@ var table = {
                         $.modal.closeLoading();
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // post请求传输
             post: function (url, data, callback) {
@@ -1149,7 +1150,7 @@ var table = {
                         $.operate.successCallback(result);
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // 保存信息 只执行自定义回调函数 callback必须存在
             saveOnlyCallback: function (url, data, callback) {
@@ -1177,7 +1178,7 @@ var table = {
                         $.modal.enable();
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // 保存信息 弹出提示框
             saveModal: function (url, data, callback) {
@@ -1201,7 +1202,7 @@ var table = {
                         $.modal.closeLoading();
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // 保存选项卡信息
             saveTab: function (url, data, callback) {
@@ -1220,7 +1221,7 @@ var table = {
                         $.operate.successTabCallback(result);
                     }
                 };
-                $.ajax(config)
+                $.common.sendAjax(config)
             },
             // 保存结果弹出msg刷新table表格
             ajaxSuccess: function (result) {
@@ -1614,7 +1615,275 @@ var table = {
                     }
                 }
                 return _r;
-            }
+            },
+            /**
+             * 将字符串字符 转数字,如果转换失败，则返回原始字符串。
+             */
+            toNumber: function (val) {
+                var n = parseFloat(val);
+                return isNaN(n) ? val : n
+            },
+            /**
+             *  从数组中删除
+             *  例如 var a = [1,2], var b= 2
+             *      opt.common.remove(a,b);
+             *      中a 值为 [1]
+             */
+            remove: function (arr, item) {
+                if (arr.length) {
+                    var index = arr.indexOf(item);
+                    if (index > -1) {
+                        return arr.splice(index, 1)
+                    }
+                }
+            },
+            /**
+             * 截取数组
+             * 例如 var a = [1,2,3,4,5,6], var b = 3;
+             *     返回 [4, 5, 6]
+             */
+            toArray: function (list, start) {
+                start = start || 0;
+                var i = list.length - start;
+                var ret = new Array(i);
+                while (i--) {
+                    ret[i] = list[i + start];
+                }
+                return ret
+            },
+            /**
+             * 将source对象中的属性扩展到target对象上
+             * @method extend
+             * @remind 该方法将强制把source对象上的属性复制到target对象上
+             * @see opt.common.extend(Object,Object,Boolean)
+             * @param { Object } target 目标对象， 新的属性将附加到该对象上
+             * @param { Object } source 源对象， 该对象的属性会被附加到target对象上
+             * @return { Object } 返回target对象
+             * @example
+             * ```javascript
+             *
+             * var target = { name: 'target', sex: 1 },
+             *      source = { name: 'source', age: 17 };
+             *
+             * opt.common.extend( target, source );
+             *
+             * //output: { name: 'source', sex: 1, age: 17 }
+             * console.log( target );
+             *
+             * ```
+             */
+
+            /**
+             * 将source对象中的属性扩展到target对象上， 根据指定的isKeepTarget值决定是否保留目标对象中与
+             * 源对象属性名相同的属性值。
+             * @method extend
+             * @param { Object } target 目标对象， 新的属性将附加到该对象上
+             * @param { Object } source 源对象， 该对象的属性会被附加到target对象上
+             * @param { Boolean } isKeepTarget 是否保留目标对象中与源对象中属性名相同的属性
+             * @return { Object } 返回target对象
+             * @example
+             * ```javascript
+             *
+             * var target = { name: 'target', sex: 1 },
+             *      source = { name: 'source', age: 17 };
+             *
+             * opt.common.extend( target, source, true );
+             *
+             * //output: { name: 'target', sex: 1, age: 17 }
+             * console.log( target );
+             *
+             * ```
+             */
+            extend:function (target, source, isKeepTarget) {
+                if (source) {
+                    for (var k in source) {
+                        if (!isKeepTarget || !target.hasOwnProperty(k)) {
+                            target[k] = source[k];
+                        }
+                    }
+                }
+                return target;
+            },
+
+            /**
+             * 用给定的迭代器遍历数组或类数组对象
+             * @method each
+             * @param { Array } array 需要遍历的数组或者类数组
+             * @param { Function } iterator 迭代器， 该方法接受两个参数， 第一个参数是当前所处理的value， 第二个参数是当前遍历对象的key
+             * @example
+             * ```javascript
+             * var divs = document.getElmentByTagNames( "div" );
+             *
+             * //output: 0: DIV, 1: DIV ...
+             * opt.common.each( divs, funciton ( value, key ) {
+             *
+             *     console.log( key + ":" + value.tagName );
+             *
+             * } );
+             * ```
+             */
+            each : function(obj, iterator, context) {
+                if (obj == null) return;
+                if (obj.length === +obj.length) {
+                    for (var i = 0, l = obj.length; i < l; i++) {
+                        if(iterator.call(context, obj[i], i, obj) === false)
+                            return false;
+                    }
+                } else {
+                    for (var key in obj) {
+                        if (obj.hasOwnProperty(key)) {
+                            if(iterator.call(context, obj[key], key, obj) === false)
+                                return false;
+                        }
+                    }
+                }
+            },
+
+            /**
+             * 将一个对象数组合并到一个对象中。
+             */
+            toObject: function (arr) {
+                var that = this;
+                var res = {};
+                for (var i = 0; i < arr.length; i++) {
+                    if (arr[i]) {
+                        that.extend(res, arr[i]);
+                    }
+                }
+                return res
+            },
+
+            /**
+             * 金额转换中文汉字
+             * @param money
+             * @returns {string}
+             * @example
+             * ```javascript
+             *
+             * var money = opt.common.moneyToChinese(12390.97);
+             *
+             * //output: 壹万贰仟叁佰玖拾元玖角柒分
+             * console.log( money );
+             *
+             * ```
+             */
+            moneyToChinese : function (money) {
+                var cnNums = new Array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"); //汉字的数字
+                var cnIntRadice = new Array("", "拾", "佰", "仟"); //基本单位
+                var cnIntUnits = new Array("", "万", "亿", "兆"); //对应整数部分扩展单位
+                var cnDecUnits = new Array("角", "分", "毫", "厘"); //对应小数部分单位
+                var cnInteger = "整"; //整数金额时后面跟的字符
+                var cnIntLast = "元"; //整型完以后的单位
+                var maxNum = 999999999999999.9999; //最大处理的数字
+                var IntegerNum; //金额整数部分
+                var DecimalNum; //金额小数部分
+                var ChineseStr = ""; //输出的中文金额字符串
+                var parts; //分离金额后用的数组，预定义
+                var Symbol = "";//正负值标记
+                if (opt.common.isEmpty(money)) {
+                    return "";
+                }
+                money = parseFloat(money);
+                if (money >= maxNum) {
+                    throw new Error('超出最大金额!');
+                }
+                if (money == 0) {
+                    ChineseStr = cnNums[0] + cnIntLast + cnInteger;
+                    return ChineseStr;
+                }
+                if (money < 0) {
+                    money = -money;
+                    Symbol = "负 ";
+                }
+                money = money.toString(); //转换为字符串
+                if (money.indexOf(".") == -1) {
+                    IntegerNum = money;
+                    DecimalNum = '';
+                } else {
+                    parts = money.split(".");
+                    IntegerNum = parts[0];
+                    DecimalNum = parts[1].substr(0, 4);
+                }
+                if (parseInt(IntegerNum, 10) > 0) { //获取整型部分转换
+                    var zeroCount = 0;
+                    var IntLen = IntegerNum.length;
+                    for (var i = 0; i < IntLen; i++) {
+                        var n = IntegerNum.substr(i, 1);
+                        var p = IntLen - i - 1;
+                        var q = p / 4;
+                        var m = p % 4;
+                        if (n == "0") {
+                            zeroCount++;
+                        }
+                        else {
+                            if (zeroCount > 0) {
+                                ChineseStr += cnNums[0];
+                            }
+                            zeroCount = 0; //归零
+                            ChineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+                        }
+                        if (m == 0 && zeroCount < 4) {
+                            ChineseStr += cnIntUnits[q];
+                        }
+                    }
+                    ChineseStr += cnIntLast;
+                    //整型部分处理完毕
+                }
+                if (DecimalNum != '') { //小数部分
+                    var decLen = DecimalNum.length;
+                    for (var i = 0; i < decLen; i++) {
+                        var n = DecimalNum.substr(i, 1);
+                        if (n != '0') {
+                            ChineseStr += cnNums[Number(n)] + cnDecUnits[i];
+                        }
+                    }
+                }
+                if (ChineseStr == '') {
+                    ChineseStr += cnNums[0] + cnIntLast + cnInteger;
+                } else if (DecimalNum == '') {
+                    ChineseStr += cnInteger;
+                }
+                ChineseStr = Symbol + ChineseStr;
+                return ChineseStr;
+            },
+            /**
+             * 数字 转金额格式
+             * 12345678,2,'$',',','.'
+             * --> $12,345,678.00
+             * @param number 数字
+             * @param places 保留多少位
+             * @param symbol 货币符号
+             * @param thousand 整数部分千位分隔符
+             * @param decimal 小数部分分隔符
+             * @returns {string}
+             */
+            formatMoney: function(number, places, symbol, thousand, decimal) {
+                number = number || 0;
+                places = !isNaN(places = Math.abs(places)) ? places : 2;
+                symbol = symbol !== undefined ? symbol : "$";
+                thousand = thousand || ",";
+                decimal = decimal || ".";
+                var negative = number < 0 ? "-" : "",
+                    i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+                    j = (j = i.length) > 3 ? j % 3 : 0;
+                return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
+            },
+
+            //整个系统页面ajax的post统一增加csrf信息
+            sendAjax :function(config){
+                //防CSRF攻击
+                if($.common.equalsIgnoreCase(config.type,'POST') && $.common.isNotEmpty($('meta[name="csrf-token"]').attr("content"))){
+                    var top_token = $('meta[name="csrf-token"]',top.window.document).attr("content");
+                    if(top_token && $.common.isNotEmpty(top_token) && top_token != $('meta[name="csrf-token"]').attr("content")){
+                        $.modal.alert("系统检测账号登录状态变更，请刷新浏览器后重新操作。");
+                        return false;
+                    }
+                    config = $.common.extend(config,{headers: {
+                            "X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
+                        }});
+                }
+                $.ajax(config);
+            },
         }
     });
 })(jQuery);

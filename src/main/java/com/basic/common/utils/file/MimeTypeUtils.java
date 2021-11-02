@@ -20,7 +20,7 @@ public class MimeTypeUtils
 
     public static final String[] MEDIA_EXTENSION = { "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg","asf", "rm", "rmvb" };
 
-    public static final String[] DOCUMENT_EXTENSION = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "html", "htm", "txt","pdf"};
+    public static final String[] DOCUMENT_EXTENSION = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt","pdf"};
 
     public static final String[] COMPRESS_EXTENSION = { "rar", "zip", "gz", "bz2",};
 

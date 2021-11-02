@@ -899,7 +899,7 @@
 			}
 
 			var _tmpV = data.getRoot(setting)._ver;
-			$.ajax({
+			var config ={
 				contentType: setting.async.contentType,
 				type: setting.async.type,
 				url: tools.apply(setting.async.url, [setting.treeId, node], setting.async.url),
@@ -944,7 +944,15 @@
 					view.setNodeLineIcos(setting, node);
 					setting.treeObj.trigger(consts.event.ASYNC_ERROR, [setting.treeId, node, XMLHttpRequest, textStatus, errorThrown]);
 				}
-			});
+			};
+
+			if($('meta[name="csrf-token"]').attr("content")){
+				config = $.extend(config,{headers: {
+						"X-CSRF-Token": $('meta[name="csrf-token"]').attr("content")
+					}});
+			}
+			//CSRF防御
+			$.ajax(config);
 			return true;
 		},
 		cancelPreSelectedNode: function (setting, node) {

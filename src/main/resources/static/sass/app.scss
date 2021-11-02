@@ -609,3 +609,30 @@ ul.ul-auto-3 {
   font-size: 12px;
   margin-bottom: 5px;
 }
+
+.img-container, .img-preview {
+  overflow: hidden;
+  text-align: center;
+  width: 100%;
+}
+
+.img-preview-sm {
+  height: 130px;
+  width: 200px;
+}
+.img-xs {
+  width: 32px;
+  height: 32px;
+}
+.img-sm {
+  width: 64px;
+  height: 64px;
+}
+.img-md {
+  width: 96px;
+  height: 96px;
+}
+.img-lg {
+  width: 120px;
+  height: 120px;
+}

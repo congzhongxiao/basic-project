@@ -6,6 +6,9 @@
     <meta name="renderer" content="webkit">
     <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <#if sys_csrfToken??>
+    <meta content="${sys_csrfToken}" name="csrf-token" />
+    </#if>
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html"/>
     <![endif]-->

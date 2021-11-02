@@ -1,5 +1,6 @@
 package com.basic.common.config;
 
+import com.basic.common.shiro.CSRFSessionControlFilter;
 import com.basic.common.shiro.realm.UserRealm;
 import com.basic.common.utils.StringUtils;
 import org.apache.commons.io.IOUtils;
@@ -143,13 +144,21 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/openApi/**", "anon");
 
         Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+        //增加csrf拦截器页面传送token
+        filters.put("csrfFilter",csrfSessionControlFilter());
         shiroFilterFactoryBean.setFilters(filters);
 
         // 所有请求需要认证
-        filterChainDefinitionMap.put("/**", "user");
+        filterChainDefinitionMap.put("/**", "csrfFilter,user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         return shiroFilterFactoryBean;
+    }
+
+    @Bean
+    public CSRFSessionControlFilter csrfSessionControlFilter(){
+        CSRFSessionControlFilter csrfSessionControlFilter = new CSRFSessionControlFilter();
+        return csrfSessionControlFilter;
     }
 
     /**
