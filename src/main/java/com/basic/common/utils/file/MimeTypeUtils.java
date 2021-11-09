@@ -18,7 +18,7 @@ public class MimeTypeUtils
 
     public static final String[] IMAGE_EXTENSION = { "bmp", "gif", "jpg", "jpeg", "png","ico" };
 
-    public static final String[] MEDIA_EXTENSION = { "swf", "flv", "mp3", "wav", "wma", "wmv", "mid", "avi", "mpg","asf", "rm", "rmvb" };
+    public static final String[] MEDIA_EXTENSION = { "swf", "flv", "mp3", "mp4",  "wav", "wma", "wmv", "mid", "avi", "mpg","asf", "rm", "rmvb" };
 
     public static final String[] DOCUMENT_EXTENSION = { "doc", "docx", "xls", "xlsx", "ppt", "pptx", "txt","pdf"};
 
