@@ -5,13 +5,16 @@ import com.basic.common.config.ServerConfig;
 import com.basic.common.constants.UploadConstant;
 import com.basic.common.domain.FileUploadResult;
 import com.basic.common.domain.Result;
+import com.basic.common.exception.base.BaseException;
+import com.basic.common.utils.Md5Util;
 import com.basic.common.utils.StringUtils;
 import com.basic.common.utils.file.FileUploadUtils;
 import com.basic.common.utils.file.FileUtils;
 import com.basic.common.utils.file.MimeTypeUtils;
-import com.basic.entity.UploadFiles;
-import com.basic.service.UploadFilesService;
+import com.basic.entity.SysUploadFiles;
+import com.basic.service.SysUploadFilesService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,7 +27,9 @@ import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +42,7 @@ import java.util.Map;
 @RequestMapping("/common")
 public class CommonController extends BasicController {
     @Autowired
-    ServerConfig serverConfig;
-    @Autowired
-    UploadFilesService uploadFilesService;
+    SysUploadFilesService sysUploadFilesService;
 
     /**
      * 图片上传控制器
@@ -49,21 +52,25 @@ public class CommonController extends BasicController {
      */
     @PostMapping("upload/image")
     @ResponseBody
-    public Result uploadImage(@RequestPart("file") MultipartFile file) {
+    public Result uploadImageLocal(@RequestPart("file") MultipartFile file) {
         try {
+            String md5data = Md5Util.hash(file.getBytes());
+
             String filePath = Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_IMAGE;
             FileUploadResult result = FileUploadUtils.upload(filePath, file, MimeTypeUtils.IMAGE_EXTENSION);
 
-            UploadFiles image = new UploadFiles();
-            image.setName(result.getOriginalFileName());
-            image.setSize(result.getSize());
-            image.setUrl(result.getRelativePath());
-            image.setType(result.getContentType());
-            image.setExtension(result.getExtension());
-            image.setCreateBy(getCurrentUser().getUsername());
-            image.setCreateTime(new Date());
-            uploadFilesService.save(image);
-            return Result.success(image);
+            SysUploadFiles sysUploadFiles = new SysUploadFiles();
+            sysUploadFiles.setName(result.getOriginalFileName());
+            sysUploadFiles.setStorage(UploadConstant.UPLOAD_TYPE_LOCAL);
+            sysUploadFiles.setUrl(result.getRelativePath());
+            sysUploadFiles.setType(result.getContentType());
+            sysUploadFiles.setExtension(result.getExtension());
+            sysUploadFiles.setCreateBy(getCurrentUser().getUsername());
+            sysUploadFiles.setCreateTime(new Date());
+            sysUploadFiles.setSize(result.getSize());
+            sysUploadFiles.setMd5data(md5data);
+            sysUploadFilesService.save(sysUploadFiles);
+            return Result.success(sysUploadFiles);
         } catch (Exception e) {
             return Result.fail(e.getMessage());
         }
@@ -74,6 +81,11 @@ public class CommonController extends BasicController {
     @ResponseBody
     public Result uploadFile(@RequestPart("file") MultipartFile file) {
         try {
+            String md5data = Md5Util.hash(file.getBytes());
+            SysUploadFiles existFile = sysUploadFilesService.findOneByMd5(md5data);
+            if (existFile != null) {
+                return Result.success(existFile);
+            }
             String filePath = Global.getUploadPath();
             String extension = FileUploadUtils.getExtension(file);
             FileUploadResult result;
@@ -92,65 +104,63 @@ public class CommonController extends BasicController {
             } else {
                 return Result.fail("上传类型不支持");
             }
-            UploadFiles uploadFile = new UploadFiles();
+            SysUploadFiles uploadFile = new SysUploadFiles();
             uploadFile.setName(result.getOriginalFileName());
-            uploadFile.setSize(result.getSize());
+            uploadFile.setStorage(UploadConstant.UPLOAD_TYPE_LOCAL);
             uploadFile.setUrl(result.getRelativePath());
-            uploadFile.setType("file");
-            uploadFile.setExtension(extension);
+            uploadFile.setType(result.getContentType());
+            uploadFile.setExtension(result.getExtension());
             uploadFile.setCreateBy(getCurrentUser().getUsername());
             uploadFile.setCreateTime(new Date());
-            uploadFilesService.save(uploadFile);
+            uploadFile.setSize(result.getSize());
+            uploadFile.setMd5data(md5data);
+            sysUploadFilesService.save(uploadFile);
             return Result.success(uploadFile);
         } catch (Exception e) {
             return Result.fail(e.getMessage());
         }
     }
 
-    /**
-     * 通用下载请求
-     *
-     * @param fileName 文件名称
-     * @param delete   是否删除
-     */
-    @GetMapping("download")
-    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
+    @GetMapping("download/file")
+    public void downlaodFile(String path, String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
-            if (!FileUtils.isValidFilename(fileName)) {
-                throw new Exception(StringUtils.format("文件名称({})非法，不允许下载。 ", fileName));
+            if (StringUtils.isBlank(path) || StringUtils.isBlank(fileName)) {
+                throw new BaseException("下载路径或文件不能为空");
             }
-            String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
-            String filePath = Global.getDownloadPath() + fileName;
+            fileName = URLEncoder.encode(fileName, "utf-8");
+            fileName = fileName.replaceAll("\\+", "%20");    //处理空格转为加号的问题
+            if (fileName.indexOf(".") < 0) {//文件名称不包括后缀名称
+                String extension = FilenameUtils.getExtension(path);
+                fileName += "." + extension;
+            }
+            if (FileUploadUtils.isHttpLink(path)) {
+                request.setCharacterEncoding("UTF-8");
+                response.reset();//清除response中的缓存
+                //根据网络文件地址创建URL
+                URL url = new URL(path);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-            response.setCharacterEncoding("utf-8");
-            response.setContentType("multipart/form-data");
-            response.setHeader("Content-Disposition",
-                    "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
-            FileUtils.writeBytes(filePath, response.getOutputStream());
-            if (delete) {
-                FileUtils.deleteFile(filePath);
+                Long fileLength = conn.getContentLengthLong();//获取文件大小
+                response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+                response.setCharacterEncoding("UTF-8");
+                response.setContentType("application/force-download");
+                response.setHeader("Content-Length", String.valueOf(fileLength));
+                FileUtils.writeBytes(conn.getInputStream(), response.getOutputStream());
+            } else {
+                // 本地资源路径
+                String localPath = Global.getProfile();
+                // 数据库资源地址
+                String downloadPath = localPath + StringUtils.substringAfter(path, Global.RESOURCE_PREFIX);
+                // 下载名称
+                response.setCharacterEncoding("utf-8");
+                response.setContentType("application/force-download");
+                response.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\"", fileName));
+
+                FileUtils.writeBytes(downloadPath, response.getOutputStream());
             }
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
-    }
-
-    /**
-     * 本地资源通用下载
-     */
-    @GetMapping("download/resource")
-    public void resourceDownload(String resource, HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-        // 本地资源路径
-        String localPath = Global.getProfile();
-        // 数据库资源地址
-        String downloadPath = localPath + StringUtils.substringAfter(resource, Global.RESOURCE_PREFIX);
-        // 下载名称
-        String downloadName = StringUtils.substringAfterLast(downloadPath, "/");
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("multipart/form-data");
-        response.setHeader("Content-Disposition",
-                "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, downloadName));
-        FileUtils.writeBytes(downloadPath, response.getOutputStream());
     }
 
     @PostMapping("upload/ueditor")
@@ -185,7 +195,7 @@ public class CommonController extends BasicController {
         Elements imgTags = document.select("img[src]");
         for (Element img : imgTags) {
             String imageSrc = img.attr("src");
-            if (isOutLink(imageSrc)) {//外链地址，进行图片本地化处理
+            if (FileUploadUtils.isOutLink(imageSrc)) {//外链地址，进行图片本地化处理
                 FileUploadResult result = FileUploadUtils.upload(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_UEDITOR, imageSrc, MimeTypeUtils.IMAGE_EXTENSION);
                 img.attr("src", result.getRelativePath());
             }
@@ -202,7 +212,7 @@ public class CommonController extends BasicController {
         Elements aTags = document.select("a[href]");
         for (Element a : aTags) {
             String href = a.attr("href");
-            if (isOutLink(href)) {//外链地址，进行图片本地化处理
+            if (FileUploadUtils.isOutLink(href)) {//外链地址，进行图片本地化处理
                 a.attr("href", "javascript:void(0);");
             }
         }
@@ -211,24 +221,6 @@ public class CommonController extends BasicController {
         return Result.success(data);
     }
 
-    /**
-     * 校验链接是否外链
-     * TODO 目前只要携带域名统一认为是外链，将来增加外链域名排除规则
-     *
-     * @param linkUrl
-     * @return
-     */
-    private static boolean isOutLink(String linkUrl) {
-        try {
-            URL url = new URL(linkUrl);
-            String host = url.getHost();
-            if (StringUtils.isNotBlank(host)) {
-                return true;
-            }
-        } catch (Exception e) {
-            return false;
-        }
-        return false;
-    }
+
 
 }

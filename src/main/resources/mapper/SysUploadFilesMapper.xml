@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.basic.mapper.SysUploadFilesMapper">
+
+    <select id="selectImageByProductId" parameterType="java.lang.String" resultType="com.basic.entity.SysUploadFiles">
+        select u.* from sys_upload_files u,product_image i
+        where i.image_id = u.id
+        and i.product_id = #{productId,jdbcType=VARCHAR}
+    </select>
+    <select id="selectFileByProductId" parameterType="java.lang.String" resultType="com.basic.entity.SysUploadFiles">
+        select u.* from sys_upload_files u,product_file f
+        where f.file_id = u.id
+        and f.product_id = #{productId,jdbcType=VARCHAR}
+    </select>
+</mapper>

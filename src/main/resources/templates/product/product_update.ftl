@@ -29,26 +29,30 @@
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">缩略图：</label>
             <div class="col-sm-8">
-                <div id="shortImage"></div>
-                <input type="hidden" name="existImages" value="${product.shortImage}" data-id="${product.shortId}" >
+                <div class="lee-image-upload" data-field="shortImage" data-size="1">
+                    <input type="hidden" class="exist-image" value="${product.shortImage}" data-id="${product.shortImageId}">
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label is-required">产品相册：</label>
             <div class="col-sm-8">
-                <div id="mainImage"></div>
-                <#list mainImages as mainImage>
-                    <input type="hidden" name="mainImage" value="${mainImage.url}" data-id="${mainImage.id}" >
-                </#list>
+                <div class="lee-image-upload" data-field="mainImage" data-size="10">
+                    <#list mainImages as mainImage>
+                        <input type="hidden" class="exist-image" value="${mainImage.url}" data-id="${mainImage.id}">
+                    </#list>
+                </div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label ">附件</label>
             <div class="col-sm-8">
-                <div id="tempFile"></div>
-                <#list files as file>
-                    <input type="hidden" name="tempFile" value="${file.url}" data-id="${file.id}" data-name="${file.name}" >
-                </#list>
+                <div class="lee-file-upload" data-field="tempFile" data-size="10">
+                    <#list files as file>
+                        <input type="hidden" class="exist-file" value="${file.url}" data-id="${file.id}"
+                               data-name="${file.name}">
+                    </#list>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -65,6 +69,7 @@
 <@js_common/>
 <@js_webuploader_image/>
 <@js_webuploader_file/>
+<@js_ueditor/>
 <script type="text/javascript">
     var prefix = "${ctx}/product";
     $("#form-product-update").validate({
@@ -72,52 +77,6 @@
         rules: {},
         messages: {},
         focusCleanup: true
-    });
-    $(function () {
-        var existArray = new Array();
-        $("input[name='existImages']").each(function () {
-            var image = new Object();
-            image.url = $(this).val();
-            image.id = $(this).data("id");
-            existArray.push(image);
-        });
-
-        $("#shortImage").leeImageUploader({
-            max: 1,
-            uploadUrl: '${ctx}/common/upload/image',
-            idName: 'shortImageId',
-            existFiles: existArray
-        });
-
-
-        var mainImages = new Array();
-        $("input[name='mainImage']").each(function () {
-            var image = new Object();
-            image.url = $(this).val();
-            image.id = $(this).data("id");
-            mainImages.push(image);
-        });
-        $("#mainImage").leeImageUploader({
-            max: 5,
-            uploadUrl: '${ctx}/common/upload/image',
-            idName: 'mainImageId',
-            existFiles: mainImages
-        });
-        var existFile = [];
-        $("input[name='tempFile']").each(function () {
-            var file = {};
-            file.url = $(this).val();
-            file.id = $(this).data("id");
-            file.name = $(this).data("name");
-            existFile.push(file);
-        });
-        $("#tempFile").leeFileUploader({
-            max:5,
-            multiple:true,
-            uploadUrl: '${ctx}/common/upload/file',
-            idName:'tempFileId',
-            existFiles:existFile
-        });
     });
 
     function submitHandler() {

@@ -46,7 +46,7 @@ public class Product extends Model<Product> {
     private String cutUrl;
 
     //缩略图片id
-    private String shortId;
+    private String shortImageId;
     /**
     *缩略图
     */

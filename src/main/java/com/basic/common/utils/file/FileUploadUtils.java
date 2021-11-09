@@ -240,4 +240,44 @@ public class FileUploadUtils {
         }
         return extension;
     }
+
+    /**
+     * 判断链接地址是否是网络请求
+     *
+     * @param linkUrl
+     * @return
+     */
+    public static boolean isHttpLink(String linkUrl) {
+        try {
+            URL url = new URL(linkUrl);
+            String host = url.getHost();
+            if (StringUtils.isNotBlank(host)) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
+    /**
+     * 校验链接是否外链
+     * TODO 目前只要携带域名统一认为是外链，将来增加外链域名排除规则
+     *
+     * @param linkUrl
+     * @return
+     */
+    public static boolean isOutLink(String linkUrl) {
+        try {
+            URL url = new URL(linkUrl);
+            String host = url.getHost();
+            if (StringUtils.isNotBlank(host)) {
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
 }

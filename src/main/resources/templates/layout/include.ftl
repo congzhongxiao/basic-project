@@ -9,9 +9,6 @@
     <#if sys_csrfToken??>
     <meta content="${sys_csrfToken}" name="csrf-token" />
     </#if>
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html"/>
-    <![endif]-->
     <#nested>
     <title>${title}</title>
 </#macro>
@@ -78,4 +75,11 @@
 <#macro js_webuploader_file>
     <script src="${ctx}/static/plugins/webuploader/webuploader.nolog.js?version=${version}"></script>
     <script src="${ctx}/static/plugins/webuploader/leeFileUploader.js?version=${version}"></script>
+</#macro>
+
+<#macro js_ueditor>
+    <script src="${ctx}/static/plugins/ueditor/ueditor.config.js?version=${version}"></script>
+    <script src="${ctx}/static/plugins/ueditor/ueditor.all.js?version=${version}"></script>
+    <script src="${ctx}/static/plugins/ueditor/lang/zh-cn/zh-cn.js?version=${version}"></script>
+    <script src="${ctx}/static/plugins/ueditor/ueditor-init.js?version=${version}"></script>
 </#macro>

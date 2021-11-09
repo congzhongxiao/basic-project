@@ -8242,6 +8242,13 @@ UE.ajax = function() {
         };
         if (method == "POST") {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            //CSRF防御处理
+            if(document.getElementsByName("csrf-token").length > 0){
+                var csrfToken = document.getElementsByName("csrf-token")[0].content;
+                if(csrfToken && csrfToken != null && csrfToken != ''){
+                    xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+                }
+            }
             xhr.send(submitStr);
         } else {
             xhr.send(null);
@@ -23823,6 +23830,12 @@ UE.plugin.register('autoupload', function (){
         fd.append('type', 'ajax');
         xhr.open("post", url, true);
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        if(document.getElementsByName("csrf-token").length > 0){
+            var csrfToken = document.getElementsByName("csrf-token")[0].content;
+            if(csrfToken && csrfToken != null && csrfToken != ''){
+                xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+            }
+        }
         xhr.addEventListener('load', function (e) {
             try{
                 var json = (new Function("return " + utils.trim(e.target.response)))();
@@ -24576,6 +24589,12 @@ UE.plugin.register('simpleupload', function (){
                     if (xhr.readyState === 4)
                         if ((xhr.status >=200 && xhr.status < 300) || xhr.status == 304)
                             alert(xhr.responseText);
+                }
+                if(document.getElementsByName("csrf-token").length > 0){
+                    var csrfToken = document.getElementsByName("csrf-token")[0].content;
+                    if(csrfToken && csrfToken != null && csrfToken != ''){
+                        xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+                    }
                 }
                 xhr.send(formdata);
 

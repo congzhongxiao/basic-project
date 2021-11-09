@@ -25,31 +25,21 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label ">裁剪图片</label>
-            <div class="col-sm-9">
-                <div class="cropper-area" id="previewCut">
-                    <img id="cutImage" name="cutImage">
-                    <input type="hidden" name="cutId" id="cutId" value="">
-                    <input type="hidden" name="cutUrl" id="cutUrl" value="">
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-2 control-label ">封面图片</label>
             <div class="col-sm-9">
-                <div id="shortImage"></div>
+                <div class="lee-image-upload" data-field="shortImage"  data-size="1"></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label ">产品相册</label>
             <div class="col-sm-9">
-                <div id="mainImage"></div>
+                <div class="lee-image-upload" data-field="mainImage"  data-size="5"></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label ">附件</label>
             <div class="col-sm-9">
-                <div id="tempFile"></div>
+                <div class="lee-file-upload" data-field="tempFile"  data-size="10"></div>
             </div>
         </div>
         <div class="form-group">
@@ -65,6 +55,7 @@
 <@js_common/>
 <@js_webuploader_image/>
 <@js_webuploader_file/>
+<@js_ueditor/>
 <script type="text/javascript">
     var prefix = "${ctx}/product";
     $("#form-product-add").validate({
@@ -74,38 +65,6 @@
         messages: {},
         focusCleanup: true
     });
-
-
-    $(function () {
-        $("#previewCut").click(function(){
-            var img = $(this).find("#cutImage");
-            var path = img.attr("src");
-            var url = prefix + '/cropper';
-            if(path && path != '') {
-                url += '?imgUrl=' + path;
-            }
-            $.modal.open("预览图选取",url);
-        });
-        $("#shortImage").leeImageUploader({
-            max:1,
-            uploadUrl: '${ctx}/common/upload/image',
-            idName:'shortImageId'
-        });
-        $("#mainImage").leeImageUploader({
-            max:5,
-            uploadUrl: '${ctx}/common/upload/image',
-            idName:'mainImageId'
-        });
-        $("#tempFile").leeFileUploader({
-            max:5,
-            multiple:true,
-            uploadUrl: '${ctx}/common/upload/file',
-            idName:'tempFileId'
-        });
-
-
-    });
-
 
     function submitHandler() {
         if ($.validate.form()) {

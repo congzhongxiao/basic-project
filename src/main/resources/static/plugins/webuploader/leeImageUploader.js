@@ -11,8 +11,7 @@
         defaults = {
             title: '图片上传',
             multiple: true,//是否多选
-            idName: '',//存放id的隐藏域
-            urlName: '',//存放url的隐藏域
+            field: '',//存放id的隐藏域
             uploadUrl: '',
             thumb_width: 110,//缩略图宽度
             thumb_height: 90,//缩略图高度
@@ -113,11 +112,9 @@
                 if (response.success) {//服务端返回结果
                     var fileUrl = response.data.url;
                     img.attr('src', fileUrl);
-                    if (_this.settings.idName != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + response.data.id + '">'));
-                    }
-                    if (_this.settings.urlName != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + response.data.url + '">'));
+                    if (_this.settings.field != '') {
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.field  + 'Id" value="' + response.data.id + '">'));
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
                     }
                     var successMsg = fileItem.find('div.success');
                     // 避免重复创建
@@ -202,11 +199,9 @@
                                 });
                             });
                         }
-                        if (_this.settings.idName != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + item.id + '">'));
-                        }
-                        if (_this.settings.urlName != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + item.url + '">'));
+                        if (_this.settings.field != '') {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
                         }
                     }
                 });

@@ -7,43 +7,48 @@ import java.security.MessageDigest;
 
 /**
  * Md5加密方法
- * 
  */
-public class Md5Util
-{
+public class Md5Util {
     private static final Logger log = LoggerFactory.getLogger(Md5Util.class);
 
-    private static byte[] md5(String s)
-    {
+    private static byte[] md5(String s) {
         MessageDigest algorithm;
-        try
-        {
+        try {
             algorithm = MessageDigest.getInstance("MD5");
             algorithm.reset();
             algorithm.update(s.getBytes("UTF-8"));
             byte[] messageDigest = algorithm.digest();
             return messageDigest;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("MD5 Error...", e);
         }
         return null;
     }
 
-    private static final String toHex(byte hash[])
-    {
-        if (hash == null)
-        {
+    private static byte[] md5(byte[] bytes) {
+        MessageDigest algorithm;
+        try {
+            algorithm = MessageDigest.getInstance("MD5");
+            algorithm.reset();
+            algorithm.update(bytes);
+            byte[] messageDigest = algorithm.digest();
+            return messageDigest;
+        } catch (Exception e) {
+            log.error("MD5 Error...", e);
+        }
+        return null;
+    }
+
+
+    private static final String toHex(byte hash[]) {
+        if (hash == null) {
             return null;
         }
         StringBuffer buf = new StringBuffer(hash.length * 2);
         int i;
 
-        for (i = 0; i < hash.length; i++)
-        {
-            if ((hash[i] & 0xff) < 0x10)
-            {
+        for (i = 0; i < hash.length; i++) {
+            if ((hash[i] & 0xff) < 0x10) {
                 buf.append("0");
             }
             buf.append(Long.toString(hash[i] & 0xff, 16));
@@ -51,16 +56,21 @@ public class Md5Util
         return buf.toString();
     }
 
-    public static String hash(String s)
-    {
-        try
-        {
+    public static String hash(String s) {
+        try {
             return new String(toHex(md5(s)).getBytes("UTF-8"), "UTF-8");
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("not supported charset...{}", e);
             return s;
+        }
+    }
+
+    public static String hash(byte[] bytes) {
+        try {
+            return new String(toHex(md5(bytes)).getBytes("UTF-8"), "UTF-8");
+        } catch (Exception e) {
+            log.error("not supported charset...{}", e);
+            return "";
         }
     }
 }

@@ -11,9 +11,6 @@
     <!-- 避免IE使用兼容模式 -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>公司后台管理系统</title>
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html"/>
-    <![endif]-->
     <link href="${ctx}/static/plugins/bootstrap/css/bootstrap.min.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/plugins/contextMenu/jquery.contextMenu.min.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/font-awesome.min.css?version=${version}" rel="stylesheet"/>

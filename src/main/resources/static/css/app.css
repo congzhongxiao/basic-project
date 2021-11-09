@@ -447,4 +447,10 @@ ul.ul-auto-3 {
   width: 120px;
   height: 120px; }
 
+.ueditor-tool {
+  margin: 10px 0; }
+
+.ueditor-tool .btn {
+  margin-right: 5px; }
+
 /*# sourceMappingURL=app.css.map */

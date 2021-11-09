@@ -11,10 +11,10 @@
         defaults = {
             title: '上传文件',
             multiple: true,//是否多选
-            idName: '',//存放id的隐藏域
-            urlName: '',//存放url的隐藏域
+            field: '',//存放字段的隐藏域
             uploadUrl: '',
-            accept:null,
+            downloadUrl: '',//点击下载路径
+            accept: null,
             max: 5,//最大上传个数
             fileSize: 500,//默认单个文件大小限制，单位M
             existFiles: ''
@@ -34,12 +34,12 @@
             var _this = this;
             _this._fileList.append(_this._pick);
             _this.element.append(_this._fileList);
-            if(_this.settings.max == 1) {
+            if (_this.settings.max == 1) {
                 _this.settings.multiple = false;
             }
             var accept = _this.settings.accept;
-            if(accept == null) {
-                accept =  {
+            if (accept == null) {
+                accept = {
                     title: 'Files',
                     extensions: '*',
                 };
@@ -52,7 +52,7 @@
                     id: _this._pick,
                     multiple: _this.settings.multiple
                 },
-                accept:accept,
+                accept: accept,
                 duplicate: true,
                 fileSingleSizeLimit: _this.settings.fileSize * 1024 * 1024, //  单个文件大小
                 fileNumLimit: _this.settings.max // 限制上传个数
@@ -60,10 +60,17 @@
             // 当有文件添加进来的时候
             uploader.on('fileQueued', function (file) {
                 var itemBox = $('<div id="' + file.id + '" class="file-item">');
-
-
                 var item = $('<div class="file-panel">');
-                item.append('<div class="file-name" title="' + file.name +'">' + file.name + '</div><span class="file-upload-progress" ></span>' );
+                var fileLink = '';
+                if (file.url && $.common.isNotEmpty(file.url) && $.common.isNotEmpty(_this.settings.downloadUrl)) {
+                    fileLink = '<a class="file-link" data-name="' + file.name + '" data-url="' + file.url + '" '
+                        + 'href="' + _this.settings.downloadUrl + '?path=' + file.url + '&fileName=' + file.name + '">' + file.name + '</a>';
+                } else {
+                    fileLink = '<a class="file-link" href="javascript:void(0)">' + file.name + '</a>';
+                }
+
+                item.append('<div class="file-name" title="' + file.name + '">' +
+                    fileLink + '</div><span class="file-upload-progress" ></span>');
                 var remove = $('<div class = "remove" title="删除"><i class="fa fa-trash"></i></div>');
                 item.append(remove);
                 itemBox.append(item);
@@ -73,7 +80,7 @@
                 remove.click(function () {
                     uploader.removeFile(file, true);
                     itemBox.remove();
-                    _this._pick.css("display","inline-block");
+                    _this._pick.css("display", "inline-block");
                 });
                 if (_this._fileList.find('.file-item').length >= _this.settings.max) {
                     _this._pick.hide();
@@ -82,7 +89,7 @@
                         _this._fileList.find('.file-item').last().remove();
                     }
                 } else {
-                    _this._pick.css("display","inline-block");
+                    _this._pick.css("display", "inline-block");
                 }
             });
             // 文件上传过程中创建进度条实时显示。
@@ -94,13 +101,17 @@
             uploader.on('uploadSuccess', function (file, response) {
                 var fileItem = _this._fileList.find('#' + file.id);
                 var panel = fileItem.find('.file-panel');
-
                 if (response.success) {//服务端返回结果
-                    if (_this.settings.idName != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + response.data.id + '">'));
-                    }
-                    if (_this.settings.urlName != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + response.data.url + '|'+ response.data.name +'">'));
+                    var fileLink = fileItem.find('.file-link');
+                    var url = response.data.url;
+                    var name = response.data.name;
+                    fileLink.attr("data-name", name);
+                    fileLink.attr("data-url", url);
+                    fileLink.attr("href", _this.settings.downloadUrl + '?path=' + url + '&fileName=' + name);
+                    if (_this.settings.field != '') {
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + response.data.id + '">'));
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + response.data.name + '">'));
+                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
                     }
                     var progress = fileItem.find('.file-upload-progress');
                     progress.text("上传成功");
@@ -128,21 +139,21 @@
             uploader.on('error', function (code) {
                 switch (code) {
                     case "Q_EXCEED_NUM_LIMIT":
-                        layer.msg("最多只能上传 " + _this.settings.max + "个文件",{icon:2});
+                        layer.msg("最多只能上传 " + _this.settings.max + "个文件", {icon: 2});
                         break;
                     case "Q_TYPE_DENIED":
                         var extStr = _this.settings.accept.extensions;
                         var msg = "文件内容为空或类型不支持";
-                        if(extStr && $.common.isNotEmpty(extStr)){
+                        if (extStr && $.common.isNotEmpty(extStr)) {
                             msg += ',当前只支持后缀名：' + extStr;
                         }
-                        layer.msg(msg,{icon:2});
+                        layer.msg(msg, {icon: 2});
                         break;
                     case "F_EXCEED_SIZE":
-                        layer.msg("上传文件超过限制大小,限制最大" + _this.settings.fileSize + "M",{icon:2});
+                        layer.msg("上传文件超过限制大小,限制最大" + _this.settings.fileSize + "M", {icon: 2});
                         break;
                     default:
-                        layer.msg("文件上传错误，错误代码：" + code,{icon:2});
+                        layer.msg("文件上传错误，错误代码：" + code, {icon: 2});
                 }
 
             });
@@ -157,15 +168,14 @@
                         var existFile = new WebUploader.Lib.File(WebUploader.guid('exist_'), obj);
                         var file = new WebUploader.File(existFile);
                         file.setStatus('complete');
-                        file.name=item.name;
+                        file.name = item.name;
+                        file.url = item.url;
                         uploader.addFiles(file);
                         var fileItem = _this._fileList.find('#' + file.id);
-                        if (_this.settings.idName != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.idName + '" value="' + item.id + '">'));
-                        }
-                        if (_this.settings.urlName != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.urlName + '" value="' + item.url + '|'+ item.name +'">'));
-
+                        if (_this.settings.field != '') {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + item.name + '">'));
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
                         }
                     }
                 });

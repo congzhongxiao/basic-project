@@ -68,6 +68,37 @@ public class FileUtils
         }
     }
 
+
+    public static void writeBytes(InputStream bis, OutputStream bos) throws IOException {
+        try {
+            byte[] buff = new byte[1024];
+            int bytesRead;
+            //每次读取缓存大小的流，写到输出流
+            while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) {
+                bos.write(buff, 0, bytesRead);
+            }
+            bis.close();
+            bos.close();
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            if (bos != null) {
+                try {
+                    bos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (bis != null) {
+                try {
+                    bis.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+    }
+
     /**
      * 删除文件
      * 

@@ -5,17 +5,16 @@ import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.StringUtils;
 import com.basic.controller.common.BasicController;
 import com.basic.entity.Product;
-import com.basic.entity.UploadFiles;
+import com.basic.entity.SysUploadFiles;
 import com.basic.service.ProductImageService;
 import com.basic.service.ProductService;
-import com.basic.service.UploadFilesService;
+import com.basic.service.SysUploadFilesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +33,7 @@ public class ProductController extends BasicController {
     @Autowired
     ProductService productService;
     @Autowired
-    UploadFilesService uploadFilesService;
+    SysUploadFilesService uploadFilesService;
     @Autowired
     ProductImageService productImageService;
 
@@ -65,24 +64,15 @@ public class ProductController extends BasicController {
     @PostMapping("add")
     @ResponseBody
     public Result doAdd(@Validated Product product,
-                        @RequestParam(name = "shortImageId", required = false) String shortImageId,
                         @RequestParam(name = "mainImageId", required = false) List<String> mainImageIds,
                         @RequestParam(name = "tempFileId", required = false) List<String> tempFileIds) {
         try {
 
-            if (StringUtils.isBlank(shortImageId)) {
-                return Result.fail("请上传缩略图");
-            }
             if (mainImageIds == null || mainImageIds.size() <= 0) {
                 return Result.fail("请上传相册图片");
             }
             if (tempFileIds == null || tempFileIds.size() <= 0) {
                 return Result.fail("请上传附件");
-            }
-            UploadFiles image = uploadFilesService.getById(shortImageId);
-            if (image != null) {
-                product.setShortId(shortImageId);
-                product.setShortImage(image.getUrl());
             }
             productService.addProduct(product, mainImageIds, tempFileIds);
             return Result.success();
@@ -96,9 +86,9 @@ public class ProductController extends BasicController {
     @GetMapping("update/{id}")
     public String update(@PathVariable String id, Model model) {
         Product product = productService.getById(id);
-        List<UploadFiles> mainImages = uploadFilesService.selectImageByProductId(id);
+        List<SysUploadFiles> mainImages = uploadFilesService.selectImageByProductId(id);
         model.addAttribute("mainImages", mainImages);
-        List<UploadFiles> files = uploadFilesService.selectFileByProductId(id);
+        List<SysUploadFiles> files = uploadFilesService.selectFileByProductId(id);
         model.addAttribute("files", files);
         if (product != null) {
             model.addAttribute("product", product);
@@ -112,27 +102,16 @@ public class ProductController extends BasicController {
     @PostMapping("update")
     @ResponseBody
     public Result doUpdate(@Validated @ModelAttribute(value = "preloadProduct") Product product,
-                           @RequestParam(name = "shortImageId", required = false) String shortImageId,
                            @RequestParam(name = "mainImageId", required = false) List<String> mainImageIds,
                            @RequestParam(name = "tempFileId", required = false) List<String> tempFileIds) {
 
 
         try {
-            if (StringUtils.isBlank(shortImageId)) {
-                return Result.fail("请上传缩略图");
-            }
             if (mainImageIds == null || mainImageIds.size() <= 0) {
                 return Result.fail("请上传相册图片");
             }
             if (tempFileIds == null || tempFileIds.size() <= 0) {
                 return Result.fail("请上传附件");
-            }
-            product.setShortImage("");
-            product.setShortImage("");
-            UploadFiles image = uploadFilesService.getById(shortImageId);
-            if (image != null) {
-                product.setShortId(shortImageId);
-                product.setShortImage(image.getUrl());
             }
             productService.updateProduct(product, mainImageIds, tempFileIds);
             return Result.success();
