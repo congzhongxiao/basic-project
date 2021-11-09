@@ -82,10 +82,6 @@ public class CommonController extends BasicController {
     public Result uploadFile(@RequestPart("file") MultipartFile file) {
         try {
             String md5data = Md5Util.hash(file.getBytes());
-            SysUploadFiles existFile = sysUploadFilesService.findOneByMd5(md5data);
-            if (existFile != null) {
-                return Result.success(existFile);
-            }
             String filePath = Global.getUploadPath();
             String extension = FileUploadUtils.getExtension(file);
             FileUploadResult result;
