@@ -232,7 +232,6 @@ input[type=checkbox]:disabled:checked:before {
 
     &:focus,
     &:active,
-    &:active:focus,
     &:hover {
       background-color: map-get($colors, $type#{-hover-color});
     }

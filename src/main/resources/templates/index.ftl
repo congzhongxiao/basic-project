@@ -15,8 +15,8 @@
     <link href="${ctx}/static/plugins/contextMenu/jquery.contextMenu.min.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/font-awesome.min.css?version=${version}" rel="stylesheet"/>
     <link href="${ctx}/static/css/animate.css?version=${version}" rel="stylesheet"/>
-    <link href="${ctx}/static/css/common.css?version=${version}" rel="stylesheet"/>
-    <link href="${ctx}/static/css/app.css?version=${version}" rel="stylesheet"/>
+    <link href="${ctx}/static/css/skins/blue/common.css?version=${version}" rel="stylesheet"/>
+    <link href="${ctx}/static/css/skins/blue/app.css?version=${version}" rel="stylesheet"/>
     <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </head>
 <body class="mini-menu">

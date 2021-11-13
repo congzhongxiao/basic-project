@@ -21,13 +21,13 @@
 
 /* 页面顶部部分 */
 .main-head {
-  background: #317EEB;
-  height: 60px; }
+  background: #3c8dbc;
+  height: 50px; }
   .main-head .head-logo-panel {
     float: left;
     height: 100%;
     width: 220px;
-    background: #2968c1;
+    background: #367fa9;
     display: flex; }
     .main-head .head-logo-panel .head-logo {
       color: #ffffff;
@@ -63,7 +63,7 @@
           align-items: center;
           color: #ffffff; }
         .main-head .head-menu-panel .head-menu > li > a:hover, .main-head .head-menu-panel .head-menu > li > a:focus, .main-head .head-menu-panel .head-menu > li > a:active, .main-head .head-menu-panel .head-menu > li > a:target, .main-head .head-menu-panel .head-menu > li > a:focus-within {
-          background: #458BED; }
+          background: #1179b6; }
     .main-head .head-menu-panel .navbar-nav {
       margin: 0; }
       .main-head .head-menu-panel .navbar-nav > li {
@@ -75,9 +75,9 @@
 
 /* 左侧菜单样式 */
 .main-left {
-  background: #0C2543;
+  background: #2f4050;
   width: 220px;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   position: fixed;
   z-index: 2001; }
   .main-left .nav > li > a {
@@ -88,36 +88,36 @@
   .main-left .nav > li a:focus,
   .main-left .nav > li a:active {
     color: #ffffff;
-    background: #09182b; }
+    background: #24313d; }
   .main-left .nav > li .nav-second-level li a {
     font-size: 12px;
-    padding: 10px 15px 10px 52px; }
+    padding: 8px 15px 8px 52px; }
   .main-left .nav > li.active {
-    border-left: 4px solid #317EEB;
-    background: #081d37; }
+    border-left: 4px solid #19aa8d;
+    background: #293846; }
   .main-left .nav.nav-second-level.collapse[style] {
     height: auto !important; }
 
 /* 页面内容部分 */
 .main-content {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 50px);
   margin-left: 220px; }
   .main-content .content-tabs {
-    height: 35px;
+    height: 38px;
     background: #fafafa;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
-    line-height: 35px; }
+    line-height: 38px; }
     .main-content .content-tabs button {
       background: #fff;
       border: 0;
-      height: 34px;
-      width: 35px;
+      height: 37px;
+      width: 38px;
       outline: none; }
     .main-content .content-tabs .roll-nav {
       position: absolute;
       width: 30px;
-      height: 34px;
+      height: 37px;
       text-align: center;
       color: #999;
       z-index: 2;
@@ -141,7 +141,7 @@
       margin-left: 30px;
       width: 100000px;
       overflow: hidden;
-      height: 34px; }
+      height: 37px; }
       .main-content .content-tabs .page-tabs .page-tabs-content {
         float: left; }
       .main-content .content-tabs .page-tabs a {
@@ -160,13 +160,13 @@
         cursor: pointer; }
       .main-content .content-tabs .page-tabs a.active {
         background: #eaedf1;
-        color: #3b7dda; }
+        color: #23508e; }
   .main-content .menuTab {
     -webkit-transition: all .3s ease-out 0s;
     transition: all .3s ease-out 0s; }
   .main-content #content-main {
     overflow: hidden;
-    height: calc(100vh - 95px); }
+    height: calc(100vh - 88px); }
 
 body.mini-menu .main-head .head-logo-panel {
   width: 70px; }
@@ -452,9 +452,5 @@ ul.ul-auto-3 {
 
 .ueditor-tool .btn {
   margin-right: 5px; }
-
-body .layer-ext-moon .layui-layer-btn .layui-layer-btn0 {
-  background: #317eeb !important;
-  border-color: #317eeb; }
 
 /*# sourceMappingURL=app.css.map */
