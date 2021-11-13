@@ -72,6 +72,6 @@ public class RSAUtil {
 
         /** 执行解密操作 */
         byte[] b = cipher.doFinal(b1);
-        return new String(b);
+        return new String(b,"utf-8");
     }
 }
