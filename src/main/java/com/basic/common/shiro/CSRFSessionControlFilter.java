@@ -81,6 +81,24 @@ public class CSRFSessionControlFilter extends AccessControlFilter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+        //加密会话SSL中设置cookie的Secure属性和HttpOnly属性
+        String scheme = request.getScheme();
+        if (!StringUtils.isEmpty(scheme) && "https".equalsIgnoreCase(scheme)) {
+            response.setHeader("strict-transport-security", "max-age=16070400; includeSubDomains");//简称为HSTS。它允许一个HTTPS网站，要求浏览器总是通过HTTPS来访问它
+            response.setHeader("Set-Cookie", "JSESSIONID=" + request.getSession().getId() + "; Path=/cas;HttpOnly=true;Secure=true;");
+        }
+
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        response.setHeader("Content-Security-Policy", "script-src * 'unsafe-inline' 'unsafe-eval';form-action 'self';frame-ancestors 'self';");//这个响应头主要是用来定义页面可以加载哪些资源，减少XSS的发生
+        response.setHeader("X-Content-Type-Options", "nosniff");//互联网上的资源有各种类型，通常浏览器会根据响应头的Content-Type字段来分辨它们的类型。通过这个响应头可以禁用浏览器的类型猜测行为
+        response.setHeader("X-XSS-Protection", "1; mode=block");//1; mode=block：启用XSS保护，并在检查到XSS攻击时，停止渲染页面
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");//SAMEORIGIN：不允许被本域以外的页面嵌入
+
+
+
         String path = request.getServletPath();
         if (csrfEnabled && subject != null && subject.getSession() != null) {
             String sysCsrfToken = (String) subject.getSession().getAttribute("sys_csrfToken:" + subject.getSession().getId());

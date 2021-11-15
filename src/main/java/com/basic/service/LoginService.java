@@ -26,15 +26,15 @@ public class LoginService {
     /**
      * 登录
      */
-    public User login(String username, String password) {
+    public User login(String username, String pwd) {
         // 用户名或密码为空 错误
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
+        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(pwd)) {
             AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户名或密码为空"));
             throw new UserNotExistsException();
         }
         try {
             username = RSAUtil.decrypt(username);
-            password = RSAUtil.decrypt(password);
+            pwd = RSAUtil.decrypt(pwd);
         } catch (Exception e) {
         }
         // 查询用户信息
@@ -54,7 +54,7 @@ public class LoginService {
                 //时间差已超过锁定时间，开始密码校验
                 if (timeDiff > UserConstant.LOGIN_FAIL_LOCK_TIME) {
                     user.setFailNum(0);
-                    if (!validate(user, password)) {//登录失败
+                    if (!validate(user, pwd)) {//登录失败
                         throw new UserPasswordRetryLimitCountException(user.getFailNum());
                     }
                 } else {//时间差为超过锁定时间，判断锁定次数
@@ -62,18 +62,18 @@ public class LoginService {
                         AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户连续登录失败超过规定次数，账号临时锁定"));
                         throw new UserPasswordRetryLimitExceedException((UserConstant.LOGIN_FAIL_LOCK_TIME - timeDiff) / 1000);
                     } else {
-                        if (!validate(user, password)) {//登录失败
+                        if (!validate(user, pwd)) {//登录失败
                             throw new UserPasswordRetryLimitCountException(user.getFailNum());
                         }
                     }
                 }
             } else {
-                if (!validate(user, password)) {
+                if (!validate(user, pwd)) {
                     throw new UserPasswordRetryLimitCountException(user.getFailNum());
                 }
             }
         } else {
-            if (!validate(user, password)) {
+            if (!validate(user, pwd)) {
                 throw new UserPasswordNotMatchException();
             }
         }

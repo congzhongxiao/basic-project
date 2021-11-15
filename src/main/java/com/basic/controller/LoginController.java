@@ -44,8 +44,8 @@ public class LoginController {
 
     @PostMapping("")
     @ResponseBody
-    public Result doLogin(String username, String password, String validateCode) {
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+    public Result doLogin(String username, String pwd, String validateCode) {
+        UsernamePasswordToken token = new UsernamePasswordToken(username, pwd);
         Subject subject = SecurityUtils.getSubject();
         try {
             Session session = subject.getSession();

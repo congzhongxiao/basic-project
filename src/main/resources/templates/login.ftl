@@ -125,7 +125,7 @@
         <div class="row login-row">
             <div class="col-xs-12">
                 <span class="input-icon"><i class="fa fa-lock"></i></span>
-                <input class="form-input" placeholder="请输入密码" id="password" name="password" value=""
+                <input class="form-input" placeholder="请输入密码" id="pwd" name="pwd" value=""
                        type="password">
             </div>
         </div>
@@ -192,7 +192,7 @@
                 layer.msg('请输入登录账号', {time: 1000});
                 return false;
             }
-            if (!$("#password").val()) {
+            if (!$("#pwd").val()) {
                 layer.msg('请输入密码', {time: 1000});
                 return false;
             }
@@ -208,7 +208,7 @@
             encrypt.setPublicKey(public_key);
             var data = $("form").serializeArray();
             data.forEach(function (item) {
-                if (item.name === 'username' || item.name === 'password') {
+                if (item.name === 'username' || item.name === 'pwd') {
                     item.value = encrypt.encrypt(item.value);
                 }
             });
