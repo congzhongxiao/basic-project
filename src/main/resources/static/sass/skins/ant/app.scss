@@ -1,9 +1,7 @@
 @import "./variable.scss";
-
 .wrapper-content {
   padding: 15px;
 }
-
 .container-div {
   padding: 0px 28px;
   height: 100%;
@@ -27,14 +25,14 @@
 
 /* 页面顶部部分 */
 .main-head {
-  background: #317EEB;
+  background: #ffffff;
   height: #{$head-height}px;
 
   .head-logo-panel {
     float: left;
     height: 100%;
     width: #{$left-width}px;
-    background: #2968c1;
+    background: #00152A;
     display: flex;
 
     .head-logo {
@@ -58,7 +56,8 @@
 
     .menu-model-bar {
       width: 60px;
-      color: #ffffff;
+      color: #696969;
+      font-size: 13px;
       display: flex;
       height: 100%;
 
@@ -80,10 +79,11 @@
           height: 100%;
           display: flex;
           align-items: center;
-          color: #ffffff;
+          color: #696969;
+          font-size: 13px;
         }
         > a:hover,> a:focus, > a:active,> a:target,> a:focus-within {
-          background: #458BED;
+          background: #ffffff;
         }
 
       }
@@ -106,7 +106,7 @@
 
 /* 左侧菜单样式 */
 .main-left {
-  background: #0C2543;
+  background: #001529;
   width: #{$left-width}px;
   height: calc(100vh - #{$head-height}px);
   position: fixed;
@@ -124,7 +124,7 @@
       a:focus,
       a:active {
         color: #ffffff;
-        background: #09182b;
+        background: #000C17;
       }
 
       .nav-second-level {
@@ -133,13 +133,22 @@
             font-size: 12px;
             padding: 10px 15px 10px 52px;
           }
+          > a:Hover,
+          a:focus,
+          a:active {
+            color: #ffffff;
+            background: #1890FD;
+          }
+        }
+        li.selected a{
+          color: #ffffff;
         }
       }
     }
 
     > li.active {
-      border-left: 4px solid #317EEB;
-      background: #081d37;
+      border-left: 4px solid #1890FD;
+      background: #000C17;
     }
 
     &.nav-second-level.collapse[style] {
@@ -155,7 +164,8 @@
 
   .content-tabs {
     height: #{$tab-height}px;
-    background: #fafafa;
+    background: #ffffff;
+    border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
     line-height: #{$tab-height}px;
@@ -163,7 +173,7 @@
     button {
       background: #fff;
       border: 0;
-      height: #{$tab-height - 1}px;
+      height: #{$tab-height - 2}px;
       width: #{$tab-height}px;
       outline: none;
     }
@@ -171,7 +181,7 @@
     .roll-nav {
       position: absolute;
       width: 30px;
-      height: #{$tab-height - 1}px;
+      height: #{$tab-height - 2}px;
       text-align: center;
       color: #999;
       z-index: 2;
@@ -187,12 +197,12 @@
 
     .roll-left {
       left: 0;
-      border-right: solid 1px #eee;
+      //border-right: solid 1px #eee;
     }
 
     .roll-right {
       right: 0;
-      border-left: solid 1px #eee;
+      //border-left: solid 1px #eee;
     }
 
     .roll-right.tabReload {
@@ -217,8 +227,9 @@
         color: #999;
         display: block;
         float: left;
-        border-right: solid 1px #eee;
+        //border-right: solid 1px #eee;
         padding: 0 15px;
+        font-weight: 500;
 
         i {
           color: #ccc;
@@ -228,14 +239,20 @@
       }
 
       a:hover {
-        color: #777;
-        background: #f2f2f2;
+        color: #1890ff;
+        background:#e6f7ff;
         cursor: pointer;
+        i{
+          color: #1890ff;
+        }
       }
 
       a.active {
-        background: #eaedf1;
-        color: #3b7dda;
+        color: #1890ff;
+        background: #e6f7ff;
+        i{
+          color: #1890ff;
+        }
       }
     }
   }
@@ -290,7 +307,7 @@ body.mini-menu {
         background-color: #243747;
         border-bottom: dashed 1px #fff;
         height: 40px;
-        border-radius: 2px 2px 0 0;
+        border-radius: 0;
       }
 
       li > .nav-second-level {
@@ -301,13 +318,13 @@ body.mini-menu {
         top: 39px;
         font-size: 12px;
         background-color: #2f4050;
-        border-radius: 0 0 2px 2px;
+        border-radius: 0;
       }
 
       li .nav-second-level li > a {
         padding: 10px 10px 10px 15px;
         font-size: 12px;
-        border-radius: 3px;
+        border-radius: 0px;
       }
     }
   }
@@ -330,9 +347,9 @@ body.mini-menu {
 .select-table {
   width: 100%;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 0px;
   margin-top: 10px;
-  padding-top: 5px;
+  padding-top: 10px;
   padding-bottom: 13px;
   box-shadow: 1px 1px 3px rgba(#000000, 0.2);
 }
@@ -356,12 +373,15 @@ body.mini-menu {
 
       input {
         border: 1px solid #ddd;
-        border-radius: 4px;
+        border-radius: 0px;
         background: transparent;
         outline: none;
         height: 30px;
         width: 200px;
         padding-left: 5px;
+      }
+      input:focus,input:active {
+        border: 1px solid $primary-color;
       }
     }
 
@@ -375,7 +395,7 @@ body.mini-menu {
 
   table {
     thead {
-      background-color: #eff3f8;
+      background-color: #f4f4f4;
     }
 
     > thead:first-child > tr:first-child > th {
@@ -389,11 +409,12 @@ body.mini-menu {
 .table > thead > tr > th {
   border-bottom: 1px solid #DDDDDD;
   vertical-align: bottom;
+  border-radius: 0px !important;
 }
 
 .table-striped .table > thead > tr > th,
 .table-striped .table > tbody > tr > th {
-  border-bottom: 1px solid #ccc !important;
+  border-bottom: 1px solid #DDDDDD !important;
   border-top: 0px !important;
 }
 
@@ -403,7 +424,7 @@ body.mini-menu {
 .table > thead > tr > td,
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
-  border-top: 1px solid #e7eaec;
+  border-top: 1px solid #DDDDDD;
   line-height: 1.42857;
   padding: 8px;
   vertical-align: middle;
@@ -415,7 +436,7 @@ body.mini-menu {
 .table-striped table > thead > tr > td,
 .table-striped table > tbody > tr > td,
 .table-striped table > tfoot > tr > td {
-  border-bottom: 1px solid #e7eaec !important;
+  border-bottom: 1px solid #DDDDDD !important;
   background-color: transparent;
   border: 0px;
   white-space: nowrap;
@@ -566,7 +587,7 @@ body.mini-menu {
 
 .select-list li select {
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 0px;
   background: transparent;
   outline: none;
   height: 30px;

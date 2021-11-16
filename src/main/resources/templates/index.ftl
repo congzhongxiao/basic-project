@@ -47,7 +47,7 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav head-menu pull-right navbar-right">
-                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-arrows-alt"></i> 全屏显示</a>
+                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-fw fa-arrows-alt"></i> 全屏显示</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-hover="dropdown"><i

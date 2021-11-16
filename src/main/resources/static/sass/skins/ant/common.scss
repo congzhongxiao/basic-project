@@ -47,12 +47,12 @@ li {
 }
 
 ::-webkit-scrollbar-thumb {
-  border-radius: 6px;
+  border-radius: 0px;
   background-color: #999;
 }
 
 .gray-bg {
-  background: #f3f3f4;
+  background: #F1F2F6;
 }
 
 .white-bg {
@@ -235,6 +235,7 @@ input[type=checkbox]:disabled:checked:before {
     &:active:focus,
     &:hover {
       background-color: map-get($colors, $type#{-hover-color});
+      border-color: map-get($colors, $type#{-color});
     }
   }
 }
@@ -381,7 +382,7 @@ input[type=checkbox]:disabled:checked:before {
 }
 
 .dropdown-menu > li > a {
-  border-radius: 3px;
+  border-radius: 0px;
   color: inherit;
   line-height: 25px;
   margin: 4px;
@@ -392,7 +393,12 @@ input[type=checkbox]:disabled:checked:before {
 .dropdown-menu > li > a.font-bold {
   font-weight: 600;
 }
-
+.dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover{
+  color: #fff;
+  text-decoration: none;
+  background-color: $primary-color;
+  outline: 0;
+}
 /*文本标签*/
 @each $type in $type-list {
   .text-#{$type} {
@@ -413,7 +419,7 @@ label {
 .form-control, .single-line {
   background: #FFFFFF none;
   border: 1px solid #e5e6e7;
-  border-radius: 1px;
+  border-radius: 0px;
   color: inherit;
   display: block;
   padding: 6px 12px;
@@ -429,7 +435,7 @@ label {
 
 
 .form-control:focus, .single-line:focus {
-  border-color: $success-color !important;
+  border-color: $primary-color !important;
 }
 
 .has-success {
@@ -466,7 +472,7 @@ label {
 .input-group-addon {
   background-color: #fff;
   border: 1px solid #E5E6E7;
-  border-radius: 1px;
+  border-radius: 0px;
   color: inherit;
   font-size: 14px;
   font-weight: 400;
