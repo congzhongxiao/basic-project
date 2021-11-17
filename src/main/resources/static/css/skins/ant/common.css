@@ -300,7 +300,7 @@ input[type=checkbox]:disabled:checked:before {
   background-color: #1890FF;
   border-color: #1890FF;
   color: #FFFFFF; }
-  .btn-primary:focus, .btn-primary:active, .btn-primary:active:focus, .btn-primary:hover {
+  .btn-primary:focus, .btn-primary:active, .btn-primary.active:focus, .btn-primary.active.focus, .btn-primary.active.hover, .btn-primary.active:hover, .btn-primary:active:focus, .btn-primary:active.focus, .btn-primary:active.hover, .btn-primary:active:hover, .btn-primary:hover {
     background-color: #40a9ff;
     border-color: #1890FF; }
 
@@ -308,7 +308,7 @@ input[type=checkbox]:disabled:checked:before {
   background-color: #52c41a;
   border-color: #52c41a;
   color: #FFFFFF; }
-  .btn-success:focus, .btn-success:active, .btn-success:active:focus, .btn-success:hover {
+  .btn-success:focus, .btn-success:active, .btn-success.active:focus, .btn-success.active.focus, .btn-success.active.hover, .btn-success.active:hover, .btn-success:active:focus, .btn-success:active.focus, .btn-success:active.hover, .btn-success:active:hover, .btn-success:hover {
     background-color: #5bd320;
     border-color: #52c41a; }
 
@@ -316,7 +316,7 @@ input[type=checkbox]:disabled:checked:before {
   background-color: #13c2c2;
   border-color: #13c2c2;
   color: #FFFFFF; }
-  .btn-info:focus, .btn-info:active, .btn-info:active:focus, .btn-info:hover {
+  .btn-info:focus, .btn-info:active, .btn-info.active:focus, .btn-info.active.focus, .btn-info.active.hover, .btn-info.active:hover, .btn-info:active:focus, .btn-info:active.focus, .btn-info:active.hover, .btn-info:active:hover, .btn-info:hover {
     background-color: #14d3d3;
     border-color: #13c2c2; }
 
@@ -324,7 +324,7 @@ input[type=checkbox]:disabled:checked:before {
   background-color: #faad14;
   border-color: #faad14;
   color: #FFFFFF; }
-  .btn-warning:focus, .btn-warning:active, .btn-warning:active:focus, .btn-warning:hover {
+  .btn-warning:focus, .btn-warning:active, .btn-warning.active:focus, .btn-warning.active.focus, .btn-warning.active.hover, .btn-warning.active:hover, .btn-warning:active:focus, .btn-warning:active.focus, .btn-warning:active.hover, .btn-warning:active:hover, .btn-warning:hover {
     background-color: #faba39;
     border-color: #faad14; }
 
@@ -332,7 +332,7 @@ input[type=checkbox]:disabled:checked:before {
   background-color: #ff4d4f;
   border-color: #ff4d4f;
   color: #FFFFFF; }
-  .btn-danger:focus, .btn-danger:active, .btn-danger:active:focus, .btn-danger:hover {
+  .btn-danger:focus, .btn-danger:active, .btn-danger.active:focus, .btn-danger.active.focus, .btn-danger.active.hover, .btn-danger.active:hover, .btn-danger:active:focus, .btn-danger:active.focus, .btn-danger:active.hover, .btn-danger:active:hover, .btn-danger:hover {
     background-color: #ff7875;
     border-color: #ff4d4f; }
 
