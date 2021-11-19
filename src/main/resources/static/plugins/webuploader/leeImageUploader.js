@@ -113,8 +113,12 @@
                     var fileUrl = response.data.url;
                     img.attr('src', fileUrl);
                     if (_this.settings.field != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.field  + 'Id" value="' + response.data.id + '">'));
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
+                        if($.common.isNotEmpty(response.data.id)) {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + response.data.id + '">'));
+                        }
+                        if($.common.isNotEmpty(response.data.url)) {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
+                        }
                     }
                     var successMsg = fileItem.find('div.success');
                     // 避免重复创建
@@ -200,8 +204,12 @@
                             });
                         }
                         if (_this.settings.field != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
+                            if($.common.isNotEmpty(item.id )){
+                                fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
+                            }
+                            if($.common.isNotEmpty(item.url)) {
+                                fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
+                            }
                         }
                     }
                 });

@@ -210,7 +210,7 @@ $(function () {
             $(this).find(".exist-image").each(function () {
                 var id = $(this).data("id");
                 var image = new Object();
-                if($.common.isNotEmpty(id)) {
+                if($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
                     image.id = id;
                 }
                 image.url = $(this).val();
@@ -255,13 +255,13 @@ $(function () {
                 var fileName = $(this).data("name");
                 var id = $(this).data("id");
                 var file = {};
-                if ($.common.isNotEmpty(url) ) {
+                if ($.common.isNotUndefined(url) && $.common.isNotEmpty(url) ) {
                     file.url = url;
                 }
-                if($.common.isNotEmpty(fileName)) {
+                if($.common.isNotUndefined(fileName) && $.common.isNotEmpty(fileName)) {
                     file.name = fileName;
                 }
-                if($.common.isNotEmpty(id)) {
+                if($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
                     file.id = id;
                 }
                 existArray.push(file);

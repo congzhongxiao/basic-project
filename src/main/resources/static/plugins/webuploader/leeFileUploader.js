@@ -109,9 +109,15 @@
                     fileLink.attr("data-url", url);
                     fileLink.attr("href", _this.settings.downloadUrl + '?path=' + url + '&fileName=' + name);
                     if (_this.settings.field != '') {
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + response.data.id + '">'));
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + response.data.name + '">'));
-                        fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
+                        if($.common.isNotEmpty(response.data.id)){
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + response.data.id + '">'));
+                        }
+                        if($.common.isNotEmpty(response.data.name)) {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + response.data.name + '">'));
+                        }
+                        if($.common.isNotEmpty(response.data.url)) {
+                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + response.data.url + '">'));
+                        }
                     }
                     var progress = fileItem.find('.file-upload-progress');
                     progress.text("上传成功");
@@ -173,9 +179,15 @@
                         uploader.addFiles(file);
                         var fileItem = _this._fileList.find('#' + file.id);
                         if (_this.settings.field != '') {
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + item.name + '">'));
-                            fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
+                            if($.common.isNotEmpty(item.id)) {
+                                fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Id" value="' + item.id + '">'));
+                            }
+                            if($.common.isNotEmpty(item.name)) {
+                                fileItem.append($('<input type="hidden" name="' + _this.settings.field + 'Name" value="' + item.name + '">'));
+                            }
+                            if($.common.isNotEmpty(item.url)) {
+                                fileItem.append($('<input type="hidden" name="' + _this.settings.field + '" value="' + item.url + '">'));
+                            }
                         }
                     }
                 });

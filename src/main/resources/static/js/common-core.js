@@ -1490,6 +1490,15 @@ var table = {
             }
         },
         common: {
+            isUndefined:function(obj) {
+                if(typeof(obj) != 'undefined'){
+                    return  false;
+                }
+                return true;
+            },
+            isNotUndefined:function(obj) {
+                return !$.common.isUndefined(obj);
+            },
             // 判断字符串是否为空
             isEmpty: function (value) {
                 if (value == null || this.trim(value) == "") {
