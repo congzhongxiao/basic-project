@@ -49,8 +49,12 @@ public class CSRFSessionControlFilter extends AccessControlFilter {
         for (String key : filterMap.keySet()) {
             String value = filterMap.get(key);
             PathMatcher matcher = new AntPathMatcher();
-            if (value.equals("anon") && matcher.match(key, path)) {
-                return true;
+            if(matcher.match(key, path)) {
+                if(value.equals("anon") ){
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         return false;
