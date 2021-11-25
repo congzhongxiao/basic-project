@@ -86,7 +86,7 @@
                     formatter: function (value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-primary btn-xs"  href="javascript:void(0)" onclick="addChild(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增子权限</a> ');
-                        actions.push('<a class="btn btn-info  btn-xs"  href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-success  btn-xs"  href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs"  href="javascript:void(0)" onclick="remove(\'' + row.id + '\')"><i class="fa fa-trash"></i>删除</a>');
 
                         return actions.join('');

@@ -56,7 +56,7 @@
                 </form>
                 <div class="box-footer mb10">
                     <div class="col-sm-offset-5 col-sm-6">
-                        <button type="button" class="btn btn-sm btn-primary" onclick="submitHandler()"><i
+                        <button type="button" class="btn btn-sm btn-success" onclick="submitHandler()"><i
                                     class="fa fa-check"></i>保 存
                         </button>&nbsp;
                         <button type="button" class="btn btn-sm btn-danger" onclick="closeItem()"><i

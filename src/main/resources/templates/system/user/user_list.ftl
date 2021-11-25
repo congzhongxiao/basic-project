@@ -116,9 +116,9 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         if (row.status == 1) {
-                            return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
+                            return '<i class=\"fa fa-toggle-on text-success fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
                         } else {
-                            return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';
+                            return '<i class=\"fa fa-toggle-off text-success fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';
 
                         }
                     }
@@ -134,8 +134,8 @@
                     formatter: function (value, row, index) {
                         var actions = [];
                         actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="resetPassword(\'' + row.id + '\')"><i class="fa fa-key"></i>重置密码</a> ');
-                        actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-key"></i>设置角色</a> ');
-                        actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-user"></i>设置角色</a> ');
+                        actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }

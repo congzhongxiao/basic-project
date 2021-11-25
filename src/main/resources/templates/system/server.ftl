@@ -9,7 +9,7 @@
 <div class="wrapper wrapper-content">
     <div class="row">
         <div class="col-xs-6">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     CPU
                 </div>
@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-xs-6">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     内存
                 </div>
@@ -86,7 +86,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     服务器信息
                 </div>
@@ -113,7 +113,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     Java虚拟机信息
                 </div>
@@ -148,7 +148,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12">
-            <div class="panel panel-info">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     磁盘状态
                 </div>
