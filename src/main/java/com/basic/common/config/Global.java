@@ -20,6 +20,16 @@ public class Global {
     private static boolean requestLog;//网络访问日志开关
     private static boolean addressEnabled;//获取ip地址开关
 
+    private static String skins;//后台皮肤
+
+    public static String getSkins() {
+        return skins;
+    }
+
+    public void setSkins(String skins) {
+        Global.skins = skins;
+    }
+
     public static final String RESOURCE_PREFIX = "/profile";
 
 

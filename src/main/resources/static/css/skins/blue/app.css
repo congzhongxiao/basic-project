@@ -165,8 +165,13 @@
     -webkit-transition: all .3s ease-out 0s;
     transition: all .3s ease-out 0s; }
   .main-content #content-main {
+    position: relative;
     overflow: hidden;
     height: calc(100vh - 95px); }
+    .main-content #content-main .index_iframe {
+      position: absolute;
+      left: 0;
+      top: 0; }
 
 body.mini-menu .main-head .head-logo-panel {
   width: 70px; }

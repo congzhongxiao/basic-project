@@ -47,7 +47,8 @@ $(function () {
             // 显示tab对应的内容区
             $('.index_iframe').each(function () {
                 if ($(this).data('id') == currentId) {
-                    $(this).show().siblings('.index_iframe').hide();
+                    // $(this).show().siblings('.index_iframe').hide();
+                    hideIframe(this);
                 }
             });
             $(element).addClass('active').siblings('.menuTab').removeClass('active');
@@ -181,7 +182,8 @@ $(function () {
                     // 显示tab对应的内容区
                     $('.content-main .index_iframe').each(function () {
                         if ($(this).data('id') == dataUrl) {
-                            $(this).show().siblings('.index_iframe').hide();
+                            // $(this).show().siblings('.index_iframe').hide();
+                            hideIframe(this);
                             return false;
                         }
                     });
@@ -196,7 +198,7 @@ $(function () {
             $('.menuTab').removeClass('active');
             // 添加选项卡对应的iframe
             var str1 = '<iframe class="index_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" seamless></iframe>';
-            $('.content-main').find('iframe.index_iframe').hide().parents('.content-main').append(str1);
+            $('.content-main').find('iframe.index_iframe').css("visibility","hidden").parents('.content-main').append(str1);
 
             $.modal.loading("数据加载中，请稍后...");
 
@@ -238,7 +240,8 @@ $(function () {
 
                 $('.content-main .index_iframe').each(function () {
                     if ($(this).data('id') == activeId) {
-                        $(this).show().siblings('.index_iframe').hide();
+                        // $(this).show().siblings('.index_iframe').hide();
+                        hideIframe(this);
                         return false;
                     }
                 });
@@ -269,7 +272,8 @@ $(function () {
                 $(this).parents('.menuTab').prev('.menuTab:last').addClass('active');
                 $('.content-main .index_iframe').each(function () {
                     if ($(this).data('id') == activeId) {
-                        $(this).show().siblings('.index_iframe').hide();
+                        // $(this).show().siblings('.index_iframe').hide();
+                        hideIframe(this);
                         return false;
                     }
                 });
@@ -289,7 +293,8 @@ $(function () {
                     $('.menuTab[data-id="' + panelUrl + '"]').addClass('active').siblings('.menuTab').removeClass('active');
                     $('.content-main .index_iframe').each(function () {
                         if ($(this).data('id') == panelUrl) {
-                            $(this).show().siblings('.index_iframe').hide();
+                            // $(this).show().siblings('.index_iframe').hide();
+                            hideIframe(this);
                             return false;
                         }
                     });
@@ -329,7 +334,8 @@ $(function () {
             // 显示tab对应的内容区
             $('.content-main .index_iframe').each(function () {
                 if ($(this).data('id') == currentId) {
-                    $(this).show().siblings('.index_iframe').hide();
+                    // $(this).show().siblings('.index_iframe').hide();
+                    hideIframe(this);
                     return false;
                 }
             });
@@ -381,6 +387,13 @@ $(function () {
             $(this).addClass("active");
         });
         $('.page-tabs-content').css("margin-left", "0");
+    }
+
+    function hideIframe(iframe){
+        $(iframe).css("visibility","visible");
+        $(iframe).siblings('.index_iframe').each(function () {
+            $(this).css("visibility","hidden");
+        });
     }
 
 

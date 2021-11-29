@@ -310,7 +310,8 @@ var closeItem = function (dataId) {
         $('.menuTab[data-id="' + panelUrl + '"]', topWindow).addClass('active').siblings('.menuTab').removeClass('active');
         $('.content-main .index_iframe', topWindow).each(function () {
             if ($(this).data('id') == panelUrl) {
-                $(this).show().siblings('.index_iframe').hide();
+                // $(this).show().siblings('.index_iframe').hide();
+                hideIframe(this);
                 return false;
             }
         });
@@ -333,7 +334,8 @@ function createMenuItem(dataUrl, menuName) {
                 // 显示tab对应的内容区
                 $('.content-main .index_iframe', topWindow).each(function () {
                     if ($(this).data('id') == dataUrl) {
-                        $(this).show().siblings('.index_iframe').hide();
+                        // $(this).show().siblings('.index_iframe').hide();
+                        hideIframe(this);
                         return false;
                     }
                 });
@@ -360,5 +362,13 @@ function createMenuItem(dataUrl, menuName) {
         $('.menuTabs .page-tabs-content', topWindow).append(str);
     }
     return false;
+}
+
+
+function hideIframe(iframe){
+    $(iframe).css("visibility","visible");
+    $(iframe).siblings('.index_iframe').each(function () {
+        $(this).css("visibility","hidden");
+    });
 }
 

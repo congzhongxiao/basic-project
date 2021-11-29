@@ -18,6 +18,7 @@ public class RequestInterceptor implements HandlerInterceptor {
         String path = request.getContextPath();
         request.setAttribute("ctx", path);
         request.setAttribute("version", Global.getStaticVersion());
+        request.setAttribute("skins", Global.getSkins());
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 

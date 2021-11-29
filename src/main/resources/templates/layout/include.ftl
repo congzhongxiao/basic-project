@@ -19,8 +19,8 @@
     <link href="${ctx}/static/plugins/select2/select2.css?version=${version}" rel="stylesheet">
     <link href="${ctx}/static/plugins/select2/select2-bootstrap.css?version=${version}" rel="stylesheet">
     <link href="${ctx}/static/css/animate.css?version=${version}" rel="stylesheet"/>
-    <link href="${ctx}/static/css/skins/blue/common.css?version=${version}" rel="stylesheet"/>
-    <link href="${ctx}/static/css/skins/blue/app.css?version=${version}" rel="stylesheet"/>
+    <link href="${ctx}/static/css/skins/${skins!"default"}/common.css?version=${version}" rel="stylesheet"/>
+    <link href="${ctx}/static/css/skins/${skins!"default"}/app.css?version=${version}" rel="stylesheet"/>
     <#nested>
     <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </#macro>

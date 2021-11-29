@@ -246,10 +246,17 @@
   }
 
   #content-main {
+    position: relative;
     overflow: hidden;
     height: calc(100vh - #{ $head-height + $tab-height }px);
+    .index_iframe{
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
   }
 }
+
 
 body.mini-menu {
   .main-head {

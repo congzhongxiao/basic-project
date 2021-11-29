@@ -12,6 +12,8 @@ system:
   captcha-type: math
 #  访问日志打印开关
   request-log: false
+  #后台皮肤设定：defalut/blue/ant
+  skins: blue
 server:
   port: 9999
   servlet:
