@@ -203,13 +203,13 @@
                 return false;
             }
             </#if>
-            var public_key = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnq5fgSl3VzTXR54QkmlCyD1X/FC4ds5ZICyhOb8Snw1DUVDgz/wvnOAgG2NnLjg83gUS1Djo0B6IWzgZcT09gP7KyIISI/aPtb9UgmTYyv060DS2YYEzIaIfhx2ZBA9bSzOjaE6cgk5NZq38U6+my516o3j/JTuguhX3SHP+S6QIDAQAB";
+            var public_key = '${LPK}';
             var encrypt = new JSEncrypt();
             encrypt.setPublicKey(public_key);
             var data = $("form").serializeArray();
             data.forEach(function (item) {
                 if (item.name === 'username' || item.name === 'pwd') {
-                    item.value = encrypt.encrypt(item.value);
+                    item.value = encrypt.encryptLong(item.value);
                 }
             });
             $.ajax({

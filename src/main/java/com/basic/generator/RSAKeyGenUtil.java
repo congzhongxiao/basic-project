@@ -1,58 +1,33 @@
 package com.basic.generator;
 
-import sun.misc.BASE64Encoder;
+import com.basic.common.constants.UserConstant;
+import com.basic.common.utils.RSAUtil;
 
-import java.security.*;
+import java.util.Map;
 
 public class RSAKeyGenUtil {
-
-    /**
-     * 指定加密算法为RSA
-     */
-    private static final String ALGORITHM = "RSA";
-    /**
-     * 密钥长度，用来初始化
-     */
-    private static final int KEYSIZE = 1024;
-
     public static void main(String[] args) throws Exception {
-        genKeyPair();
+        Map<String, Object> keyMap = RSAUtil.genKeyPair();
+        Object publicObj = keyMap.get(RSAUtil.PUBLIC_KEY_ENCODED);
+        if (publicObj != null) {
+            System.out.println("生成的公钥为：\r\n" + publicObj.toString());
+        } else {
+            System.out.println("生成公钥失败！");
+        }
+        Object privateObj = keyMap.get(RSAUtil.PRIVATE_KEY_ENCODED);
+        if (privateObj != null) {
+            System.out.println("生成的私钥为：\r\n" + privateObj.toString());
+        } else {
+            System.out.println("生成私钥失败！");
+        }
     }
 
-    /**
-     * 生成密钥对
-     */
-    private static void genKeyPair() throws NoSuchAlgorithmException {
+    public static void demo() throws Exception {
+        String source = "abcdefghigklmnopqrstuvwxyz1234567890你好么";
+        //公钥加密
+        String encryptRes = RSAUtil.encrypt(source, UserConstant.LOGIN_RSA_PUBLIC_KEY);
+        System.out.println("加密后的内容:\r\n" + encryptRes);
+        System.out.println("解密后的内容:\r\n" + RSAUtil.decrypt(encryptRes, UserConstant.LOGIN_RSA_PRIVATE_KEY));
 
-        /** RSA算法要求有一个可信任的随机数源 */
-        SecureRandom secureRandom = new SecureRandom();
-
-        /** 为RSA算法创建一个KeyPairGenerator对象 */
-        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM);
-
-        /** 利用上面的随机数据源初始化这个KeyPairGenerator对象 */
-        keyPairGenerator.initialize(KEYSIZE, secureRandom);
-        //keyPairGenerator.initialize(KEYSIZE);
-
-        /** 生成密匙对 */
-        KeyPair keyPair = keyPairGenerator.generateKeyPair();
-
-        /** 得到公钥 */
-        Key publicKey = keyPair.getPublic();
-
-        /** 得到私钥 */
-        Key privateKey = keyPair.getPrivate();
-
-        byte[] publicKeyBytes = publicKey.getEncoded();
-        byte[] privateKeyBytes = privateKey.getEncoded();
-
-        String publicKeyBase64 = new BASE64Encoder().encode(publicKeyBytes);
-        String privateKeyBase64 = new BASE64Encoder().encode(privateKeyBytes);
-
-        System.out.println("公钥长度:" + publicKeyBase64.length());
-        System.out.println("公钥内容:" + publicKeyBase64);
-
-        System.out.println("秘钥长度:" + privateKeyBase64.length());
-        System.out.print("秘钥内容:" + privateKeyBase64);
     }
 }

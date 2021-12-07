@@ -1,6 +1,7 @@
 package com.basic.controller;
 
 import com.basic.common.config.Global;
+import com.basic.common.constants.UserConstant;
 import com.basic.common.domain.Result;
 import com.basic.common.domain.ResultCode;
 import com.basic.common.utils.ServletUtils;
@@ -39,6 +40,7 @@ public class LoginController {
         }
         model.addAttribute("isCaptchaLogin", Global.isCaptchaLogin());
         model.addAttribute("captchaType", Global.getCaptchaType());
+        model.addAttribute("LPK", UserConstant.LOGIN_RSA_PUBLIC_KEY);
         return "/login";
     }
 

@@ -33,9 +33,10 @@ public class LoginService {
             throw new UserNotExistsException();
         }
         try {
-            username = RSAUtil.decrypt(username);
-            pwd = RSAUtil.decrypt(pwd);
+            username = RSAUtil.decrypt(username, UserConstant.LOGIN_RSA_PRIVATE_KEY);
+            pwd = RSAUtil.decrypt(pwd, UserConstant.LOGIN_RSA_PRIVATE_KEY);
         } catch (Exception e) {
+//            e.printStackTrace();
         }
         // 查询用户信息
         User user = userService.getByUsername(username);
