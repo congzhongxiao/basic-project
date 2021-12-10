@@ -7,7 +7,7 @@ import com.basic.common.manager.factory.AsyncFactory;
 import com.basic.common.utils.*;
 import com.basic.entity.User;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Base64Util;
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -84,7 +84,7 @@ public class LoginService {
         userService.updateById(user);
         if (csrfEnabled && ShiroUtils.getSubject() != null && ShiroUtils.getSubject().getSession() != null) {
             String sessionId = (String) ShiroUtils.getSubject().getSession().getId();
-            ShiroUtils.getSubject().getSession().setAttribute("sys_csrfToken:" + sessionId, Base64Util.encode(Md5Util.hash(sessionId)) + Base64Util.encode(sessionId));
+            ShiroUtils.getSubject().getSession().setAttribute("sys_csrfToken:" + sessionId, new String(Base64.encodeBase64(Md5Util.hash(sessionId).getBytes())) + new String(Base64.encodeBase64(sessionId.getBytes())));
         }
         AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 1, "登录成功"));
         return user;

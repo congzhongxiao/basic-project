@@ -11,7 +11,7 @@ system:
   #开启验证码登录后验证码类型：math-计算型，char-字符型
   captcha-type: math
 #  访问日志打印开关
-  request-log: false
+  request-log: true
   #后台皮肤设定：defalut/blue/ant
   skins: default
 server:
@@ -67,8 +67,8 @@ spring:
 
 #mybatis-plus配置
 mybatis-plus:
-#  configuration:
-#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
       id-type: auto
