@@ -34,12 +34,13 @@
     float: left;
     height: 100%;
     width: #{$left-width}px;
-    background: #2968c1;
+    background: #2970d3;
     display: flex;
 
     .head-logo {
       color: #ffffff;
       font-size: 18px;
+      font-weight: bolder;
       margin: auto;
     }
 
@@ -106,7 +107,7 @@
 
 /* 左侧菜单样式 */
 .main-left {
-  background: #0C2543;
+  background: #222D39;
   width: #{$left-width}px;
   height: calc(100vh - #{$head-height}px);
   position: fixed;
@@ -124,14 +125,15 @@
       a:focus,
       a:active {
         color: #ffffff;
-        background: #09182b;
+        background: #182129;
       }
 
       .nav-second-level {
         li {
           a {
-            font-size: 12px;
-            padding: 10px 15px 10px 52px;
+            font-size: 13px;
+            padding: 8px 15px 10px 52px;
+            font-weight: normal;
           }
         }
       }
@@ -139,7 +141,10 @@
 
     > li.active {
       border-left: 4px solid #317EEB;
-      background: #081d37;
+      background: #182129;
+      > a{
+        color: #fff;
+      }
     }
 
     &.nav-second-level.collapse[style] {
@@ -155,7 +160,7 @@
 
   .content-tabs {
     height: #{$tab-height}px;
-    background: #fafafa;
+    background: #ffffff;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
     line-height: #{$tab-height}px;
@@ -229,13 +234,16 @@
 
       a:hover {
         color: #777;
-        background: #f2f2f2;
+        background: #E8F1FF;
         cursor: pointer;
       }
 
       a.active {
-        background: #eaedf1;
+        background: #E8F1FF;
         color: #3b7dda;
+        i{
+          color: #3b7dda;
+        }
       }
     }
   }
@@ -382,7 +390,7 @@ body.mini-menu {
 
   table {
     thead {
-      background-color: #eff3f8;
+      background-color: #F2F2F2;
     }
 
     > thead:first-child > tr:first-child > th {
@@ -400,6 +408,7 @@ body.mini-menu {
 
 .table-striped .table > thead > tr > th,
 .table-striped .table > tbody > tr > th {
+  border-radius: 0px;
   border-bottom: 1px solid #ccc !important;
   border-top: 0px !important;
 }
@@ -652,4 +661,11 @@ ul.ul-auto-3 {
 body .layer-ext-moon .layui-layer-btn .layui-layer-btn0{
   background: $primary-color !important;
   border-color: $primary-color;
+}
+
+.file-uploader  .webuploader-pick {
+  background: $primary-color  !important;
+}
+.file-uploader  .webuploader-pick-hover {
+  background: $primary-hover-color  !important;
 }

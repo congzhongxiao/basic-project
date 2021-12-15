@@ -540,7 +540,7 @@ label {
 .form-control, .single-line {
   background: #FFFFFF none;
   border: 1px solid #e5e6e7;
-  border-radius: 1px;
+  border-radius: 3px;
   color: inherit;
   display: block;
   padding: 6px 12px;
@@ -553,7 +553,11 @@ label {
   box-shadow: none; }
 
 .form-control:focus, .single-line:focus {
-  border-color: #1dc5a3 !important; }
+  border-color: #8abaff !important; }
+
+.form-control.error {
+  border-color: #ffa1ab !important;
+  background: #fff2f2; }
 
 .has-success .form-control {
   border-color: #1dc5a3; }
@@ -583,11 +587,21 @@ label {
 
 label.error {
   position: absolute;
-  right: 18px;
+  right: 22px;
   top: 10px;
   color: #ef392b;
   font-size: 12px;
   z-index: 99;
   pointer-events: none; }
+
+.arrow {
+  float: right;
+  margin-top: 2px; }
+
+.fa.arrow:before {
+  content: "\f105"; }
+
+.active > a > .fa.arrow:before {
+  content: "\f107"; }
 
 /*# sourceMappingURL=common.css.map */

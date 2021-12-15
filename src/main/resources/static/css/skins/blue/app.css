@@ -22,16 +22,17 @@
 /* 页面顶部部分 */
 .main-head {
   background: #317EEB;
-  height: 60px; }
+  height: 55px; }
   .main-head .head-logo-panel {
     float: left;
     height: 100%;
     width: 220px;
-    background: #2968c1;
+    background: #2970d3;
     display: flex; }
     .main-head .head-logo-panel .head-logo {
       color: #ffffff;
       font-size: 18px;
+      font-weight: bolder;
       margin: auto; }
     .main-head .head-logo-panel .mini-head-logo {
       display: none;
@@ -75,9 +76,9 @@
 
 /* 左侧菜单样式 */
 .main-left {
-  background: #0C2543;
+  background: #222D39;
   width: 220px;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 55px);
   position: fixed;
   z-index: 2001; }
   .main-left .nav > li > a {
@@ -88,23 +89,26 @@
   .main-left .nav > li a:focus,
   .main-left .nav > li a:active {
     color: #ffffff;
-    background: #09182b; }
+    background: #182129; }
   .main-left .nav > li .nav-second-level li a {
-    font-size: 12px;
-    padding: 10px 15px 10px 52px; }
+    font-size: 13px;
+    padding: 8px 15px 10px 52px;
+    font-weight: normal; }
   .main-left .nav > li.active {
     border-left: 4px solid #317EEB;
-    background: #081d37; }
+    background: #182129; }
+    .main-left .nav > li.active > a {
+      color: #fff; }
   .main-left .nav.nav-second-level.collapse[style] {
     height: auto !important; }
 
 /* 页面内容部分 */
 .main-content {
-  height: calc(100vh - 60px);
+  height: calc(100vh - 55px);
   margin-left: 220px; }
   .main-content .content-tabs {
     height: 35px;
-    background: #fafafa;
+    background: #ffffff;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
     line-height: 35px; }
@@ -156,18 +160,20 @@
           font-size: 13px; }
       .main-content .content-tabs .page-tabs a:hover {
         color: #777;
-        background: #f2f2f2;
+        background: #E8F1FF;
         cursor: pointer; }
       .main-content .content-tabs .page-tabs a.active {
-        background: #eaedf1;
+        background: #E8F1FF;
         color: #3b7dda; }
+        .main-content .content-tabs .page-tabs a.active i {
+          color: #3b7dda; }
   .main-content .menuTab {
     -webkit-transition: all .3s ease-out 0s;
     transition: all .3s ease-out 0s; }
   .main-content #content-main {
     position: relative;
     overflow: hidden;
-    height: calc(100vh - 95px); }
+    height: calc(100vh - 90px); }
     .main-content #content-main .index_iframe {
       position: absolute;
       left: 0;
@@ -253,7 +259,7 @@ body.mini-menu .main-content {
 .table-striped .bootstrap-table {
   border: 0 !important; }
 .table-striped table thead {
-  background-color: #eff3f8; }
+  background-color: #F2F2F2; }
 .table-striped table > thead:first-child > tr:first-child > th {
   font-weight: normal;
   font-size: 13px;
@@ -265,6 +271,7 @@ body.mini-menu .main-content {
 
 .table-striped .table > thead > tr > th,
 .table-striped .table > tbody > tr > th {
+  border-radius: 0px;
   border-bottom: 1px solid #ccc !important;
   border-top: 0px !important; }
 
@@ -461,5 +468,11 @@ ul.ul-auto-3 {
 body .layer-ext-moon .layui-layer-btn .layui-layer-btn0 {
   background: #317eeb !important;
   border-color: #317eeb; }
+
+.file-uploader .webuploader-pick {
+  background: #317eeb !important; }
+
+.file-uploader .webuploader-pick-hover {
+  background: #347be0 !important; }
 
 /*# sourceMappingURL=app.css.map */

@@ -13,7 +13,7 @@ system:
 #  访问日志打印开关
   request-log: true
   #后台皮肤设定：defalut/blue/ant
-  skins: default
+  skins: blue
 server:
   port: 9999
   servlet:
