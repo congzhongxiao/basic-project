@@ -20,15 +20,15 @@ public class RSAKeyGenUtil {
         } else {
             System.out.println("生成私钥失败！");
         }*/
-       demo();
+//       demo();
     }
 
     public static void demo() throws Exception {
         String source = "abcdefghigklmnopqrstuvwxyz1234567890你好么";
         //公钥加密
-        String encryptRes = RSAUtil.encryptByPrivateKey(source, UserConstant.LOGIN_RSA_PRIVATE_KEY);
+        String encryptRes = RSAUtil.encrypt(source, UserConstant.LOGIN_RSA_PUBLIC_KEY);
         System.out.println("加密后的内容:\r\n" + encryptRes);
-        System.out.println("解密后的内容:\r\n" + RSAUtil.decryptByPublicKey(encryptRes, UserConstant.LOGIN_RSA_PUBLIC_KEY));
+        System.out.println("解密后的内容:\r\n" + RSAUtil.decrypt(encryptRes, UserConstant.LOGIN_RSA_PRIVATE_KEY));
 
     }
 }
