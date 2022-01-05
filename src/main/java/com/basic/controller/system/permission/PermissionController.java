@@ -32,14 +32,10 @@ public class PermissionController extends BasicController {
     @PostMapping("findList")
     @ResponseBody
     public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid", pid);
-        } else {
-            queryWrapper.eq("pid", "0");
+        if (StringUtils.isBlank(pid)) {
+            pid = "0";
         }
-        queryWrapper.orderByDesc("id");
-        return Result.success(permissionService.list(queryWrapper));
+        return Result.success(permissionService.findListByPid(pid));
     }
 
     //添加根页面跳转

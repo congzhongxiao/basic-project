@@ -1,9 +1,5 @@
 /**
  * 基于bootstrapTreeTable/bootstrap-table-treegrid修改
- * J2eeFast 二次修改
- * 1. 增强功能、
- * 2. 支持异步加载数据、增加排序
- * 3. 新增异步加载分页
  */
 (function($) {
     "use strict";
@@ -357,7 +353,9 @@
 
             if(_async) {
                 $tr.css("display", "table-row");
-                _icon = options.expanderCollapsedClass;
+                if(item.isLeaf == '1') {
+                    _icon = "";
+                }
             } else {
                 if (options.expandAll) {
                     $tr.css("display", "table-row");
@@ -655,6 +653,8 @@
                 if(expander.hasClass(options.expanderCollapsedClass)) {//如果节点是收起状态
                     expander.removeClass(options.expanderCollapsedClass);
                     expander.addClass(options.expanderExpandedClass);//将节点置为展开状态
+                } else {
+                    expander.addClass(options.expanderExpandedClass);//将节点置为展开状态
                 }
                 var parms = {};
                 parms[options.parentCode] = id;
@@ -673,6 +673,10 @@
                         //兼容返回数据
                         if(data.success) {
                             data = data.data;
+                            if(data && data.length == 0) {
+                                expander.removeClass(options.expanderCollapsedClass);
+                                expander.removeClass(options.expanderExpandedClass);
+                            }
                         }
                         target.appendData(data)
                     },
@@ -741,7 +745,6 @@
                         var _p_next = _p_data.row_id.substring(0, _p_data.row_id.length - (_tmp_ls[_tmp_ls.length - 1]+"").length) + (parseInt(_tmp_ls[_tmp_ls.length - 1]) + 1);
                         // 画上
                         var nextDiv = $("#" + _p_next);
-                        console.info(nextDiv.html())
                         if(nextDiv.length == 0) {
                             //增加虚拟定位节点，使新增保持底部插入，页面初始时全部清除 leeyt
                             nextDiv = $('<tr id="'+ _p_next +'" style="display: none;" class="temp-delete"></tr>');

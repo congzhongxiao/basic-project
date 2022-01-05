@@ -17,4 +17,6 @@ public interface PermissionService extends IService<Permission> {
      List<Permission> getPermissionListByRoleId(String roleId);
      List<Ztree> getPermissionTreeForRole(String roleId);
      boolean isCodeExist(Permission permission);
+     List<Permission> findListByPid(String pid);
+
 }

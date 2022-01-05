@@ -40,17 +40,10 @@ public class SysAreaController extends BasicController {
     @PostMapping("findList")
     @ResponseBody
     public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid", pid);
-        } else {
-            queryWrapper.eq("pid", "0");
+        if (StringUtils.isBlank(pid)) {
+            pid = "0";
         }
-        queryWrapper.orderByDesc("sort");
-        queryWrapper.orderByAsc("code");
-        queryWrapper.orderByDesc("id");
-
-        return Result.success(sysAreaService.list(queryWrapper));
+        return Result.success(sysAreaService.findListByPid(pid));
     }
 
     //添加根页面跳转
@@ -71,7 +64,7 @@ public class SysAreaController extends BasicController {
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 
@@ -97,7 +90,7 @@ public class SysAreaController extends BasicController {
             sysAreaService.addArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 
@@ -123,7 +116,7 @@ public class SysAreaController extends BasicController {
             sysAreaService.updateArea(sysArea);
             return Result.success(sysArea);
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 
@@ -143,7 +136,7 @@ public class SysAreaController extends BasicController {
                 return Result.fail("数据不存在或已被删除，请刷新后重试");
             }
         } catch (Exception e) {
-            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR,e);
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR, e);
         }
     }
 

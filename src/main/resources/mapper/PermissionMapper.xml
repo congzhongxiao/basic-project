@@ -19,4 +19,12 @@
         and sys_role.id = sys_role_permission.role_id
         and sys_role.id = #{roleId,jdbcType=VARCHAR}
     </select>
+
+    <select id="getListByPid" parameterType="java.lang.String" resultType="com.basic.entity.Permission">
+        SELECT *,(CASE  WHEN (SELECT COUNT(1) FROM sys_permission WHERE pid = a.id) >0 THEN 0 ELSE 1 END) AS "isLeaf"
+        FROM sys_permission a
+        where 1= 1
+        and pid = #{pid}
+        order by id
+    </select>
 </mapper>

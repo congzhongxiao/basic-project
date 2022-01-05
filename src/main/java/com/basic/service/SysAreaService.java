@@ -3,6 +3,8 @@ package com.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.entity.SysArea;
 
+import java.util.List;
+
 /**
 *行政区划 Service
 *@author: lee
@@ -13,4 +15,5 @@ public interface SysAreaService extends IService<SysArea> {
     int addArea(SysArea area);
     int updateArea(SysArea area);
     int deleteById(String id);
+    List<SysArea> findListByPid(String pid);
 }

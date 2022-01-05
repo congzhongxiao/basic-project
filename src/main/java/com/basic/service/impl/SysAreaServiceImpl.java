@@ -18,6 +18,10 @@ import java.util.List;
 @Service
 public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysArea> implements SysAreaService {
 
+    public List<SysArea> findListByPid(String pid){
+        return baseMapper.getListByPid(pid);
+    }
+
     public boolean isCodeExist(SysArea area){
         List<SysArea> exist = baseMapper.selectList(new QueryWrapper<SysArea>().eq("code",area.getCode()));
         if(exist != null && exist.size() > 0) {

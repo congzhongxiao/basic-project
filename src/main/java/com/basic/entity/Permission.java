@@ -1,6 +1,7 @@
 package com.basic.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -61,5 +62,11 @@ public class Permission extends Model<Permission> {
      * 备注
      */
     private String comment;
+
+    /**
+     * 是否叶子节点，是1否0
+     */
+    @TableField(exist = false)
+    private String isLeaf;
 
 }

@@ -12,7 +12,7 @@ system:
   captcha-type: math
 #  访问日志打印开关
   request-log: true
-  #后台皮肤设定：defalut/blue/ant
+  #后台皮肤设定：default/blue/ant
   skins: blue
 server:
   port: 9999
@@ -25,6 +25,8 @@ server:
     max-threads: 800
     # Tomcat启动初始化的线程数，默认值25
     min-spare-threads: 30
+    #设置表单提交数据最大大小,解决头像base64太大问题
+    max-http-form-post-size: 20MB
 spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -62,16 +64,16 @@ spring:
     password: root
   servlet:
     multipart:
-      max-file-size: 10MB
-      max-request-size: 10MB
+      max-file-size: 100MB
+      max-request-size: 100MB
 
 #mybatis-plus配置
 mybatis-plus:
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  configuration:
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
-      id-type: auto
+      id-type: ASSIGN_ID
       table-underline: true
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
@@ -92,6 +94,6 @@ shiro:
   user:
     loginUrl: /login
     unauthorizedUrl: /unauthorized
-#logging:
-#  level:
-#    org.springframework.web: trace   #输出的日志打印出来的最低级别。
+logging:
+  level:
+    org.springframework.web: trace   #输出的日志打印出来的最低级别。

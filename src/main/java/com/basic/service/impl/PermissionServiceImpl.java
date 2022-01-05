@@ -28,6 +28,10 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         return baseMapper.getPermissionListByRoleId(roleId);
     }
 
+    public List<Permission> findListByPid(String pid){
+        return baseMapper.getListByPid(pid);
+    }
+
     public boolean isCodeExist(Permission permission){
         List<Permission> exist = baseMapper.selectList(new QueryWrapper<Permission>().eq("code",permission.getCode()));
         if(exist != null && exist.size() > 0) {

@@ -14,4 +14,6 @@ import java.util.List;
 @Component
 public interface SysAreaMapper extends BaseMapper<SysArea> {
     List<SysArea> getChildrenById(String id);
+    List<SysArea> getListByPid(String id);
+
 }
