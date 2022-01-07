@@ -157,6 +157,11 @@ $(function () {
                     format: format,
                     btns: newBtnArr,
                     done: function (value, data) {
+                        try {
+                            time.val(value);
+                            $(time).valid();
+                        } catch (e) {
+                        }
                         if (typeof window[callback] != 'undefined'
                             && window[callback] instanceof Function) {
                             window[callback](value, data);
@@ -210,7 +215,7 @@ $(function () {
             $(this).find(".exist-image").each(function () {
                 var id = $(this).data("id");
                 var image = new Object();
-                if($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
+                if ($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
                     image.id = id;
                 }
                 image.url = $(this).val();
@@ -255,13 +260,13 @@ $(function () {
                 var fileName = $(this).data("name");
                 var id = $(this).data("id");
                 var file = {};
-                if ($.common.isNotUndefined(url) && $.common.isNotEmpty(url) ) {
+                if ($.common.isNotUndefined(url) && $.common.isNotEmpty(url)) {
                     file.url = url;
                 }
-                if($.common.isNotUndefined(fileName) && $.common.isNotEmpty(fileName)) {
+                if ($.common.isNotUndefined(fileName) && $.common.isNotEmpty(fileName)) {
                     file.name = fileName;
                 }
-                if($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
+                if ($.common.isNotUndefined(id) && $.common.isNotEmpty(id)) {
                     file.id = id;
                 }
                 existArray.push(file);
@@ -270,7 +275,7 @@ $(function () {
                 uploadUrl: ctx + '/common/upload/file',
                 downloadUrl: ctx + '/common/download/file',
                 max: size,
-				field: field,
+                field: field,
                 accept: accept,
                 existFiles: existArray
             });
@@ -351,7 +356,7 @@ function createMenuItem(dataUrl, menuName) {
 
         // 添加选项卡对应的iframe
         var str1 = '<iframe class="index_iframe" name="iframe' + dataIndex + '" width="100%" height="100%" src="' + dataUrl + '" frameborder="0" data-id="' + dataUrl + '" data-panel="' + panelUrl + '" seamless></iframe>';
-        $('.content-main', topWindow).find('iframe.index_iframe').css("visibility","hidden").parents('.content-main').append(str1);
+        $('.content-main', topWindow).find('iframe.index_iframe').css("visibility", "hidden").parents('.content-main').append(str1);
 
         window.parent.$.modal.loading("数据加载中，请稍后...");
         $('.content-main iframe:visible', topWindow).load(function () {
@@ -365,10 +370,10 @@ function createMenuItem(dataUrl, menuName) {
 }
 
 
-function hideIframe(iframe){
-    $(iframe).css("visibility","visible");
+function hideIframe(iframe) {
+    $(iframe).css("visibility", "visible");
     $(iframe).siblings('.index_iframe').each(function () {
-        $(this).css("visibility","hidden");
+        $(this).css("visibility", "hidden");
     });
 }
 
