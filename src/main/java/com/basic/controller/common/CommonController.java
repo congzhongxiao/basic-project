@@ -97,7 +97,7 @@ public class CommonController extends BasicController {
                 FileUploadResult pdfResult = new FileUploadResult();
                 pdfName = pdfName.replaceAll("[\\\\s\\\\\\\\/:\\\\*\\\\?\\\\\\\"<>\\\\|]","");
                 pdfResult.setOriginalFileName(pdfName + ".pdf");
-                pdfResult.setLastName(".pdf");
+                pdfResult.setExtension(".pdf");
 
                 try {
                     String relativePath = FileUploadUtils.convertImageToPDF(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_DOCUMENT, imagePaths);
