@@ -19,6 +19,7 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.ReadableByteChannel;
+import java.util.List;
 
 /**
  * 文件上传工具类
@@ -47,6 +48,13 @@ public class FileUploadUtils {
 
     public static String getDefaultBaseDir() {
         return defaultBaseDir;
+    }
+
+    public static final String convertImageToPDF(String baseDir, List<String> source) throws IOException {
+        String fileName = IdWorker.get32UUID() + ".pdf";
+        File desc = getAbsoluteFile(baseDir, DateUtils.dateTimePath() + "/" + fileName);
+        ImageToPDF.covertImageToPDF(source, desc.getAbsolutePath());
+        return getRelativeFilePath(desc.getAbsolutePath());
     }
 
     /**

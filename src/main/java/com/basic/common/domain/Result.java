@@ -32,6 +32,10 @@ public class Result {
     public static Result success(String msg ){
         return new Result(ResultCode.COMMON_SUCCESS,msg);
     }
+    public static Result success(String msg,Object data ){
+        return new Result(ResultCode.COMMON_SUCCESS,msg,data);
+    }
+
 
     public static Result fail(){
         return new Result(ResultCode.COMMON_FAIL);
@@ -67,6 +71,13 @@ public class Result {
         this.success = code.isSuccess();
         this.code = code.getCode();
         this.message = code.getMessage();
+        this.data = object;
+    }
+
+    public Result(ResultCode code,String msg,Object object){
+        this.success = code.isSuccess();
+        this.code = code.getCode();
+        this.message = msg;
         this.data = object;
     }
 }

@@ -1,16 +1,17 @@
 package com.basic.controller.common;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.basic.common.config.Global;
-import com.basic.common.config.ServerConfig;
 import com.basic.common.constants.UploadConstant;
 import com.basic.common.domain.FileUploadResult;
 import com.basic.common.domain.Result;
 import com.basic.common.exception.base.BaseException;
+import com.basic.common.utils.DateUtils;
 import com.basic.common.utils.Md5Util;
 import com.basic.common.utils.StringUtils;
-import com.basic.common.utils.file.FileUploadUtils;
-import com.basic.common.utils.file.FileUtils;
-import com.basic.common.utils.file.MimeTypeUtils;
+import com.basic.common.utils.file.*;
 import com.basic.entity.SysUploadFiles;
 import com.basic.service.SysUploadFilesService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +28,11 @@ import org.springframework.web.util.HtmlUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 通用控制器
@@ -43,6 +43,79 @@ import java.util.Map;
 public class CommonController extends BasicController {
     @Autowired
     SysUploadFilesService sysUploadFilesService;
+
+    @PostMapping("upload/imageBase64")
+    @ResponseBody
+    public Result uploadImageBase64(HttpServletRequest request) {
+        String info = HtmlUtils.htmlUnescape(request.getParameter("imageArray"));
+        if (StringUtils.isNotBlank(info)) {
+            try {
+                JSONArray imageArray = JSONArray.parseArray(info);
+                List<FileUploadResult> resultFiles = new ArrayList<>();
+                for (int i = 0; i < imageArray.size(); i++) {
+                    JSONObject imageObj = (JSONObject) imageArray.get(i);
+                    String imageFileName = (String) imageObj.get("name");
+                    imageFileName = imageFileName.replaceAll("[\\\\s\\\\\\\\/:\\\\*\\\\?\\\\\\\"<>\\\\|]", "");
+                    String imageData = (String) imageObj.get("data");
+                    if (StringUtils.isNotBlank(imageFileName) && StringUtils.isNotBlank(imageData)) {
+                        MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(imageData);
+                        FileUploadResult result = FileUploadUtils.upload(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_IMAGE, file, MimeTypeUtils.IMAGE_EXTENSION);
+                        result.setOriginalFileName(imageFileName + ".jpg");
+                        resultFiles.add(result);
+                    }
+                }
+                return Result.success("图片上传成功", resultFiles);
+            } catch (Exception e) {
+                return Result.fail("上传文件异常，请联系系统管理员。");
+            }
+        } else {
+            return Result.fail("上传数据获取失败！");
+        }
+    }
+
+    @PostMapping("upload/imageBase64Pdf")
+    @ResponseBody
+    public Result imageBase64Pdf(HttpServletRequest request) {
+        String info = HtmlUtils.htmlUnescape(request.getParameter("imageArray"));
+        String pdfName = request.getParameter("pdfName");
+        if (StringUtils.isBlank(pdfName)) {
+            return Result.fail("PDF文件名称不能为空。");
+        }
+        if (StringUtils.isNotBlank(info)) {
+            try {
+                JSONArray imageArray = JSONArray.parseArray(info);
+                List<String> imagePaths = new ArrayList<>();
+                for (int i = 0; i < imageArray.size(); i++) {
+                    JSONObject imageObj = (JSONObject) imageArray.get(i);
+                    String imageData = (String) imageObj.get("data");
+                    if (StringUtils.isNotBlank(imageData)) {
+                        MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(imageData);
+                        FileUploadResult result = FileUploadUtils.upload(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_IMAGE, file, MimeTypeUtils.IMAGE_EXTENSION);
+                        imagePaths.add(result.getAbsolutePath());
+                    }
+                }
+                FileUploadResult pdfResult = new FileUploadResult();
+                pdfName = pdfName.replaceAll("[\\\\s\\\\\\\\/:\\\\*\\\\?\\\\\\\"<>\\\\|]","");
+                pdfResult.setOriginalFileName(pdfName + ".pdf");
+                pdfResult.setLastName(".pdf");
+
+                try {
+                    String relativePath = FileUploadUtils.convertImageToPDF(Global.getUploadPath() + UploadConstant.UPLOAD_FOLDER_DOCUMENT, imagePaths);
+                    pdfResult.setRelativePath(relativePath);
+
+                    List<FileUploadResult> result = new ArrayList<>();
+                    result.add(pdfResult);
+                    return Result.success("上传成功",result);
+                } catch (Exception e) {
+                    return Result.fail("图片合成PDF文件异常，上传失败。");
+                }
+            } catch (Exception e) {
+                return Result.fail("上传文件异常，请联系系统管理员。");
+            }
+        } else {
+            return Result.fail("上传数据获取失败！");
+        }
+    }
 
     /**
      * 图片上传控制器
@@ -216,7 +289,6 @@ public class CommonController extends BasicController {
         data.put("content", document.toString());
         return Result.success(data);
     }
-
 
 
 }

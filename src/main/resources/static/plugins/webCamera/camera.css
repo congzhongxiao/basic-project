@@ -1,0 +1,65 @@
+.camera-panel{
+    text-align: center;
+}
+.camera-view {
+    background: #dddddd;
+    margin: 5px;
+    height: 350px;
+}
+.camera-thumbnail {
+    user-select: none;
+    margin: 5px;
+    border: 1px solid #317EEB;
+    text-align: left;
+    min-height: 80px;
+}
+.camera-thumbnail-box {
+    display: inline-block;
+    overflow: hidden;
+    margin: 2px 2px;
+}
+.camera-thumbnail img{
+    width: 80px;
+    height: 80px;
+}
+.camera-thumbnail-img-span {
+    position: relative;
+    overflow: hidden;
+}
+.camera-thumbnail-input {
+    text-align: center;
+}
+.camera-thumbnail-input input{
+    width: 80px;
+    font-size: 12px;
+    box-shadow: none;
+    outline: none;
+    margin: 2px auto;
+    border: 1px solid #333;
+}
+.camera-thumbnail-name.error{
+    border: 1px solid red;
+}
+.camera-thumbnail-remove {
+    background: rgba(255, 0, 0, 0.0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    padding: 2px;
+}
+.camera-thumbnail-remove:hover{
+    background:red;
+}
+.camera-operate {
+    margin: 5px;
+    text-align: left;
+}
+.camera-operate span{
+    display: inline-block;
+    padding: 4px 0;
+    white-space: nowrap;
+}

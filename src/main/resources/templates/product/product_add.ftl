@@ -6,6 +6,23 @@
     <@css_common/>
     <@css_webuploader_image/>
     <@css_webuploader_file/>
+    <style>
+
+        .camera-upload-file {
+            padding: 5px 0px;
+        }
+
+        .camera-upload-file span {
+            user-select: none;
+            margin-right: 2px;
+            white-space: nowrap;
+            line-height: 26px;
+        }
+
+        .camera-upload-file span i {
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
@@ -27,19 +44,26 @@
         <div class="form-group">
             <label class="col-sm-2 control-label ">封面图片</label>
             <div class="col-sm-9">
-                <div class="lee-image-upload" data-field="shortImage"  data-size="1"></div>
+                <div class="lee-image-upload" data-field="shortImage" data-size="1"></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label ">产品相册</label>
             <div class="col-sm-9">
-                <div class="lee-image-upload" data-field="mainImage"  data-size="5"></div>
+                <div class="lee-image-upload" data-field="mainImage" data-size="5"></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label ">附件</label>
             <div class="col-sm-9">
-                <div class="lee-file-upload" data-field="tempFile"  data-size="10"></div>
+                <div id="fujian" class="lee-file-upload" data-field="tempFile" data-size="10"></div>
+                <div class="camera-upload-file" id="camera_upload_file"></div>
+                <a class="btn btn-sm btn-primary" onclick="cameraImage()">
+                    <i class="fa fa-plus"></i> 拍照上传
+                </a>
+                <a class="btn btn-sm btn-primary" onclick="cameraPDF()">
+                    <i class="fa fa-plus"></i> 生成pdf上传
+                </a>
             </div>
         </div>
         <div class="form-group">
@@ -60,11 +84,37 @@
     var prefix = "${ctx}/product";
     $("#form-product-add").validate({
         onkeyup: false,
-        rules: {
-        },
+        rules: {},
         messages: {},
         focusCleanup: true
     });
+
+    function cameraImage() {
+        $.modal.open('拍照上传', "${ctx}/camera/cameraImage");
+    }
+    function cameraPDF() {
+        $.modal.open('生成PDF上传', "${ctx}/camera/cameraPdf");
+    }
+
+    function filesUploadCallBack(res) {
+        var fileArea = $("#camera_upload_file");
+        if (res.success && fileArea) {
+            var uploadFiles = res.data;
+            if (uploadFiles.length > 0) {
+                $.each(uploadFiles, function () {
+                    var fileSpan = $('<span class="file-span">' + this.originalFileName + '</span>');
+                    var removeBtn = $("<i class='fa fa-fw fa-trash text-danger'></i>");
+                    fileSpan.append(removeBtn);
+                    fileSpan.append('<input type="hidden" name="cameraFile" value="' + this.originalFileName + '">');
+                    fileSpan.append('<input type="hidden" name="cameraFilePath" value="' + this.relativePath + '">');
+                    fileArea.append(fileSpan);
+                    removeBtn.bind('click', function () {
+                        $(this).parents(".file-span").remove();
+                    });
+                })
+            }
+        }
+    }
 
     function submitHandler() {
         if ($.validate.form()) {

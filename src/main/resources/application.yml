@@ -94,6 +94,6 @@ shiro:
   user:
     loginUrl: /login
     unauthorizedUrl: /unauthorized
-logging:
-  level:
-    org.springframework.web: trace   #输出的日志打印出来的最低级别。
+#logging:
+#  level:
+#    org.springframework.web: trace   #输出的日志打印出来的最低级别。
