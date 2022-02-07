@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.basic.mapper.UserMapper">
+    <select id="getUserPageInfo" parameterType="String" resultType="com.basic.entity.User">
+        select * from sys_user u where 1 = 1
+        <!--筛选出所有用户数据权限内的数据 -->
+        <if test="queryParam.companys != null">
+            and u.company_id in
+            <foreach collection="queryParam.companys" item="companyItem" separator="," open="(" close=")">
+                #{companyItem}
+            </foreach>
+        </if>
+        <!--  数据权限仅限于个人数据时，结果只保留个人数据-->
+        <if test="queryParam.companys == null ">
+            and u.create_by = #{queryParam.currentUser}
+        </if>
+        GROUP BY u.id Having 1 =1
+        <if test="queryParam.username != null and queryParam.username != ''">
+            and u.username like  concat('%', #{queryParam.username}, '%')
+        </if>
+        <if test="queryParam.nickname != null and queryParam.nickname != ''">
+            and u.nickname like  concat('%', #{queryParam.nickname}, '%')
+        </if>
+        <if test="queryParam.email != null and queryParam.email != ''">
+            and u.email like  concat('%', #{queryParam.email}, '%')
+        </if>
+        <if test="queryParam.mobile != null and queryParam.mobile != ''">
+            and u.mobile like  concat('%', #{queryParam.mobile}, '%')
+        </if>
+        <if test="queryParam.dutyId != null and queryParam.dutyId != ''">
+            and u.duty_id like concat('%', #{queryParam.dutyId}, '%')
+        </if>
+        <if test="queryParam.companyId != null and queryParam.companyId != ''">
+            and u.company_id = #{queryParam.companyId}
+        </if>
+        <if test="queryParam.deptId != null and queryParam.deptId != ''">
+            and u.dept_id = #{queryParam.deptId}
+        </if>
+        order by u.sort asc, u.create_time desc
+    </select>
 
+    <!-- 关联查询职务表，其中职务信息为兼职表的信息 -->
+    <select id="getUserWithDutyInfo" resultType="com.basic.entity.User">
+        select u.id, u.nickname, u.email,
+        ud.dept_id, ud.dept_name, ud.dept_code,
+        ud.company_id, ud.company_code, ud.company_name,
+        ud.duty_id, ud.duty_name
+        from sys_user u left join sys_user_duty ud on u.id = ud.user_id
+        where 1=1
+        and u.status = '1'
+        <if test="queryParams.deptId != null and queryParams.deptId != ''">
+            and ud.dept_id = #{queryParams.deptId}
+        </if>
+        <if test="queryParams.isMain != null ">
+            and ud.is_main = #{queryParams.isMain}
+        </if>
+        order by u.sort asc, u.create_time desc
+    </select>
 </mapper>

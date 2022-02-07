@@ -1,5 +1,7 @@
 package com.basic.controller.common;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.basic.common.domain.PageResult;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.User;
 import lombok.Data;
@@ -42,6 +44,21 @@ public class BasicController {
         model.addAttribute("code","404");
         model.addAttribute("msg","页面不存在或已被删除。");
         return "/errorPage";
+    }
+
+    //跳转404页面
+    protected String redirectNoPage() {
+        return "redirect:/404";
+    }
+
+    //组装分页列表页面返回数据
+    protected PageResult installPageData(IPage page) {
+        PageResult result = new PageResult();
+        if (page != null) {
+            result.setRows(page.getRecords());
+            result.setTotal(page.getTotal());
+        }
+        return result;
     }
 
     /**

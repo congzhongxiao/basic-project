@@ -100,5 +100,8 @@ public class SysOrganization extends Model<SysOrganization> {
     */
     private String orgType;
 
-
+    /**
+     * 编码
+     */
+    private String code;
 }

@@ -16,10 +16,27 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label is-required">组织类型：</label>
+            <div class="col-sm-8">
+                <select id="orgType" name="orgType"  class="chosen-select form-control required" data-msg="请选择组织类型">
+                    <option value="1">部门</option>
+                    <option value="0">公司</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label is-required">组织名称：</label>
             <div class="col-sm-8">
                 <input class="form-control required" type="text" name="name"
                        id="name" placeholder="请输入组织名称" data-msg="请输入组织名称">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label is-required">组织编码：</label>
+            <div class="col-sm-8">
+                <input class="form-control required" type="text" name="code"
+                       id="code" placeholder="请输入组织编码" data-msg="请输入组织编码">
             </div>
         </div>
         <div class="form-group">
@@ -62,9 +79,51 @@
 
     function submitHandler() {
         if ($.validate.form()) {
-            $.operate.saveOnlyCallback(prefix + "/addChild", $('#form_sys_organization_child_add').serialize(),window.parent.refreshNode);
+            //获取组织类型
+            var orgType=$("#orgType").val();
+            //获取上级组织的ID
+            var organizationId=$("#pid").val();
+            $.ajax({
+                url:'${ctx}/organization/getOrganizationTypeById',
+                data:{"organizationId":organizationId},
+                type:'GET',
+                dataType:'json',
+                success:function(result) {
+                    var type=result.type;
+                    if("1"==type && "0"==orgType){
+                        //$.modal.alert("上级组织不能为部门！");
+                        layer.msg('部门下面不能创建公司！', {time: 1500, icon: 2});
+                    }else{
+                        $.operate.saveOnlyCallback(prefix + "/addChild", $('#form_sys_organization_child_add').serialize(),window.parent.refreshNode);
+                    }
+                }
+            });
         }
     }
+
+    //添加组织类型的change函数
+    $("#orgType").change(function(){
+        //获取当前value
+        var selectValue=$(this).val();
+        if("0"==selectValue){
+            //如果当前选择的是公司类型即为0的时候，那么需要判断其上级组织是否为公司，如果不是则提示不能创建公司
+            var organizationId=$("#pid").val();
+            $.ajax({
+                url:'${ctx}/organization/getOrganizationTypeById',
+                data:{"organizationId":organizationId},
+                type:'GET',
+                dataType:'json',
+                success:function(result) {
+                    var type=result.type;
+                    if("1"==type){
+                        //$.modal.alert("上级组织不能为部门！");
+                        layer.msg('部门下面不能创建公司！', {time: 1500, icon: 2});
+                    }
+                }
+            });
+            //结束
+        }
+    });
 </script>
 </body>
 </html>

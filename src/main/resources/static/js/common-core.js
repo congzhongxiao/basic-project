@@ -1916,3 +1916,28 @@ modal_status = {
     FAIL: "error",
     WARNING: "warning"
 };
+
+/**字典查询 */
+function getDictMap(type) {
+    var dict = new Map();
+    var config = {
+        type: 'POST',
+        url: ctx+ '/dictionary/dictList',
+        dataType: 'json',
+        async: false,
+        data: {"type": type},
+        success: function (data) {
+            if (data.success) {
+                var dictList = data.data;
+                $.each(dictList, function () {
+                    dict.set(this.value, this.name);
+                });
+            } else {
+                $.modal.msgWarning(data.message);
+                return false;
+            }
+        }
+    };
+    $.common.sendAjax(config);
+    return dict;
+}
