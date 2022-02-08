@@ -68,13 +68,6 @@ $(document).ready(function(){
 			 return false;
 		}
 		});
-
-	// 校验正整数、0
-	jQuery.validator.addMethod("positiveIntAndZero", function(value, element) {
-		let val = parseInt(value);
-		return val >= 0 && (val + "") == value;
-	}, "请输入正整数或0");
-
 	//校验基础信息表单
 	$("#basicInfoForm").validate({
 		errorElement:'span',

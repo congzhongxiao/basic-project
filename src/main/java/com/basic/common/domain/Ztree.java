@@ -3,7 +3,6 @@ package com.basic.common.domain;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * Ztree树结构实体类
@@ -35,24 +34,5 @@ public class Ztree implements Serializable
     /** 是否能勾选 */
     private boolean nocheck = false;
     private Integer level;//记录当前节点等级
-    /**
-     * 节点类型
-     */
-    private String type;
-
-    /**
-     * 是否父节点，异步加载时，用于设置节点是否能展开, 不使用boolean，因为lombok对is开头的字段的坑
-     */
-    private Integer isParent = 0;
-
-    /**
-     * 扩展字段
-     */
-    private Map<String, Object> extData;
-
-    /**
-     * 排序
-     */
-    private Integer sort = 0;
 
 }

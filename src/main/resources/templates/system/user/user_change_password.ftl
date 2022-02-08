@@ -64,7 +64,6 @@
         },
         focusCleanup: true
     });
-
     function submitHandler() {
         if ($.validate.form()) {
             $.operate.save(prefix + "/changePassword", $('#form-user-reset').serialize());

@@ -89,7 +89,6 @@
                     <ul class="nav nav-second-level">
                         <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
                         <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
-                        <li><a class="menuItem" href="${ctx}/sysDuty">职务管理</a></li>
                     </ul>
                 </li>
                 <li>

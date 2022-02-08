@@ -16,13 +16,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label is-required">组织编码：</label>
-            <div class="col-sm-8">
-                <input class="form-control required" type="text" name="code"
-                       id="code" placeholder="请输入组织编码" data-msg="请输入组织编码">
-            </div>
-        </div>
-        <div class="form-group">
             <label class="col-sm-3 control-label required">负责人：</label>
             <div class="col-sm-8">
                 <input class="form-control " type="text" name="leader"
