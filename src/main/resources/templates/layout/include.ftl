@@ -61,6 +61,15 @@
     <script src="${ctx}/static/plugins/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js?version=${version}"></script>
 </#macro>
 
+<!-- ui布局插件 -->
+<#macro css_layout>
+    <link href="${ctx}/static/plugins/jquery-layout/jquery.layout-latest.css" rel="stylesheet"/>
+</#macro>
+
+<#macro js_layout>
+    <script src="${ctx}/static/plugins/jquery-layout/jquery.layout-latest.js"></script>
+</#macro>
+
 <#macro css_webuploader_image>
     <link href="${ctx}/static/plugins/webuploader/webuploader-image.css?version=${version}" rel="stylesheet"/>
 </#macro>

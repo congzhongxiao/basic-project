@@ -5,4 +5,38 @@
     <select id="getChildrenById" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
         select * from sys_organization where find_in_set(#{id}, ancestors)
     </select>
+    <select id="getChildrenByDepartmentId" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
+        SELECT * FROM sys_organization org
+        WHERE    FIND_IN_SET(#{departmentId}, org.ancestors)
+           or org.id = #{departmentId}
+    </select>
+
+    <select id="getChildrenCompanyByCompanyId" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
+        SELECT * FROM sys_organization org
+        WHERE   ( FIND_IN_SET(#{companyId}, org.ancestors)
+            or org.id = #{companyId})
+          and org_type = 0
+    </select>
+
+    <select id="getChildrenDeptByCompanyId" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
+        SELECT * FROM sys_organization org
+        WHERE    (FIND_IN_SET(#{companyId}, org.ancestors)
+            or org.id = #{companyId})
+          and org_type = 1
+    </select>
+    <select id="getOrgListByCompanyId" resultType="com.basic.entity.SysOrganization">
+        select * from sys_organization where find_in_set(#{companyId}, ancestors) or id = #{companyId}
+    </select>
+
+
+    <!-- 查询当前公司节点开始的组织 -->
+    <select id="getCurrentCompanyByCompanyId" resultType="com.basic.entity.SysOrganization">
+        select * from sys_organization where
+        id = #{companyId}
+        or (find_in_set(#{companyId}, ancestors)
+        <if test="orgType != null" >
+            and org_type = #{orgType}
+        </if>
+        )
+    </select>
 </mapper>

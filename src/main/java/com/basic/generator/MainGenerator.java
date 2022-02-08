@@ -17,27 +17,27 @@ import java.io.File;
 public class MainGenerator {
     static String url = "jdbc:mysql://localhost:3306/basic-project?serverTimezone=Asia/Shanghai";//数据库连接字符串
     static String username = "root";//用户名
-    static String password = "root";//密码
+    static String password = "8166976";//密码
     static String driverName = "com.mysql.cj.jdbc.Driver";//数据库驱动
-    static String tableName = "sys_login_log";
+    static String tableName = "sys_user_duty";
 
 
     public static void main(String[] args) {
         System.out.println("欢迎使用代码生成器！");
         DBInfo dbInfo = new DBInfo(url,username,password,driverName);
         BaseInfo baseInfo = new BaseInfo();
-        baseInfo.setAuthor("lee");
-        baseInfo.setFunctionName("登录信息");
+        baseInfo.setAuthor("djy");
+        baseInfo.setFunctionName("用户职务表");
         baseInfo.setDeleteKey("");
         baseInfo.setCreateDate(DateUtils.dateTimeNow("yyyy-MM-dd HH:mm:ss"));
         PageInfo pageInfo = new PageInfo();
         pageInfo.setParentPage("com.basic");
-        pageInfo.setControllerPage("controller.system.log");
+        pageInfo.setControllerPage("controller.system.userDuty");
         ClassPathInfo classPathInfo = new ClassPathInfo();
         classPathInfo.setDefaultPath("basic-project");
         classPathInfo.setDefault(false);
 
-        classPathInfo.setHtmlFolder("system/log");//生成ftl页面文件目录
+        classPathInfo.setHtmlFolder("system/userDuty");//生成ftl页面文件目录
         //组装生成ftl路径，默认:src/main/resource/templates/下面
         classPathInfo.setHtmlPath(classPathInfo.getHtmlPath()+ File.separator + classPathInfo.getHtmlFolder());
         new CreateCodeService(dbInfo,tableName,baseInfo,pageInfo,classPathInfo).init();

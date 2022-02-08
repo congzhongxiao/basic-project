@@ -8,15 +8,14 @@
 <body class="gray-bg">
 <div class="container-div">
     <div class="row">
-        <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-primary" onclick="addRoot()">
-                <i class="fa fa-plus"></i> 新增顶级组织
-            </a>
-        </div>
-
-        <div class="col-sm-12 select-table table-striped">
-            <table id="bootstrap-tree-table"></table>
-        </div>
+            <#--<div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="addRoot()">
+                    <i class="fa fa-plus"></i> 新增顶级组织
+                </a>
+            </div>-->
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-tree-table"></table>
+            </div>
     </div>
 </div>
 <@js_common/>
@@ -43,7 +42,7 @@
     function refreshNode(result){
         if(result.success) {
             var data = result.data;
-            $.treeTable.refreshNode(data.pid);
+            $.treeTable.refresh();
         }
 
     }
@@ -58,31 +57,50 @@
             updateUrl: prefix + "/update/{id}",
             modalName: "组织架构",
             showSearch:false,
+            showRefresh: false,
             showColumns:false,
             columns: [{
                 field: 'selectItem',
                 radio: true
             }, {
                 field: 'name',
-                title: '组织架构名称',
+                title: '组织名称',
                 align: 'left'
-            }, {
-                field: 'sort',
-                title: '显示顺序'
-            }, {
-                field: 'createTime',
-                title: '创建时间'
-            }, {
-                title: '操作',
-                align: 'center',
-                formatter: function (value, row, index) {
-                    var actions = [];
-                    actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="addChild(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增下级</a> ');
-                    actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                    actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
-                    return actions.join('');
-                }
-            }]
+            },
+                {
+                    field: 'code',
+                    title: '组织编码'
+                },
+                {
+                    field: 'orgType',
+                    title: '类型',
+                    formatter: function (value, row, index) {
+                        if(value=='0'){
+                            return '<label class="label label-success">公司</label>';
+                        }else if(value=='1'){
+                            return '<label class="label label-primary">部门</label>';
+                        }
+                    }
+                },
+                {
+                    field: 'sort',
+                    title: '显示顺序'
+                }, {
+                    field: 'createTime',
+                    title: '创建时间'
+                }, {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function (value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-primary btn-xs " href="javascript:void(0)" onclick="addChild(\'' + row.id + '\')"><i class="fa fa-plus"></i>新增下级</a> ');
+                        //if (row.pid != '0') {
+                            actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        //}
+                        actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
         };
         $.treeTable.init(options);
     });

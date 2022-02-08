@@ -114,4 +114,15 @@ public class DictionaryController extends BasicController {
         }
         return null;
     }
+
+    @PostMapping("dictList")
+    @ResponseBody
+    public Result dictList(@RequestParam(value = "type") String type){
+        try{
+            List<Dictionary> dictList = dictionaryService.findDictListByType(type);
+            return Result.success(dictList);
+        }catch(Exception e){
+            return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
+        }
+    }
 }
