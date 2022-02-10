@@ -19,7 +19,7 @@
     <link href="${ctx}/static/css/skins/${skins!"default"}/app.css?version=${version}" rel="stylesheet"/>
     <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </head>
-<body class="mini-menu">
+<body >
 <div class="wrapper">
     <div class="main-head">
         <div class="head-logo-panel">
