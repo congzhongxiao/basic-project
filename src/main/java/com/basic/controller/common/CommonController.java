@@ -159,6 +159,33 @@ public class CommonController extends BasicController {
         }
     }
 
+    /**
+     * 导入模版下载用
+     *
+     * @param fileName 文件名称
+     * @param delete   是否删除
+     */
+    @GetMapping("download")
+    public void fileDownload(String fileName, Boolean delete, HttpServletResponse response, HttpServletRequest request) {
+        try {
+            if (!FileUtils.isValidFilename(fileName)) {
+                throw new Exception(StringUtils.format("文件名称({})非法，不允许下载。 ", fileName));
+            }
+            String realFileName = System.currentTimeMillis() + fileName.substring(fileName.indexOf("_") + 1);
+            String filePath = Global.getDownloadPath() + fileName;
+
+            response.setCharacterEncoding("utf-8");
+            response.setContentType("multipart/form-data");
+            response.setHeader("Content-Disposition",
+                    "attachment;fileName=" + FileUtils.setFileDownloadHeader(request, realFileName));
+            FileUtils.writeBytes(filePath, response.getOutputStream());
+            if (delete) {
+                FileUtils.deleteFile(filePath);
+            }
+        } catch (Exception e) {
+        }
+    }
+
     @PostMapping("upload/ueditor")
     @ResponseBody
     public Map ueditorUpload(@RequestPart("upfile") MultipartFile upfile) {
