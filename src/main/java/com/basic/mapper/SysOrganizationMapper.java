@@ -1,7 +1,7 @@
 package com.basic.mapper;
 
-import com.basic.entity.SysOrganization;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.basic.entity.SysOrganization;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +14,7 @@ import java.util.List;
 @Component
 public interface SysOrganizationMapper extends BaseMapper<SysOrganization> {
     List<SysOrganization> getChildrenById(String id);
+    List<SysOrganization> getListByPid(String id);
 
 
 }

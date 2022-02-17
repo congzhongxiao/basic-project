@@ -24,6 +24,11 @@ import java.util.Map;
 @Service
 public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMapper, SysOrganization> implements SysOrganizationService {
 
+
+    public List<SysOrganization> findListByPid(String pid){
+        return baseMapper.getListByPid(pid);
+    }
+
     public int addOrganization(SysOrganization organization){
         SysOrganization parent = baseMapper.selectById(organization.getPid());
         if(parent != null) {

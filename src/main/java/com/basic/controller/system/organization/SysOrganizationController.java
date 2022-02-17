@@ -43,16 +43,10 @@ public class SysOrganizationController extends BasicController {
     @PostMapping("findList")
     @ResponseBody
     public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid", pid);
-        } else {
-            queryWrapper.eq("pid", "0");
+        if (StringUtils.isBlank(pid)) {
+            pid = "0";
         }
-        queryWrapper.orderByDesc("sort");
-        queryWrapper.orderByDesc("id");
-
-        return Result.success(sysOrganizationService.list(queryWrapper));
+        return Result.success(sysOrganizationService.findListByPid(pid));
     }
 
     //添加根页面跳转

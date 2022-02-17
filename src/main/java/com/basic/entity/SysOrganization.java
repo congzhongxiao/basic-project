@@ -100,5 +100,11 @@ public class SysOrganization extends Model<SysOrganization> {
     */
     private String orgType;
 
+    /**
+     * 是否叶子节点，是1否0
+     */
+    @TableField(exist = false)
+    private String isLeaf;
+
 
 }

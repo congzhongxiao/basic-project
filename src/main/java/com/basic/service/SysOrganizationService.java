@@ -3,6 +3,8 @@ package com.basic.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.entity.SysOrganization;
 
+import java.util.List;
+
 /**
 *组织架构 Service
 *@author: lee
@@ -12,5 +14,8 @@ public interface SysOrganizationService extends IService<SysOrganization> {
     int addOrganization(SysOrganization organization);
     int updateOrganization(SysOrganization organization);
     int deleteById(String id);
+
+    List<SysOrganization> findListByPid(String pid);
+
 
 }

@@ -5,4 +5,12 @@
     <select id="getChildrenById" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
         select * from sys_organization where find_in_set(#{id}, ancestors)
     </select>
+
+    <select id="getListByPid" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
+        SELECT *,(CASE  WHEN (SELECT COUNT(1) FROM sys_organization WHERE pid = a.id) >0 THEN 0 ELSE 1 END) AS "isLeaf"
+        FROM sys_organization a
+        where 1= 1
+        and pid = #{pid}
+        order by sort,id desc
+    </select>
 </mapper>
