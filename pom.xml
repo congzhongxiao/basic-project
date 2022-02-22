@@ -18,6 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <fastjson.version>1.2.79</fastjson.version>
         <shiro.version>1.8.0</shiro.version>
         <bitwalker.version>1.21</bitwalker.version>
         <oshi.version>5.8.2</oshi.version>
@@ -111,11 +112,11 @@
             <version>${shiro.version}</version>
         </dependency>
 
-        <!--freemarker-shiro标签支持-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
-            <groupId>net.mingsoft</groupId>
-            <artifactId>shiro-freemarker-tags</artifactId>
-            <version>0.1</version>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <!-- 自定义验证注解 -->
