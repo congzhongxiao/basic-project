@@ -89,6 +89,8 @@ $(function () {
                             if (result.success) {
                                 ue.setContent(result.data.content);
                                 $.modal.msgSuccess(result.message);
+                            } else {
+                                $.modal.msgError(result.message);
                             }
                             $.modal.closeLoading();
                         }
@@ -107,6 +109,8 @@ $(function () {
                             if (result.success) {
                                 ue.setContent(result.data.content);
                                 $.modal.msgSuccess(result.message);
+                            } else {
+                                $.modal.msgError(result.message);
                             }
                             $.modal.closeLoading();
                         }

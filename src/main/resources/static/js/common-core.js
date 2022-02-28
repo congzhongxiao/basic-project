@@ -1197,7 +1197,7 @@ var table = {
                         if (result.success) {
                             $.modal.alertSuccess(result.message)
                         } else {
-                            $.modal.alertError(result.msg);
+                            $.modal.alertError(result.message);
                         }
                         $.modal.closeLoading();
                     }
