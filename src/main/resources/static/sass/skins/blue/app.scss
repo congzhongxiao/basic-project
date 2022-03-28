@@ -669,3 +669,60 @@ body .layer-ext-moon .layui-layer-btn .layui-layer-btn0{
 .file-uploader  .webuploader-pick-hover {
   background: $primary-hover-color  !important;
 }
+
+.box-main {
+  margin: 0;
+  border: 0;
+  padding-top: 2px;
+  border-radius: 0;
+  box-shadow: none
+}
+
+.box-main > .box-header {
+  border-bottom: 1px solid #eee;
+  padding: 12px 10px 2px 15px
+}
+
+.box-header .box-title {
+  display: inline-block;
+  font-size: 18px;
+  margin: 0;
+  line-height: 1;
+}
+
+.box-main > .box-header .box-title {
+  font-size: 16px;
+  margin-bottom: 13px;
+  float: left
+}
+
+.box-main > .box-header .box-title .fa {
+  font-size: 14px;
+  padding-right: 3px;
+  margin-top: -2px
+}
+
+.box-main > .box-header .box-tools {
+  position: relative;
+  top: -5px;
+  right: 0
+}
+
+.box-main > .box-header .box-tools .btn {
+  padding: 3px 10px 5px 10px;
+  font-size: 14px;
+  margin-bottom: 2px
+}
+
+.box-main > .box-header .box-tools .btn-box-tool {
+  padding: 4px 2px
+}
+
+.box-main form > .box-footer, .nav-main form > .box-footer {
+  background: #fafafa
+}
+
+.box-main form > .box-footer .row, .nav-main form > .box-footer .row {
+  margin: 5px 0 5px -25px
+}
+
