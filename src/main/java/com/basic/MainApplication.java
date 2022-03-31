@@ -29,6 +29,7 @@ public class MainApplication {
     /**
      * 解决RequestBody下json的xss防御问题
      */
+    @SuppressWarnings("deprecation")
     @Bean
     public MappingJackson2HttpMessageConverter getMappingJackson2HttpMessageConverter() {
         MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
