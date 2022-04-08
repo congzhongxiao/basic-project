@@ -1,6 +1,6 @@
 package com.basic.common.config;
 
-import com.jagregory.shiro.freemarker.ShiroTags;
+import com.basic.common.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.TemplateModelException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

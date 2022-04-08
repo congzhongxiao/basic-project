@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.basic.mapper.SysOrganizationMapper">
 
+    <select id="getListByPid" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
+        SELECT *,(CASE  WHEN (SELECT COUNT(1) FROM sys_organization WHERE pid = a.id) >0 THEN 0 ELSE 1 END) AS "isLeaf"
+        FROM sys_organization a
+        where 1= 1
+        and pid = #{pid}
+        order by sort,id desc
+    </select>
+
     <select id="getChildrenById" parameterType="java.lang.String" resultType="com.basic.entity.SysOrganization">
         select * from sys_organization where find_in_set(#{id}, ancestors)
     </select>

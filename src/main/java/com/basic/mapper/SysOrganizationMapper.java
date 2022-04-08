@@ -1,7 +1,7 @@
 package com.basic.mapper;
 
-import com.basic.entity.SysOrganization;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.basic.entity.SysOrganization;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +14,7 @@ import java.util.List;
 */
 @Component
 public interface SysOrganizationMapper extends BaseMapper<SysOrganization> {
+    List<SysOrganization> getListByPid(String id);
     List<SysOrganization> getChildrenById(String id);
     List<SysOrganization> getChildrenByDepartmentId(String departmentId);
     List<SysOrganization> getChildrenCompanyByCompanyId(String companyId);

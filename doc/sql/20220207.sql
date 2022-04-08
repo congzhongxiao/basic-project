@@ -1,6 +1,6 @@
 /*
 SQLyog Enterprise - MySQL GUI v7.02 
-MySQL - 8.0.26 : Database - basic-project
+MySQL - 8.0.26 : Database - basic-project-group
 *********************************************************************
 */
 
@@ -13,10 +13,10 @@ MySQL - 8.0.26 : Database - basic-project
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
 CREATE
-DATABASE /*!32312 IF NOT EXISTS*/`basic-project` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+DATABASE /*!32312 IF NOT EXISTS*/`basic-project-group` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE
-`basic-project`;
+`basic-project-group`;
 
 -- ----------------------------
 -- Table structure for person

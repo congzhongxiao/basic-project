@@ -55,7 +55,7 @@
                                 </select>
                             </li>
                             <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-success btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                                 <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                             </li>
                         </ul>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="btn-group-sm" id="toolbar" role="group">
-                    <a class="btn btn-success" onclick="addUser()">
+                    <a class="btn btn-primary" onclick="addUser()">
                         <i class="fa fa-plus"></i> 新增
                     </a>
                     <a class="btn btn-danger multiple " onclick="$.operate.removeAll()">
@@ -210,9 +210,9 @@
                         align: 'center',
                         formatter: function (value, row, index) {
                             if (row.status == 1) {
-                                return '<i class=\"fa fa-toggle-on text-info fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
+                                return '<i class=\"fa fa-toggle-on text-success fa-2x\" onclick="disable(\'' + row.id + '\')"></i> ';
                             } else {
-                                return '<i class=\"fa fa-toggle-off text-info fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';
+                                return '<i class=\"fa fa-toggle-off text-success fa-2x\" onclick="enable(\'' + row.id + '\')"></i> ';
 
                             }
                         }
@@ -227,9 +227,9 @@
                         align: 'center',
                         formatter: function (value, row, index) {
                             var actions = [];
-                            actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-key"></i>设置角色</a> ');
+                            actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-key"></i>设置角色</a> ');
                             actions.push("<a class='btn btn-warning btn-xs' href='javascript:void(0)' onclick=resetPassword('"+row.id+"')><i class='fa fa-refresh'></i>重置密码</a> ");
-                            actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="userDuty(\'' + row.id + '\',\'' + row.username + '\')"><i class="fa fa-id-card"></i>设置兼职</a> ');
+                            actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="userDuty(\'' + row.id + '\',\'' + row.username + '\')"><i class="fa fa-id-card"></i>设置兼职</a> ');
                             actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                             actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                             return actions.join('');

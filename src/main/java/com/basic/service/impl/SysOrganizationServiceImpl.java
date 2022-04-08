@@ -43,6 +43,10 @@ public class SysOrganizationServiceImpl extends ServiceImpl<SysOrganizationMappe
     @Autowired
     SysOrganizationService sysOrganizationService;
 
+    public List<SysOrganization> findListByPid(String pid){
+        return baseMapper.getListByPid(pid);
+    }
+
     public int addOrganization(SysOrganization organization){
         SysOrganization parent = baseMapper.selectById(organization.getPid());
         if(parent != null) {

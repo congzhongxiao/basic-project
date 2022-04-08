@@ -38,7 +38,7 @@
                             </select>
                         </li>
                         <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
+                            <a class="btn btn-success btn-rounded btn-sm" onclick="$.table.search()"><i
                                         class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
                                         class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -48,7 +48,7 @@
             </form>
         </div>
         <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()">
+                <a class="btn btn-primary" onclick="$.operate.add()">
                     <i class="fa fa-plus"></i> 新增
                 </a>
                 <a class="btn btn-danger multiple " onclick="$.operate.removeAll()">

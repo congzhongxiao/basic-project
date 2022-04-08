@@ -2,6 +2,7 @@ package com.basic.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.basic.common.domain.Ztree;
+import com.basic.entity.SysArea;
 import com.basic.entity.SysOrganization;
 import com.basic.entity.User;
 
@@ -52,4 +53,7 @@ public interface SysOrganizationService extends IService<SysOrganization> {
      * @return
      */
     List<Ztree> getChildTreeByPid(String orgId);
+
+    List<SysOrganization> findListByPid(String id);
+
 }

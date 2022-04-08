@@ -42,7 +42,7 @@
     function refreshNode(result){
         if(result.success) {
             var data = result.data;
-            $.treeTable.refresh();
+            $.treeTable.refreshNode(data.pid);
         }
 
     }
@@ -76,9 +76,9 @@
                     title: '类型',
                     formatter: function (value, row, index) {
                         if(value=='0'){
-                            return '<label class="label label-success">公司</label>';
+                            return '<label class="label label-primary">公司</label>';
                         }else if(value=='1'){
-                            return '<label class="label label-primary">部门</label>';
+                            return '<label class="label label-success">部门</label>';
                         }
                     }
                 },

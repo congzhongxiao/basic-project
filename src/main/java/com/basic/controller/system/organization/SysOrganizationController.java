@@ -41,6 +41,7 @@ public class SysOrganizationController extends BasicController {
     SysOrganizationService sysOrganizationService;
     @Autowired
     UserDutyService userDutyService;
+
     //跳转列表
     @GetMapping("")
     public String list() {
@@ -51,15 +52,10 @@ public class SysOrganizationController extends BasicController {
     @PostMapping("findList")
     @ResponseBody
     public Result findList(@RequestParam(name = "pid", defaultValue = "0", required = false) String pid) {
-        QueryWrapper queryWrapper = new QueryWrapper();
-        if (StringUtils.isNotBlank(pid)) {
-            queryWrapper.eq("pid", pid);
-        } else {
-            queryWrapper.eq("pid", "0");
+        if (StringUtils.isBlank(pid)) {
+            pid = "0";
         }
-        queryWrapper.orderByAsc("sort");
-        queryWrapper.orderByDesc("id");
-        return Result.success(sysOrganizationService.list(queryWrapper));
+        return Result.success(sysOrganizationService.findListByPid(pid));
     }
 
     //添加根页面跳转
@@ -75,7 +71,7 @@ public class SysOrganizationController extends BasicController {
     public Result doAddRoot(@Validated SysOrganization organization) {
         try {
             SysOrganization org = sysOrganizationService.findByCode(organization.getCode());
-            if(org != null){
+            if (org != null) {
                 return Result.fail("组织编码不允许重复!");
             }
             organization.setPid("0");
@@ -103,7 +99,7 @@ public class SysOrganizationController extends BasicController {
     public Result doAdd(@Validated SysOrganization organization) {
         try {
             SysOrganization org = sysOrganizationService.findByCode(organization.getCode());
-            if(org != null){
+            if (org != null) {
                 return Result.fail("组织编码不允许重复!");
             }
             sysOrganizationService.addOrganization(organization);
@@ -150,7 +146,7 @@ public class SysOrganizationController extends BasicController {
                 if (result == -1) {
                     return Result.fail("存在下级组织，无法删除");
                 }
-                if (result == -2){
+                if (result == -2) {
                     return Result.fail("该组织下存在用户,请清空用户信息再进行删除！");
                 }
                 return Result.success(organization);
@@ -161,15 +157,17 @@ public class SysOrganizationController extends BasicController {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
     }
+
     //选择部门页面
     @GetMapping("selectOrganizationTree/{id}/{orgId}")
-    public String selectOrganizationTree(@PathVariable("id") String id,@PathVariable("orgId") String orgId, Model model){
+    public String selectOrganizationTree(@PathVariable("id") String id, @PathVariable("orgId") String orgId, Model model) {
         SysOrganization parentOrg = sysOrganizationService.getById(id);
         SysOrganization childOrg = sysOrganizationService.getById(orgId);
-        model.addAttribute("organization",parentOrg);
-        model.addAttribute("childOrg",childOrg);
+        model.addAttribute("organization", parentOrg);
+        model.addAttribute("childOrg", childOrg);
         return prefix + "/organization_tree";
     }
+
     //ztree加载数据
     @GetMapping("findAllTree")
     @ResponseBody
@@ -181,6 +179,7 @@ public class SysOrganizationController extends BasicController {
 
     /**
      * ztree加载数据， 只查询本公司企业树，不包含子企业
+     *
      * @return
      */
     @GetMapping("findCurrentCompanyTree")
@@ -193,16 +192,17 @@ public class SysOrganizationController extends BasicController {
     //根据组织的主键ID查询出其类型
     @GetMapping("getOrganizationTypeById")
     @ResponseBody
-    public Map<String,Object> getOrganizationTypeById(){
+    public Map<String, Object> getOrganizationTypeById() {
         String organizationId = getRequest().getParameter("organizationId");
-        Map<String,Object> map=new HashMap<>();
-        map.put("type","1");
-        if(StringUtils.isNotBlank(organizationId)){
-            String type=sysOrganizationService.getById(organizationId).getOrgType();
-            map.put("type",type);
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", "1");
+        if (StringUtils.isNotBlank(organizationId)) {
+            String type = sysOrganizationService.getById(organizationId).getOrgType();
+            map.put("type", type);
         }
         return map;
     }
+
     //预加载对象数据
     @ModelAttribute("preloadSysOrganization")
     public SysOrganization preloadSysOrganization(@RequestParam(value = "id", required = false) String id) {
@@ -214,21 +214,22 @@ public class SysOrganizationController extends BasicController {
 
     /**
      * 根据公司id查询部门id
-     ** @return
+     * * @return
      */
     @GetMapping("getDepartmentListByCompany/{companyId}")
     @ResponseBody
     public Result getDeptListByCompany(@PathVariable("companyId") String companyId) {
-        try{
-            List<SysOrganization>deptList = sysOrganizationService.findDirectChildrenDeptByCompanyId(companyId);
+        try {
+            List<SysOrganization> deptList = sysOrganizationService.findDirectChildrenDeptByCompanyId(companyId);
             return Result.success(deptList);
-        }catch(Exception e){
+        } catch (Exception e) {
             return Result.alert(ResultCode.COMMON_DATA_OPTION_ERROR);
         }
     }
 
     /**
      * 根据国资委用户，查询所属组织下的所有组织架构以及企业， 以及部门
+     *
      * @return
      */
     @GetMapping("findUserControlTree")
@@ -241,6 +242,7 @@ public class SysOrganizationController extends BasicController {
 
     /**
      * 根据国资委用户，查询所属组织下的所有组织架构以及企业， 排除掉部门
+     *
      * @return
      */
     @GetMapping("findCompanyTree")
@@ -252,6 +254,7 @@ public class SysOrganizationController extends BasicController {
 
     /**
      * 根据用户，返回相应的ztree，包含公司及部门
+     *
      * @return
      */
     @GetMapping("findOrganizationTree")
@@ -263,6 +266,7 @@ public class SysOrganizationController extends BasicController {
 
     /**
      * 查询整个集团的树
+     *
      * @return
      */
     @PostMapping("findAllGroupTree")

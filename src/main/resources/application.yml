@@ -59,7 +59,7 @@ spring:
     druid:
       stat-view-servlet:
         enabled: false
-    url: jdbc:mysql://localhost:3306/basic-project?characterEncoding=utf8&serverTimezone=GMT%2b8
+    url: jdbc:mysql://localhost:3306/basic-project-group?characterEncoding=utf8&serverTimezone=GMT%2b8
     username: root
     password: root
   servlet:
@@ -94,6 +94,6 @@ shiro:
   user:
     loginUrl: /login
     unauthorizedUrl: /unauthorized
-logging:
-  level:
-    org.springframework.web: trace   #输出的日志打印出来的最低级别。
+#logging:
+#  level:
+#    org.springframework.web: trace   #输出的日志打印出来的最低级别。

@@ -104,4 +104,10 @@ public class SysOrganization extends Model<SysOrganization> {
      * 编码
      */
     private String code;
+
+    /**
+     * 是否叶子节点，是1否0
+     */
+    @TableField(exist = false)
+    private String isLeaf;
 }
