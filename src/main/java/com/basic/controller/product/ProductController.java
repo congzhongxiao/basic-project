@@ -120,6 +120,11 @@ public class ProductController extends BasicController {
         }
     }
 
+    @GetMapping("/view")
+    public String view() {
+        return prefix + "/product_view";
+    }
+
     //删除根据ids数组删除数据
     @PostMapping("delete")
     @ResponseBody

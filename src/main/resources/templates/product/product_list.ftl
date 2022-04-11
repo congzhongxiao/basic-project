@@ -47,6 +47,11 @@
 <script>
     var prefix = "${ctx}/product";
 
+    function viewTab(){
+        var url = '${ctx}/product/view';
+        $.modal.openTab("查看示例", url);
+    }
+
     $(function () {
         var options = {
             url: prefix + "/findList",
@@ -95,6 +100,7 @@
                 align: 'center',
                 formatter: function (value, row, index) {
                     var actions = [];
+                    actions.push('<a class="btn btn-info btn-xs " href="javascript:void(0)" onclick="viewTab()"><i class="fa fa-edit"></i>详情</a> ');
                     actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.editFull(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                     actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                     return actions.join('');
