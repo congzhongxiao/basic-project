@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="renderer" content="webkit">
     <#if sys_csrfToken??>
-    <meta content="${sys_csrfToken}" name="csrf-token" />
+        <meta content="${sys_csrfToken}" name="csrf-token"/>
     </#if>
     <meta name="renderer" content="webkit">
     <!-- 避免IE使用兼容模式 -->
@@ -19,7 +19,7 @@
     <link href="${ctx}/static/css/skins/${skins!"default"}/app.css?version=${version}" rel="stylesheet"/>
     <link rel="shortcut icon" href="${ctx}/static/favicon.ico"/>
 </head>
-<body >
+<body>
 <div class="wrapper">
     <div class="main-head">
         <div class="head-logo-panel">
@@ -47,7 +47,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav head-menu pull-right navbar-right">
-                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-fw fa-arrows-alt"></i> 全屏显示</a>
+                <li><a title="全屏显示" href="javascript:void(0)" id="fullScreen"><i class="fa fa-fw fa-arrows-alt"></i>
+                        全屏显示</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-hover="dropdown"><i
@@ -84,14 +85,6 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#"><i class="fa fa-key"></i> <span class="nav-label">权限管理</span> <span
-                                class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
-                        <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
-                    </ul>
-                </li>
-                <li>
                     <a href="#"><i class="fa fa-server"></i> <span class="nav-label">系统监控</span> <span
                                 class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
@@ -109,7 +102,14 @@
                         <li><a class="menuItem" href="${ctx}/area">行政区划</a></li>
                         <li><a class="menuItem" href="${ctx}/organization/">组织架构</a></li>
                         <li><a class="menuItem" href="${ctx}/system/config/basic">系统基础设置</a></li>
-
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-key"></i> <span class="nav-label">权限管理</span> <span
+                                class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="menuItem" href="${ctx}/role">角色管理</a></li>
+                        <li><a class="menuItem" href="${ctx}/permission">权限管理</a></li>
                     </ul>
                 </li>
             </ul>

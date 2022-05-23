@@ -1,20 +1,20 @@
 // 布局变量声明
-$head-height:50; //页面头部高度
+$head-height:55; //页面头部高度
 $left-width:220; //左侧菜单宽度
 $left-mini-width:70; //左侧菜单宽度
-$tab-height:38;
+$tab-height:35;
 
 // 颜色变量声明
-$primary-color:#1c84c6;
+$primary-color:#317eeb;
 $success-color:#1dc5a3;
 $warning-color:#f8ac59;
 $danger-color:#ed5565;
-$info-color:#23c6c8;
-$primary-hover-color:#1a7bb9;
+$info-color:#02BAF0;
+$primary-hover-color:#347be0;
 $success-hover-color:#18a689;
 $warning-hover-color:#f7a54a;
 $danger-hover-color:#ec4758;
-$info-hover-color:#21b9bb;
+$info-hover-color:#02aadc;
 $colors:(
     primary-color:$primary-color,
     success-color:$success-color,
