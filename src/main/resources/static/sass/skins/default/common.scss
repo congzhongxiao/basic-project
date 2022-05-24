@@ -175,7 +175,7 @@ input[type=checkbox]:disabled:checked:before {
 @each $type in $type-list {
   .badge-#{$type},
   .label-#{$type} {
-    background-color: map-get($colors, $type#{-color});
+    background-color: map-get($colors, "#{$type}-color");
     color: #FFFFFF;
   }
 }
@@ -185,19 +185,19 @@ input[type=checkbox]:disabled:checked:before {
 @each $type in $type-list {
 
   .alert-#{$type} {
-    color: map-get($colors, $type#{-color});
-    background-color: rgba(map-get($colors, $type#{-color}), 0.1);
-    border-color: rgba(map-get($colors, $type#{-color}), 0.1);
+    color: map-get($colors, "#{$type}-color");
+    background-color: rgba(map-get($colors, "#{$type}-color"), 0.1);
+    border-color: rgba(map-get($colors, "#{$type}-color"), 0.1);
 
     .alert-link {
-      color: map-get($colors, $type#{-color});
+      color: map-get($colors, "#{$type}-color");
     }
   }
 
   .alert-#{$type}.dark {
     color: #fff;
-    background-color: map-get($colors, $type#{-color});
-    border-color: map-get($colors, $type#{-color});
+    background-color: map-get($colors, "#{$type}-color");
+    border-color: map-get($colors, "#{$type}-color");
 
     .alert-link {
       color: #ffffff;
@@ -217,6 +217,7 @@ input[type=checkbox]:disabled:checked:before {
 }
 
 
+
 .btn {
   &:focus, &:active, &:hover {
     outline: none !important;
@@ -226,8 +227,8 @@ input[type=checkbox]:disabled:checked:before {
 
 @each $type in $type-list {
   .btn-#{$type} {
-    background-color: map-get($colors, $type#{-color});
-    border-color: map-get($colors, $type#{-color});
+    background-color: map-get($colors, "#{$type}-color");
+    border-color: map-get($colors, "#{$type}-color");
     color: #FFFFFF;
 
     &:focus,
@@ -241,8 +242,8 @@ input[type=checkbox]:disabled:checked:before {
     &:active.hover,
     &:active:hover,
     &:hover {
-      background-color: map-get($colors, $type#{-hover-color});
-      border-color: map-get($colors, $type#{-color});
+      background-color: map-get($colors, "#{$type}-hover-color");
+      border-color: map-get($colors, "#{$type}-color");
     }
   }
 }
@@ -267,8 +268,8 @@ input[type=checkbox]:disabled:checked:before {
   @each $type in $type-list {
 
     &.btn-#{$type} {
-      border: 1px solid map-get($colors, $type#{-color});
-      color: map-get($colors, $type#{-color});
+      border: 1px solid map-get($colors, "#{$type}-color");
+      color: map-get($colors, "#{$type}-color");
 
       &:hover,
       &:active,
@@ -286,7 +287,7 @@ input[type=checkbox]:disabled:checked:before {
 
     &.btn-#{$type} {
       border: none;
-      color: map-get($colors, $type#{-color});
+      color: map-get($colors, "#{$type}-color");
 
       &:hover,
       &:active,
@@ -313,12 +314,12 @@ input[type=checkbox]:disabled:checked:before {
 /* 面板样式 */
 @each $type in $type-list {
   .panel-#{$type} {
-    border-color: map-get($colors, $type#{-color});
+    border-color: map-get($colors, "#{$type}-color");
 
     > .panel-heading {
       color: #fff;
-      background-color: map-get($colors, $type#{-color});
-      border-color: map-get($colors, $type#{-color});
+      background-color: map-get($colors, "#{$type}-color");
+      border-color: map-get($colors, "#{$type}-color");
     }
   }
 }
@@ -404,7 +405,7 @@ input[type=checkbox]:disabled:checked:before {
 /*文本标签*/
 @each $type in $type-list {
   .text-#{$type} {
-    color: map-get($colors, $type#{-color});
+    color: map-get($colors, "#{$type}-color");
   }
 }
 
@@ -457,7 +458,6 @@ label {
 
 /* 切换开关 */
 .toggle-switch {
-  display: -webkit-inline-box;
   display: -webkit-inline-flex;
   display: -ms-inline-flexbox;
   display: inline-flex;
