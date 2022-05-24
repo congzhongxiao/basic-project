@@ -13,10 +13,10 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            用户账号：<input type="text" name="username"/>
+                            登录帐号：<input type="text" name="username"/>
                         </li>
                         <li>
-                            用户姓名：<input type="text" name="nickname"/>
+                            用户名称：<input type="text" name="nickname"/>
                         </li>
                         <li>
                             手机号码：<input type="text" name="mobile"/>
@@ -96,11 +96,11 @@
                 },
                 {
                     field: 'username',
-                    title: '用户账号'
+                    title: '登录帐号'
                 },
                 {
                     field: 'nickname',
-                    title: '用户姓名'
+                    title: '用户名称'
                 },
                 {
                     field: 'mobile',
@@ -133,9 +133,9 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="resetPassword(\'' + row.id + '\')"><i class="fa fa-key"></i>重置密码</a> ');
                         actions.push('<a class="btn btn-warning btn-xs " href="javascript:void(0)" onclick="empower(\'' + row.id + '\')"><i class="fa fa-user"></i>设置角色</a> ');
-                        actions.push('<a class="btn btn-success btn-xs " href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
                         actions.push('<a class="btn btn-danger btn-xs " href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }

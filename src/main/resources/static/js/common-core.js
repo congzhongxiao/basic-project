@@ -1884,7 +1884,7 @@ var table = {
                 if($.common.equalsIgnoreCase(config.type,'POST') && $.common.isNotEmpty($('meta[name="csrf-token"]').attr("content"))){
                     var top_token = $('meta[name="csrf-token"]',top.window.document).attr("content");
                     if(top_token && $.common.isNotEmpty(top_token) && top_token != $('meta[name="csrf-token"]').attr("content")){
-                        $.modal.alert("系统检测账号登录状态变更，请刷新浏览器后重新操作。");
+                        $.modal.alert("系统检测帐号登录状态变更，请刷新浏览器后重新操作。");
                         return false;
                     }
                     config = $.common.extend(config,{headers: {

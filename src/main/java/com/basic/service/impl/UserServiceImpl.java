@@ -1,23 +1,60 @@
 package com.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.basic.common.constants.UserConstant;
 import com.basic.common.domain.Result;
+import com.basic.common.utils.EncryptionUtil;
 import com.basic.common.utils.PageUtil;
 import com.basic.common.utils.StringUtils;
 import com.basic.entity.User;
+import com.basic.entity.UserRole;
 import com.basic.mapper.UserMapper;
+import com.basic.service.RoleService;
+import com.basic.service.UserRoleService;
 import com.basic.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+    @Autowired
+    RoleService roleService;
+    @Autowired
+    UserRoleService userRoleService;
+
+    @Transactional(rollbackFor = Exception.class)
+    public User createUser(User user, List<String> roleIds) {
+        user.setSalt(EncryptionUtil.getRandomString(10));
+        user.setPassword(EncryptionUtil.encryption(user.getPassword(), user.getSalt()));
+        user.setPasswordTime(new Date());
+        user.setPasswordStatus(0);
+        baseMapper.insert(user);
+        if (roleIds != null && roleIds.size() > 0) {
+            List<UserRole> userRoleList = new ArrayList<>();
+            for (String roleId : roleIds) {
+                if (roleService.getById(roleId) != null) {
+                    UserRole userRole = new UserRole();
+                    userRole.setUserId(user.getId());
+                    userRole.setRoleId(roleId);
+                    userRoleList.add(userRole);
+                }
+            }
+            if (userRoleList.size() > 0) {
+                userRoleService.saveBatch(userRoleList);
+            }
+        }
+        return user;
+    }
+
 
     /**
      * 根据查询条件获取管理员列表信息
@@ -68,7 +105,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             return Result.fail("密码不能为空");
         }
         if (username.length() > UserConstant.USER_NAME_LENGTH_MAX || username.length() < UserConstant.USER_NAME_LENGTH_MIN) {
-            return Result.fail("用户账号需要" + UserConstant.USER_NAME_LENGTH_MIN + "-" + UserConstant.USER_NAME_LENGTH_MAX + "位");
+            return Result.fail("用户帐号需要" + UserConstant.USER_NAME_LENGTH_MIN + "-" + UserConstant.USER_NAME_LENGTH_MAX + "位");
         }
         if (password.length() > UserConstant.USER_PASSWORD_LENGTH_MAX || password.length() < UserConstant.USER_PASSWORD_LENGTH_MIN) {
             return Result.fail("密码需要" + UserConstant.USER_PASSWORD_LENGTH_MIN + "-" + UserConstant.USER_PASSWORD_LENGTH_MAX + "位");

@@ -60,7 +60,7 @@ public class LoginService {
                     }
                 } else {//时间差为超过锁定时间，判断锁定次数
                     if (user.getFailNum() >= UserConstant.LOGIN_FAIL_LOCK_NUM) {//连续失败次数已超过规定次数
-                        AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户连续登录失败超过规定次数，账号临时锁定"));
+                        AsyncManager.me().execute(AsyncFactory.recordLoginLog(username, 0, "用户连续登录失败超过规定次数，帐号临时锁定"));
                         throw new UserPasswordRetryLimitExceedException((UserConstant.LOGIN_FAIL_LOCK_TIME - timeDiff) / 1000);
                     } else {
                         if (!validate(user, pwd)) {//登录失败

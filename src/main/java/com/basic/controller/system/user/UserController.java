@@ -55,13 +55,20 @@ public class UserController extends BasicController {
     @RequestMapping("findList")
     @ResponseBody
     public Result findList(@RequestBody Map map) {
-        return userService.getPageInfo(map);
+        try {
+            return userService.getPageInfo(map);
+        } catch (Exception e) {
+            return Result.fail("查询数据获取异常", e);
+        }
+
     }
 
     //加载列表分页数据
     //新增页面
     @GetMapping("add")
-    public String add() {
+    public String add(Model model) {
+        List<Role> roleList = roleService.getAllRoles();
+        model.addAttribute("roleList", roleList);
         return prefix + "/user_add";
     }
 
@@ -69,28 +76,19 @@ public class UserController extends BasicController {
     @Log(name = "新增用户", type = BusinessType.INSERT)
     @PostMapping("add")
     @ResponseBody
-    public Result doAdd(@Validated User user) {
+    public Result doAdd(@Validated User user, @RequestParam(value = "role_id", required = false) List<String> roleIds) {
         try {
-            String confirmPassword = request.getParameter("confirmPassword");
             if (userService.getByUsername(user.getUsername()) != null) {
-                return Result.fail("用户名已存在！");
+                return Result.fail("登录帐号已存在！");
             }
-            if (!confirmPassword.equals(user.getPassword())) {
-                return Result.fail("密码和确认密码不一致！");
-            }
-            Result validate = userService.validateUserNameAndPassword(user.getUsername(), confirmPassword);
+            Result validate = userService.validateUserNameAndPassword(user.getUsername(), user.getPassword());
             if (!validate.isSuccess()) {
                 return Result.fail(validate.getMessage());
             }
-            user.setStatus(1);
-            user.setSalt(EncryptionUtil.getRandomString(10));
-            user.setPassword(EncryptionUtil.encryption(user.getPassword(), user.getSalt()));
-            user.setPasswordTime(new Date());
-            user.setPasswordStatus(0);
-            userService.save(user);
-            return Result.success("操作成功！");
+            userService.createUser(user, roleIds);
+            return Result.success("用户创建成功！");
         } catch (Exception e) {
-            return Result.fail("创建保存异常！");
+            return Result.fail("用户创建发生异常！", e);
         }
     }
 
@@ -168,14 +166,14 @@ public class UserController extends BasicController {
     @ResponseBody
     public Result checkPassword() {
         User currentUser = getCurrentUser();
-        if(currentUser.getPasswordStatus() == 1) {//用户密码需要初始化
-            return Result.fail("系统检测您的密码已长时间未更新，为保障您的账号安全，请先修改密码后再继续操作。");
+        if (currentUser.getPasswordStatus() == 1) {//用户密码需要初始化
+            return Result.fail("系统检测您的密码已长时间未更新，为保障您的帐号安全，请先修改密码后再继续操作。");
         }
-        if(UserConstant.USER_PASSWORD_INVALID_CHECK && currentUser.getPasswordTime() != null) {//用户密码重置时间不存在的情况不进行过期检查
+        if (UserConstant.USER_PASSWORD_INVALID_CHECK && currentUser.getPasswordTime() != null) {//用户密码重置时间不存在的情况不进行过期检查
             long resetTimeDiff = DateUtils.getDateDiff(DateUtils.getNowDate(), currentUser.getPasswordTime());
             //当前时间与密码重置时间差大于设置数值时，要求用户修改密码
-            if(resetTimeDiff > UserConstant.USER_PASSWORD_INVALID_TIME){
-                return Result.fail("系统检测您的密码已长时间未更新，为保障您的账号安全，请先修改密码后再继续操作。");
+            if (resetTimeDiff > UserConstant.USER_PASSWORD_INVALID_TIME) {
+                return Result.fail("系统检测您的密码已长时间未更新，为保障您的帐号安全，请先修改密码后再继续操作。");
             }
         }
         return Result.success();
@@ -203,7 +201,7 @@ public class UserController extends BasicController {
         if (StringUtils.isBlank(confirmPassword)) {
             return Result.fail("请输入确认密码");
         }
-        if(!StringUtils.equals(confirmPassword,newPassword)) {
+        if (!StringUtils.equals(confirmPassword, newPassword)) {
             return Result.fail("确认密码和新密码不一致");
         }
 
@@ -282,6 +280,7 @@ public class UserController extends BasicController {
                 userInfo.setEmail(user.getEmail());
                 userInfo.setMobile(user.getMobile());
                 userInfo.setRemark(user.getRemark());
+                userInfo.setStatus(user.getStatus());
                 userService.updateById(userInfo);
                 return Result.success("信息修改成功");
             } else {

@@ -3,10 +3,12 @@ package com.basic.common.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 统一结果返回对象
  */
+@Slf4j
 @Data
 @NoArgsConstructor
 //空数据不包含显示
@@ -23,37 +25,49 @@ public class Result {
         this.message = code.getMessage();
     }
 
-    public static Result success(){
+    public static Result success() {
         return new Result(ResultCode.COMMON_SUCCESS);
     }
-    public static Result success(Object data){
-        return new Result(ResultCode.COMMON_SUCCESS,data);
-    }
-    public static Result success(String msg ){
-        return new Result(ResultCode.COMMON_SUCCESS,msg);
+
+    public static Result success(Object data) {
+        return new Result(ResultCode.COMMON_SUCCESS, data);
     }
 
-    public static Result fail(){
+    public static Result success(String msg) {
+        return new Result(ResultCode.COMMON_SUCCESS, msg);
+    }
+
+    public static Result alert(ResultCode code) {
+        return new Result(code);
+    }
+
+    public static Result alert(ResultCode code, String message) {
+        return new Result(code, message);
+    }
+
+    public static Result alert(ResultCode code, Exception e) {
+        log.error(e.getMessage());
+        return new Result(code);
+    }
+
+
+    public static Result fail() {
         return new Result(ResultCode.COMMON_FAIL);
     }
-    public static Result alert(ResultCode code){
-        return new Result(code);
-    }
-    public static Result alert(ResultCode code,Exception e){
-        e.printStackTrace();
-        return new Result(code);
-    }
-    public static Result alert(ResultCode code,String message){
-        return new Result(code,message);
+
+    public static Result fail(String msg) {
+        return new Result(ResultCode.COMMON_FAIL, msg);
     }
 
-    public static Result fail(String msg ){
-        return new Result(ResultCode.COMMON_FAIL,msg);
+    public static Result fail(String msg, Exception e) {
+        log.error(e.getMessage());
+        return new Result(ResultCode.COMMON_FAIL, msg);
     }
 
 
     /**
      * 统一返回码，信息自定义
+     *
      * @param code
      * @param message
      */
@@ -63,7 +77,7 @@ public class Result {
         this.message = message;
     }
 
-    public Result(ResultCode code,Object object){
+    public Result(ResultCode code, Object object) {
         this.success = code.isSuccess();
         this.code = code.getCode();
         this.message = code.getMessage();

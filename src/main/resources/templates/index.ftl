@@ -186,7 +186,7 @@
             $.get('${ctx}/user/checkPasswordReset', function (result) {
                 if (!result.success) {
                     layer.open({
-                        title: '账号安全检测',
+                        title: '帐号安全检测',
                         icon: 0,
                         closeBtn: 0,
                         content: result.message,

@@ -11,19 +11,19 @@
     <form class="form-horizontal m" id="form-user-empower" >
         <input id="id" name="id" type="hidden" value="${userInfo.id}"/>
         <div class="form-group">
-            <label class="col-sm-3 control-label ">用户名：</label>
+            <label class="col-sm-3 control-label ">登录帐号：</label>
             <div class="col-sm-8">
                 <input class="form-control" type="text" disabled value="${userInfo.username}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label ">昵称</label>
+            <label class="col-sm-3 control-label ">用户名称：</label>
             <div class="col-sm-8">
                 <input class="form-control" type="text" disabled value="${userInfo.nickname}">
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label ">所属角色</label>
+            <label class="col-sm-3 control-label ">角色信息：</label>
             <div class="col-sm-8">
                 <ul class="ul-auto-3">
                     <#list roleList as role>

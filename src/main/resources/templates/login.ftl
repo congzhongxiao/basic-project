@@ -118,7 +118,7 @@
         <div class="row login-row">
             <div class="col-xs-12">
                 <span class="input-icon"><i class="fa fa-user"></i></span>
-                <input class="form-input" placeholder="请输入登录账号" id="username" name="username" type="text" value=""
+                <input class="form-input" placeholder="请输入登录帐号" id="username" name="username" type="text" value=""
                        autofocus>
             </div>
         </div>
@@ -189,7 +189,7 @@
 
         $("#login").click(function () {
             if (!$("#username").val()) {
-                layer.msg('请输入登录账号', {time: 1000});
+                layer.msg('请输入登录帐号', {time: 1000});
                 return false;
             }
             if (!$("#pwd").val()) {
