@@ -27,7 +27,7 @@
         <commons.io.version>2.11.0</commons.io.version>
         <commons.fileupload.version>1.4</commons.fileupload.version>
         <druid.version>1.2.8</druid.version>
-        <mybatisplus.version>3.4.3</mybatisplus.version>
+        <mybatisplus.version>3.5.1</mybatisplus.version>
         <jsoup.version>1.14.3</jsoup.version>
 
     </properties>
